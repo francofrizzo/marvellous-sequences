@@ -3,7 +3,6 @@ import Patterns
 import Necklaces
 import MarvellousSequences
 import AffineNecklaces
-import qualified Data.Vector as Vec
 
 -- Auxiliaries for display
 showL :: [Int] -> String
