@@ -1,64 +1,8 @@
-module Secuencias where
+module MarvellousSequences where
 import Data.List
 import Data.List.Split
-import Control.Monad (replicateM)
-import Math.Combinat.Sets
-
--- Auxiliaries for display
-d :: [Int] -> IO ()
-d = putStrLn . concat . map show
-
-dd :: [[Int]] -> IO ()
-dd = mapM_ d
-
--- Basic methods for generating patterns
-
-characters :: Int -> [Int]
-characters k = [0 .. k - 1]
-
-patterns :: Int -> Int -> [[Int]]
-patterns k n = replicateM n (characters k)
-
-toBinaryList :: Int -> [Int] -> [Int]
-toBinaryList n indices = [ if elem i indices then 0 else 1 | i <- [0 .. n - 1] ]
-
-balanced2Patterns :: Int -> [[Int]]
-balanced2Patterns n | n `mod` 2 == 0 = map (toBinaryList n) (choose (n `div` 2) [0 .. n - 1])
-
--- Checking infix of necklace
-
-isInfixOfNecklace :: (Eq a) => [a] -> [a] -> Bool
-isInfixOfNecklace [] ys = True
-isInfixOfNecklace xs ys = isInfixOf xs (ys ++ take (length xs - 1) ys)
-
-timesInfixOf :: (Eq a) => [a] -> [a] -> Int
-timesInfixOf xs [] = 0
-timesInfixOf xs (y:ys) = (if isPrefixOf xs (y:ys) then 1 else 0) + (timesInfixOf xs ys)
-
-timesInfixOfNecklace :: (Eq a) => [a] -> [a] -> Int
-timesInfixOfNecklace [] ys = 0
-timesInfixOfNecklace xs ys = timesInfixOf xs (ys ++ take (length xs - 1) ys)
-
-infixIndicesAux :: (Eq a) => Int -> [a] -> [a] -> [Int]
-infixIndicesAux n xs [] = []
-infixIndicesAux n xs (y:ys) | isPrefixOf xs (y:ys) = n : (infixIndicesAux (n + 1) xs ys)
-                            | otherwise          = (infixIndicesAux (n + 1) xs ys)
-
-infixIndices :: (Eq a) => [a] -> [a] -> [Int]
-infixIndices = infixIndicesAux 0
-
-infixIndicesNecklace :: (Eq a) => [a] -> [a] -> [Int]
-infixIndicesNecklace [] ys = []
-infixIndicesNecklace xs ys = infixIndices xs (ys ++ take (length xs - 1) ys)
-
--- Finding infixes of necklace
-
-infixesOf :: Int -> [a] -> [[a]]
-infixesOf n (x:xs) | length (x:xs) < n = []
-                 | otherwise         = (take n (x:xs)) : (infixesOf n xs)
-
-infixesOfNecklace :: Int -> [a] -> [[a]]
-infixesOfNecklace n xs = infixesOf n (xs ++ (take (n - 1) xs))
+import Patterns
+import Necklaces
 
 -- De Bruijn sequences
 
@@ -70,7 +14,8 @@ deBruijn k n = filter (isDeBruijn k n) (patterns k (k ^ n))
 
 -- Filter for perfect and marvellous sequences
 filterSequences :: Int -> Int -> Int -> (Int -> Int -> Int -> [Int] -> Bool) -> [[Int]]
-filterSequences k n m pred = filter (pred k n m) (balanced2Patterns (m * (k ^ n)))
+-- filterSequences k n m pred = filter (pred k n m) (patterns k (m * (k ^ n)))
+filterSequences k n m pred = filter (pred k n m) (candidatePatterns k n m)
 
 -- More efficient version for alphabet of size 2
 filterSequences2 :: Int -> Int -> (Int -> Int -> [Int] -> Bool) -> [[Int]]
@@ -117,6 +62,11 @@ nestedPerfect k n m = filterSequences k n m isNestedPerfect
 nestedPerfect2 :: Int -> Int -> [[Int]]
 nestedPerfect2 n m = filterSequences2 n m (isNestedPerfect 2)
 
+recursiveNestedPerfect2 :: Int -> Int -> [[Int]]
+recursiveNestedPerfect2 n m  | n == 1    = filterSequences2 n m (isNestedPerfect 2)
+                             | otherwise = filter (isNestedPerfect 2 n m) [ s1 ++ s2 | s1 <- prevOrderSequences, s2 <- prevOrderSequences ]
+                               where prevOrderSequences = recursiveNestedPerfect2 (n - 1) m
+
 -- Nested marvellous sequences
 
 isNestedMarvellous :: Int -> Int -> Int -> [Int] -> Bool
@@ -129,3 +79,8 @@ nestedMarvellous k n m = filterSequences k n m isNestedMarvellous
 
 nestedMarvellous2 :: Int -> Int -> [[Int]]
 nestedMarvellous2 n m = filterSequences2 n m (isNestedMarvellous 2)
+
+recursiveNestedMarvellous2 :: Int -> Int -> [[Int]]
+recursiveNestedMarvellous2 n m | n == 1    = filterSequences2 n m (isNestedMarvellous 2)
+                               | otherwise = filter (isNestedMarvellous 2 n m) [ s1 ++ s2 | s1 <- prevOrderSequences, s2 <- prevOrderSequences ]
+                                 where prevOrderSequences = recursiveNestedMarvellous2 (n - 1) m

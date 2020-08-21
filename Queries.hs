@@ -1,5 +1,7 @@
 module Queries where
-import Secuencias
+import Patterns
+import Necklaces
+import MarvellousSequences
 
 order2notinOrder3 = filter
                       (\seq2 ->
