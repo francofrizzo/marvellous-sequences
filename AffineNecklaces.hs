@@ -50,9 +50,12 @@ affineNecklace k d mat z = foldr1 (Vec.++) $ map (\w' -> getMatrixAsVector $ mul
                                  m = 2^d
 
 -- Generate all the possible affine necklace for a certain (k, d) pair
-allAffineNecklaces :: Int -> Int -> [Vec.Vector Int]
-allAffineNecklaces k d = [affineNecklace k d mat z |
-                            mat <- possibleMatrices d,
-                            z <- possibleWords m
-                         ]  
-                         where m = 2^d
+allAffineNecklacesVec :: Int -> Int -> [Vec.Vector Int]
+allAffineNecklacesVec k d = [affineNecklace k d mat z |
+                               mat <- possibleMatrices d,
+                               z <- possibleWords m
+                            ]  
+                            where m = 2^d
+
+allAffineNecklaces :: Int -> Int -> [[Int]]
+allAffineNecklaces k d = map Vec.toList $ allAffineNecklacesVec k d

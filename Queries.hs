@@ -46,4 +46,4 @@ order2TimesInOrder3 = map
 generateNestedPerfect n m = writeLs (concat ["sequences/np-", show n, "-", show m, ".txt"]) $ recursiveNestedPerfect2 n m
 generateNestedMarvellous n m = writeLs (concat ["sequences/nm-", show n, "-", show m, ".txt"]) $ recursiveNestedMarvellous2 n m
 
-generateNestedPerfectWithMatrix n d = writeLs (concat ["sequences/np-mat-", show n, "-", show (2^d), ".txt"]) $ map Vec.toList $ allAffineNecklaces n d
+generateNestedPerfectWithMatrix n d = writeLs (concat ["sequences/np-mat-", show n, "-", show (2^d), ".txt"]) $ allAffineNecklaces n d
