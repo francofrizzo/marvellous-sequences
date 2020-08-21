@@ -35,3 +35,11 @@ infixesOf n (x:xs) | length (x:xs) < n = []
 
 infixesOfNecklace :: Int -> [a] -> [[a]]
 infixesOfNecklace n xs = infixesOf n (xs ++ (take (n - 1) xs))
+
+-- Removing duplicates modulo necklace
+
+eqNecklace :: [Int] -> [Int] -> Bool
+eqNecklace xs ys = (length xs == length ys) && (isInfixOfNecklace xs ys)
+
+nubNecklace :: [[Int]] -> [[Int]]
+nubNecklace = nubBy eqNecklace
