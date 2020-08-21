@@ -14,8 +14,7 @@ deBruijn k n = filter (isDeBruijn k n) (patterns k (k ^ n))
 
 -- Filter for perfect and marvellous sequences
 filterSequences :: Int -> Int -> Int -> (Int -> Int -> Int -> [Int] -> Bool) -> [[Int]]
--- filterSequences k n m pred = filter (pred k n m) (patterns k (m * (k ^ n)))
-filterSequences k n m pred = filter (pred k n m) (candidatePatterns k n m)
+filterSequences k n m pred = filter (pred k n m) (patterns k (m * (k ^ n)))
 
 -- More efficient version for alphabet of size 2
 filterSequences2 :: Int -> Int -> (Int -> Int -> [Int] -> Bool) -> [[Int]]
