@@ -23,7 +23,7 @@ filterSequences2 n m pred = filter (pred n m) (balanced2Patterns (m * (2 ^ n)))
 -- Perfect sequences
 isPerfect :: Int -> Int -> Int -> [Int] -> Bool
 isPerfect k n m seq = all (\p -> perfectCondition m (infixIndicesNecklace p seq)) (patterns k n)
-  where perfectCondition m indices = length (nub (map (\x -> x `mod` m) indices)) == m
+  where perfectCondition m indices = length (nub (map (`mod` m) indices)) == m
 
 perfect :: Int -> Int -> Int -> [[Int]]
 perfect k n m = filterSequences k n m isPerfect
@@ -43,17 +43,17 @@ marvellous2 :: Int -> Int -> [[Int]]
 marvellous2 n m = filterSequences2 n m (isMarvellous 2)
 
 marvellousButNotPerfect :: Int -> Int -> Int -> [[Int]]
-marvellousButNotPerfect k n m = filterSequences k n m (\k n m seq -> (isMarvellous k n m seq) && not (isPerfect k n m seq))
+marvellousButNotPerfect k n m = filterSequences k n m (\k n m seq -> isMarvellous k n m seq && not (isPerfect k n m seq))
 
 marvellousButNotPerfect2 :: Int -> Int -> [[Int]]
-marvellousButNotPerfect2 n m = filterSequences2 n m (\n m seq -> (isMarvellous 2 n m seq) && not (isPerfect 2 n m seq))
+marvellousButNotPerfect2 n m = filterSequences2 n m (\n m seq -> isMarvellous 2 n m seq && not (isPerfect 2 n m seq))
 
 -- Nested perfect sequences
 
 isNestedPerfect :: Int -> Int -> Int -> [Int] -> Bool
-isNestedPerfect k n m seq | n == 1 = (isPerfect k 1 m seq)
-                          | n > 1  = (isPerfect k n m seq)
-                                     && all (isNestedPerfect k (n - 1) m) (chunksOf ((length seq) `div` k) seq)
+isNestedPerfect k n m seq | n == 1 = isPerfect k 1 m seq
+                          | n > 1  = isPerfect k n m seq
+                                     && all (isNestedPerfect k (n - 1) m) (chunksOf (length seq `div` k) seq)
 
 nestedPerfect :: Int -> Int -> Int -> [[Int]]
 nestedPerfect k n m = filterSequences k n m isNestedPerfect
@@ -69,9 +69,9 @@ recursiveNestedPerfect2 n m  | n == 1    = filterSequences2 n m (isNestedPerfect
 -- Nested marvellous sequences
 
 isNestedMarvellous :: Int -> Int -> Int -> [Int] -> Bool
-isNestedMarvellous k n m seq | n == 1 = (isMarvellous k 1 m seq)
-                             | n > 1  = (isMarvellous k n m seq)
-                                        && all (isNestedMarvellous k (n - 1) m) (chunksOf ((length seq) `div` k) seq)
+isNestedMarvellous k n m seq | n == 1 = isMarvellous k 1 m seq
+                             | n > 1  = isMarvellous k n m seq
+                                        && all (isNestedMarvellous k (n - 1) m) (chunksOf (length seq `div` k) seq)
 
 nestedMarvellous :: Int -> Int -> Int -> [[Int]]
 nestedMarvellous k n m = filterSequences k n m isNestedMarvellous

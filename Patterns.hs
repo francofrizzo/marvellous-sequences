@@ -14,7 +14,7 @@ patterns k n = replicateM n (characters k)
 
 -- Generates binary list of a given length, taking as parameters the 0 positions
 toBinaryList :: Int -> [Int] -> [Int]
-toBinaryList n indices = [ if elem i indices then 0 else 1 | i <- [0 .. n - 1] ]
+toBinaryList n indices = [ if i `elem` indices then 0 else 1 | i <- [0 .. n - 1] ]
 
 balanced2Patterns :: Int -> [[Int]]
 balanced2Patterns n | n `mod` 2 == 0 = map (toBinaryList n) (choose (n `div` 2) [0 .. n - 1])
@@ -25,7 +25,7 @@ balanced2Patterns n | n `mod` 2 == 0 = map (toBinaryList n) (choose (n `div` 2) 
 candidate2PatternsSeeds :: Int -> Int -> [[Int]]
 candidate2PatternsSeeds n m = map (\(x, y) -> concat $ zipWith (\v w -> [v,w]) x y)
   [(x, y) | x <- preSeeds, y <- preSeeds, length x == length y]
-  where permutedPreSeeds = concat $ map (nub . permutations) preSeeds
+  where permutedPreSeeds = concatMap (nub . permutations) preSeeds
         preSeeds = map fromPartition $ partitions' (maxConsSymbolReps, maxSymbolAppearances) maxSymbolAppearances
         maxConsSymbolReps = n + m - 1
         maxSymbolAppearances = m * (2^(n - 1))
@@ -44,12 +44,12 @@ candidate2Patterns n m = map (toBinaryList' True) (candidate2PatternsSeeds n m)
 
 limitedPatternsAux :: Int -> Int -> Int -> [(Int, Int, [Int])]
 limitedPatternsAux lim k n | n == 1 = map (\c -> (1, c, [c])) (characters k)
-                           | n > 1  = concat $ map
+                           | n > 1  = concatMap
                              (\(count, lastC, list) -> map (\c -> (if c == lastC then count + 1 else 1, c, c:list)) ((if count == lim then filter (\c2 -> c2 /= lastC) else id) (characters k)))
                              (limitedPatternsAux lim k (n - 1))
 
 limitedPatterns :: Int -> Int -> Int -> [[Int]]
-limitedPatterns lim k n = (map (\(_,_,l) -> l)) $ limitedPatternsAux lim k n
+limitedPatterns lim k n = map (\ (_, _, l) -> l) $ limitedPatternsAux lim k n
 
 candidatePatterns :: Int -> Int -> Int -> [[Int]]
 candidatePatterns k n m = limitedPatterns (n + m - 1) k (m * 2^n)

@@ -17,21 +17,21 @@ baseMatrix d = foldl
 -- Shifts a matix column forwards a certain amount of positions
 shiftCol :: Int -> Int -> Matrix Int -> Matrix Int
 shiftCol j k mat = mapCol shiftCol j mat
-                     where shiftCol = \i _ -> currCol Vec.! ((i - k - 1) `mod` size)
+                     where shiftCol i _ = currCol Vec.! ((i - k - 1) `mod` size)
                            currCol = getCol j mat
                            size = nrows mat
 
 -- Shifts consecutive columns of a matrix
 shiftCols :: [Int] -> Matrix Int -> Matrix Int
-shiftCols ks = foldr (.) id (map (\(j, k) -> shiftCol j k) (zip [1..] ks))
+shiftCols ks = foldr (.) id (zipWith shiftCol [1 ..] ks)
 
 -- All the possible shifts for the base matrix considered in the paper
 possibleShifts :: Int -> [[Int]]
-possibleShifts m = foldr (\_ recShifts -> concat $ map (\(x:xs) -> [x:x:xs, (x+1:x:xs)]) recShifts) [[0]] [1..m-1]
+possibleShifts m = foldr (\_ recShifts -> concatMap (\ (x : xs) -> [x : x : xs, x + 1 : x : xs]) recShifts) [[0]] [1..m-1]
 
 -- The base matrix applying all possible shifts
 possibleMatrices :: Int -> [Matrix Int]
-possibleMatrices d = map (\s -> shiftCols s base) (possibleShifts (m))
+possibleMatrices d = map (`shiftCols` base) (possibleShifts m)
                      where m = 2^d
                            base = baseMatrix d
 
@@ -43,7 +43,7 @@ possibleWords = map Vec.fromList . patterns 2
 -- mat is of size m
 -- z is a word of length m = 2^d
 affineNecklace :: Int -> Int -> Matrix Int -> Vec.Vector Int -> Vec.Vector Int
-affineNecklace k d mat z = foldr1 (Vec.++) $ map (\w' -> getMatrixAsVector $ multMod2 mat (colVector w')) words'
+affineNecklace k d mat z = foldr1 (Vec.++) $ map (getMatrixAsVector . multMod2 mat . colVector) words'
                            where multMod2 m1 m2 = mapPos (\_ x -> x `mod` 2) $ multStd m1 m2
                                  words' = map (Vec.zipWith (\x y -> (x + y) `mod` 2) z) words
                                  words = take (2^k) (possibleWords m)
