@@ -43,3 +43,10 @@ eqNecklace xs ys = (length xs == length ys) && isInfixOfNecklace xs ys
 
 nubNecklace :: [[Int]] -> [[Int]]
 nubNecklace = nubBy eqNecklace
+
+-- Rotating necklace
+
+rotateNecklace :: Int -> [Int] -> [Int]
+rotateNecklace n xs = drop numberOfShifts xs ++ take numberOfShifts xs
+                      where numberOfShifts = sequenceLength - n `mod` sequenceLength
+                            sequenceLength = length xs

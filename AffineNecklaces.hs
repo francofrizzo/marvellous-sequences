@@ -16,8 +16,8 @@ baseMatrix d = foldl
 
 -- Shifts a matix column forwards a certain amount of positions
 shiftCol :: Int -> Int -> Matrix Int -> Matrix Int
-shiftCol j k mat = mapCol shiftCol j mat
-                     where shiftCol i _ = currCol Vec.! ((i - k - 1) `mod` size)
+shiftCol j k mat = mapCol shift j mat
+                     where shift i _ = currCol Vec.! ((i - k - 1) `mod` size)
                            currCol = getCol j mat
                            size = nrows mat
 
