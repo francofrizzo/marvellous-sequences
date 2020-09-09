@@ -1,0 +1,62 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper, margin=2.25cm, headsep=1em]{geometry}
+
+\usepackage[spanish]{babel}
+\spanishlcroman
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[letterspace=25]{microtype}
+
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{bm}
+\usepackage{cases}
+
+\usepackage{enumitem}
+\usepackage{framed}
+\usepackage{fancyhdr}
+
+\usepackage{float}
+\usepackage[center]{caption}
+
+\newcommand\myauthor{Franco Frizzo}
+\newcommand\mytitle{Bitácora - Tesis de licenciatura}
+\newcommand\mydate{Agosto de 2020 - Septiembre de 2020}
+
+\usepackage[pdfauthor={\myauthor},
+            pdftitle={\mytitle},
+            hidelinks]{hyperref}
+
+\theoremstyle{plain}
+\newtheorem*{teo}{Teorema}
+\newtheorem*{prop}{Proposición}
+\newtheorem*{coro}{Corolario}
+\newtheorem*{lema}{Lema}
+
+\theoremstyle{definition}
+\newtheorem*{defi}{Definición}
+\newtheorem*{obs}{Observación}
+
+\setlength{\parskip}{.5em}
+\renewcommand{\baselinestretch}{1.05}
+\setlength{\headsep}{1.7em}
+\setlist[enumerate]{itemsep=.1em, topsep=0em}
+\setlist[itemize]{itemsep=.1em, topsep=0em}
+
+\pagestyle{fancy}
+\rhead{\MakeUppercase{\footnotesize{\textls{\myauthor}}}}
+\lhead{\MakeUppercase{\footnotesize{\textls{\mytitle}}}}
+
+\begin{document}
+
+\title{\mytitle}
+\author{\myauthor}
+\date{\mydate}
+
+% \maketitle
+% \tableofcontents
+% \newpage
+
+\input{logbook-content}
+
+\end{document}
