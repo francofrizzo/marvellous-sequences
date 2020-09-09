@@ -1,8 +1,10 @@
 module MarvellousSequences where
+
 import Data.List
 import Data.List.Split
-import Patterns
+import Math.Combinat.Permutations (isPermutation)
 import Necklaces
+import Patterns
 
 -- De Bruijn sequences
 
@@ -52,9 +54,11 @@ marvellousButNotPerfect2 n m = filterSequences2 n m (\n m seq -> isMarvellous 2 
 -- Nested perfect sequences
 
 isNestedPerfect :: Int -> Int -> Int -> [Int] -> Bool
-isNestedPerfect k n m seq | n == 1 = isPerfect k 1 m seq
-                          | n > 1  = isPerfect k n m seq
-                                     && all (isNestedPerfect k (n - 1) m) (chunksOf (length seq `div` k) seq)
+isNestedPerfect k n m seq
+  | n == 1 = isPerfect k 1 m seq
+  | n > 1 =
+    isPerfect k n m seq
+      && all (isNestedPerfect k (n - 1) m) (chunksOf (length seq `div` k) seq)
 
 nestedPerfect :: Int -> Int -> Int -> [[Int]]
 nestedPerfect k n m = filterSequences k n m isNestedPerfect
@@ -63,16 +67,20 @@ nestedPerfect2 :: Int -> Int -> [[Int]]
 nestedPerfect2 n m = filterSequences2 n m (isNestedPerfect 2)
 
 recursiveNestedPerfect2 :: Int -> Int -> [[Int]]
-recursiveNestedPerfect2 n m  | n == 1    = filterSequences2 n m (isNestedPerfect 2)
-                             | otherwise = filter (isNestedPerfect 2 n m) [ s1 ++ s2 | s1 <- prevOrderSequences, s2 <- prevOrderSequences ]
-                               where prevOrderSequences = recursiveNestedPerfect2 (n - 1) m
+recursiveNestedPerfect2 n m
+  | n == 1 = filterSequences2 n m (isNestedPerfect 2)
+  | otherwise = filter (isNestedPerfect 2 n m) [s1 ++ s2 | s1 <- prevOrderSequences, s2 <- prevOrderSequences]
+  where
+    prevOrderSequences = recursiveNestedPerfect2 (n - 1) m
 
 -- Nested marvellous sequences
 
 isNestedMarvellous :: Int -> Int -> Int -> [Int] -> Bool
-isNestedMarvellous k n m seq | n == 1 = isMarvellous k 1 m seq
-                             | n > 1  = isMarvellous k n m seq
-                                        && all (isNestedMarvellous k (n - 1) m) (chunksOf (length seq `div` k) seq)
+isNestedMarvellous k n m seq
+  | n == 1 = isMarvellous k 1 m seq
+  | n > 1 =
+    isMarvellous k n m seq
+      && all (isNestedMarvellous k (n - 1) m) (chunksOf (length seq `div` k) seq)
 
 nestedMarvellous :: Int -> Int -> Int -> [[Int]]
 nestedMarvellous k n m = filterSequences k n m isNestedMarvellous
@@ -81,6 +89,8 @@ nestedMarvellous2 :: Int -> Int -> [[Int]]
 nestedMarvellous2 n m = filterSequences2 n m (isNestedMarvellous 2)
 
 recursiveNestedMarvellous2 :: Int -> Int -> [[Int]]
-recursiveNestedMarvellous2 n m | n == 1    = filterSequences2 n m (isNestedMarvellous 2)
-                               | otherwise = filter (isNestedMarvellous 2 n m) [ s1 ++ s2 | s1 <- prevOrderSequences, s2 <- prevOrderSequences ]
-                                 where prevOrderSequences = recursiveNestedMarvellous2 (n - 1) m
+recursiveNestedMarvellous2 n m
+  | n == 1 = filterSequences2 n m (isNestedMarvellous 2)
+  | otherwise = filter (isNestedMarvellous 2 n m) [s1 ++ s2 | s1 <- prevOrderSequences, s2 <- prevOrderSequences]
+  where
+    prevOrderSequences = recursiveNestedMarvellous2 (n - 1) m
