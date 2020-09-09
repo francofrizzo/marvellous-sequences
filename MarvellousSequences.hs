@@ -23,7 +23,8 @@ filterSequences2 n m pred = filter (pred n m) (balanced2Patterns (m * (2 ^ n)))
 -- Perfect sequences
 isPerfect :: Int -> Int -> Int -> [Int] -> Bool
 isPerfect k n m seq = all (\p -> perfectCondition m (infixIndicesNecklace p seq)) (patterns k n)
-  where perfectCondition m indices = length (nub (map (`mod` m) indices)) == m
+  where
+    perfectCondition m indices = isPermutation (map (\x -> x `mod` m + 1) indices)
 
 perfect :: Int -> Int -> Int -> [[Int]]
 perfect k n m = filterSequences k n m isPerfect
