@@ -11,31 +11,27 @@
 \usepackage{amsmath,amssymb,amsthm}
 \usepackage{bm}
 \usepackage{cases}
+\usepackage{xfrac}
 
-\usepackage{enumitem}
 \usepackage{framed}
 \usepackage{fancyhdr}
 
+\usepackage{enumitem}
+\setlist[enumerate,1]{label=(\alph*)}
+\setlist[enumerate,2]{label=\roman*.}
+
 \usepackage{float}
 \usepackage[center]{caption}
+
+\usepackage{cite}
 
 \newcommand\myauthor{Franco Frizzo}
 \newcommand\mytitle{Bitácora - Tesis de licenciatura}
 \newcommand\mydate{Agosto de 2020 - Septiembre de 2020}
 
 \usepackage[pdfauthor={\myauthor},
-            pdftitle={\mytitle},
-            hidelinks]{hyperref}
-
-\theoremstyle{plain}
-\newtheorem*{teo}{Teorema}
-\newtheorem*{prop}{Proposición}
-\newtheorem*{coro}{Corolario}
-\newtheorem*{lema}{Lema}
-
-\theoremstyle{definition}
-\newtheorem*{defi}{Definición}
-\newtheorem*{obs}{Observación}
+	    pdftitle={\mytitle},
+	    hidelinks]{hyperref}
 
 \setlength{\parskip}{.5em}
 \renewcommand{\baselinestretch}{1.05}
@@ -46,6 +42,8 @@
 \pagestyle{fancy}
 \rhead{\MakeUppercase{\footnotesize{\textls{\myauthor}}}}
 \lhead{\MakeUppercase{\footnotesize{\textls{\mytitle}}}}
+
+\include{logbook-commands}
 
 \begin{document}
 
@@ -58,5 +56,8 @@
 % \newpage
 
 \input{logbook-content}
+
+\bibliography{references}{}
+\bibliographystyle{plain}
 
 \end{document}
