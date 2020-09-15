@@ -428,3 +428,66 @@ posiciones de $s$ que van desde $i$ hasta $j$, inclusive.
   \ref{lema:autosimilar-cannot-be-np}, se tiene que ninguna de las secuencias
   es perfecta anidada. \qed
 \end{demo}
+
+\begin{defi}
+  Consideremos el grafo de De Bruijn de orden $n$, $G_n$. Sea $w \in
+    \alphabet^n$ un nodo de dicho grafo, y sea $0 \leq k \leq n$.
+  Decimos que $w' \in \alphabet^n$ es un \emph{$k$-sucesor} de $w$ si en $G_n$
+  existe un camino de longitud $k$ que va de $w$ a $w'$.
+  Análogamente, decimos que $w'$ es un \emph{$k$-antecesor} de $w$ si en $G_n$
+  existe un camino de longitud $k$ que va de $w'$ a $w$.
+
+  Notamos $\Succ{k}(w)$ y $\Pred{k}(w)$ a los conjuntos de $k$-sucesores y
+  $k$-predecesores de $w$, respectivamente.
+\end{defi}
+
+\begin{obs}\ %
+  \begin{enumerate}
+    \item La cantidad de $k$-sucesores (antecesores) de todo nodo es
+          exactamente $2^k$.
+    \item Para todo nodo, $\Succ{n}(w) = \Pred{n}(w) = \alphabet^n$.
+  \end{enumerate}
+\end{obs}
+
+\begin{defi}
+  Sean $w,w',u,u' \in \alphabet^n$. Decimos que $(w,w')$ y $(u,u')$ son
+  \emph{pares cruzados} si los $n$ patrones de longitud $n + 1$ que aparecen en
+  $ww'$ y $uu'$ son los mismos que aparecen en $wu$ y $w'u'$.
+\end{defi}
+
+\begin{obs}
+  La relación entre pares cruzados es reflexiva y simétrica, pero no
+  transitiva.
+\end{obs}
+
+\begin{prop}
+  Sean $w, w' \in \alphabet^n$. Existen exactamente $(n + 1) \cdot 2^n - n
+    \cdot 2^{n - 1}$ pares $(u, u')$ tales que $(w, w')$ y $(u, u')$ son pares
+  cruzados.
+\end{prop}
+
+\begin{demo}
+  Sean $w_0 = w$, $w_n = w'$ y $w_0, w_1, \dots, w_n$ el camino de
+  $n$ aristas ($n + 1$ nodos) en $G_n$ que va de $w_0$ a $w_n$.
+
+  A continuación, definimos
+  \[ A_0 = \lbrace w_0 \rbrace, \qquad
+    B_0 = \alphabet^n, \]
+  y para cada $i = 1, \dots, n$:
+  \[ A_i = \Pred{i}(w_i) \,\backslash\, \Pred{i - 1}(w_{i - 1}), \qquad
+    B_i = \Succ{n - i}(w_i). \]
+
+  Afirmamos que el conjunto de pares cruzados con $(w_0, w_n)$ es
+  \[ C = \bigcup_{i = 0}^n A_i \times B_i. \]
+
+  La cantidad de elementos de $C$ es:
+  \begin{align*}
+    \sum_{i = 0}^n \vert A_i \vert \times \vert B_i \vert
+     & = \sum_{i = 1}^n \vert A_i \vert \times \vert B_i \vert + \vert A_0
+    \vert \times \vert B_0 \vert                                           \\
+     & = \sum_{i = 1}^n \left( 2^{i} - 2^{i - 1} \right) \cdot 2^{n - i} +
+    2^n                                                                    \\
+     & = \sum_{i = 1}^n \left( 2^n - 2^{n - 1} \right) + 2^n               \\
+     & = (n + 1) \cdot 2^n - n \cdot 2^{n - 1}.
+  \end{align*}
+\end{demo}
