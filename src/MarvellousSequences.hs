@@ -11,8 +11,12 @@ import Patterns
 isDeBruijn :: Int -> Int -> [Int] -> Bool
 isDeBruijn k n seq = all (\p -> timesInfixOfNecklace p seq == 1) (patterns k n)
 
+-- More efficient version for alphabet of size 2
 deBruijn :: Int -> Int -> [[Int]]
 deBruijn k n = filter (isDeBruijn k n) (patterns k (k ^ n))
+
+deBruijn2 :: Int -> [[Int]]
+deBruijn2 n = filter (isDeBruijn 2 n) (balanced2Patterns (2 ^ n))
 
 -- Filter for perfect and marvellous sequences
 filterSequences :: Int -> Int -> Int -> (Int -> Int -> Int -> [Int] -> Bool) -> [[Int]]
@@ -94,3 +98,11 @@ recursiveNestedMarvellous2 n m
   | otherwise = filter (isNestedMarvellous 2 n m) [s1 ++ s2 | s1 <- prevOrderSequences, s2 <- prevOrderSequences]
   where
     prevOrderSequences = recursiveNestedMarvellous2 (n - 1) m
+
+-- Recursive nested marvellous with DB atoms
+recursiveNestedMarvellousDB2 :: Int -> Int -> [[Int]]
+recursiveNestedMarvellousDB2 n d
+  | n == 1 = deBruijn2 (d + 1)
+  | otherwise = filter (isNestedMarvellous 2 n (2 ^ d)) [s1 ++ s2 | s1 <- prevOrderSequences, s2 <- prevOrderSequences]
+  where
+    prevOrderSequences = recursiveNestedMarvellousDB2 (n - 1) d

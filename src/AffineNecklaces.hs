@@ -39,9 +39,21 @@ possibleMatrices d = map (`shiftCols` base) (possibleShifts m)
     m = 2 ^ d
     base = baseMatrix d
 
+-- Get a matrix row
+matrixRow :: Int -> Matrix Int -> [Int]
+matrixRow i = Vec.toList . getRow i
+
+-- Get a row from the base matrix
+baseMatrixRow :: Int -> Int -> [Int]
+baseMatrixRow i d = matrixRow i $ baseMatrix d
+
 -- All possible binary words for a certain length
 possibleWords :: Int -> [Vec.Vector Int]
 possibleWords = map Vec.fromList . patterns 2
+
+-- Addition modulo 2
+(@+) :: Int -> Int -> Int
+(@+) x y = (x + y) `mod` 2
 
 -- k and m are parameters with m = 2^d for some d
 -- mat is of size m
@@ -50,7 +62,7 @@ affineNecklace :: Int -> Int -> Matrix Int -> Vec.Vector Int -> Vec.Vector Int
 affineNecklace k d mat z = foldr1 (Vec.++) $ map (getMatrixAsVector . multMod2 mat . colVector) words'
   where
     multMod2 m1 m2 = mapPos (\_ x -> x `mod` 2) $ multStd m1 m2
-    words' = map (Vec.zipWith (\x y -> (x + y) `mod` 2) z) words
+    words' = map (Vec.zipWith (@+) z) words
     words = take (2 ^ k) (possibleWords m)
     m = 2 ^ d
 

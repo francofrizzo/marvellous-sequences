@@ -32,6 +32,7 @@ infixIndicesNecklace xs ys = infixIndices xs (ys ++ take (length xs - 1) ys)
 -- Finding infixes of necklace
 
 infixesOf :: Int -> [a] -> [[a]]
+infixesOf n [] = []
 infixesOf n (x : xs)
   | length (x : xs) < n = []
   | otherwise = take n (x : xs) : infixesOf n xs
@@ -54,3 +55,15 @@ rotateNecklace n xs = drop numberOfShifts xs ++ take numberOfShifts xs
   where
     numberOfShifts = sequenceLength - n `mod` sequenceLength
     sequenceLength = length xs
+
+-- Compatible necklaces
+compatible :: Eq a => Int -> [a] -> [a] -> Bool
+compatible n x1 x2 = null (borderPatterns \\ concatPatterns) && null (concatPatterns \\ borderPatterns)
+  where
+    borderPatterns = borderPatterns1 ++ borderPatterns2
+    borderPatterns1 = drop (length x1 - n + 1) $ infixesOfNecklace n x1
+    borderPatterns2 = drop (length x2 - n + 1) $ infixesOfNecklace n x2
+    concatPatterns =
+      take (n - 1) (drop (length x1 - n + 1) concatInfixes)
+        ++ drop (length x1 + length x2 - n + 1) concatInfixes
+    concatInfixes = infixesOfNecklace n (x1 ++ x2)

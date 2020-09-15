@@ -2,6 +2,7 @@ module Queries where
 
 import AffineNecklaces
 import Atoms
+import Extension
 import MarvellousSequences
 import Necklaces
 import Patterns
