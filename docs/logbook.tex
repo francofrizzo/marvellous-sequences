@@ -55,7 +55,554 @@
 \tableofcontents
 \newpage
 
-\input{logbook-content}
+\section{Generalidades}
+
+Sea $\alphabet = \lbrace0, 1\rbrace$ un alfabeto de dos caracteres.
+Trabajaremos con secuencias finitas $s \in \alphabet^*$ formadas por estos dos
+caracteres. Al referirnos a las posiciones dentro de una secuencia,
+consideraremos que las mismas se numeran comenzando en $0$. Usaremos la
+notación $s\substr{i}{j}$ para referirnos a la subsecuencia formada por las
+posiciones de $s$ que van desde $i$ hasta $j$, inclusive.
+
+\begin{defi}
+	Definimos la función de rotación $\sigma: \alphabet^* \to \alphabet^*$ como
+	\[ \sigma(\alpha_1\dots\alpha_{n-1}\alpha_n) =
+		\alpha_n\alpha_1\dots\alpha_{n-1}. \]
+\end{defi}
+
+\begin{defi}
+	Dada una secuencia $s \in \alphabet^*$, el \emph{collar} inducido por $s$
+	(que notaremos $\neck{s} \in \alphabet^*\backslash\sigma$), es la clase de
+	equivalencia de $s$ bajo $\sigma$. Un \emph{corte} de un collar $\neck{s}$
+	es cualquier secuencia $s \in \neck{s}$.
+\end{defi}
+
+\begin{defi}
+
+	Decimos que una palabra $w \in \alphabet^*$ \emph{aparece} en (o es una
+	subsecuencia de) un collar $\neck{s}$ si existen $x, y \in \alphabet^*$ tales
+	que $xwy = ss$, o equivalentemente, si existe una secuencia $s' \in \neck{s}$
+	tal que $w$ es una subsecuencia de $s'$.
+\end{defi}
+
+\section{Definiciones y resultados previos}
+
+\subsection{Secuencias de De Bruijn}
+
+\begin{defi}
+	Una secuencia $s \in \alphabet^*$ es una secuencia $n$-\emph{de De Bruijn}
+	($s \in \DB{n}$) si todos los patrones $w \in \alphabet^n$ (de longitud $n$),
+	aparecen exactamente una vez en $\neck{s}$. En tal caso $\neck{s}$ es un
+	collar de De Bruijn.
+\end{defi}
+
+\begin{obs}
+	La longitud de una secuencia $n$-de De Bruijn es $2^n$.
+\end{obs}
+
+\begin{defi}
+	Un \emph{grafo de De Bruijn} de orden $n$ es un grafo $G_n$ cuyos vértices
+	son los elementos de $\alphabet^n$ y existe una arista entre $w_1$ y $w_2$ si
+	y solo si ${w_1}\substr{1}{n-1} = {w_2}\substr{0}{n-2}$, es decir, si los
+	últimos $n-1$ caracteres de $w_1$ coinciden con los primeros $n-1$ caracteres
+	de $w_2$.
+\end{defi}
+
+\begin{obs}\ %
+	\begin{itemize}
+		\item Cada collar $n$-de De Bruijn se corresponde exactamente con un ciclo
+		      euleriano en el grafo de De Bruijn de orden $n - 1$.
+		\item Cada collar $n$-de De Bruijn se corresponde exactamente con un ciclo
+		      hamiltoniano en el grafo de De Bruijn de orden $n$.
+	\end{itemize}
+\end{obs}
+
+\begin{prop}
+	Existen exactamente $2^{2^{n+1} - n}$ collares $n$-de De Bruijn.
+\end{prop}
+
+\begin{demosketch}
+	Contar los ciclos eulerianos en $G_{n-1}$.
+	En \cite{db} se prueba que la cantidad de dichos ciclos es exactamente
+	$2^{2^{n-1} - n}$.
+\end{demosketch}
+
+\subsection{Secuencias maravillosas y maravillosas anidadas}
+
+\subsubsection{Secuencias maravillosas}
+
+\begin{defi}
+	Una secuencia $s \in \alphabet^*$ es una secuencia $(n,m)$-\emph{maravillosa}
+	($s \in \M{n}{m}$) si todos los patrones $w \in \alphabet^n$ aparecen
+	exactamente $m$ veces en $\neck{s}$. En tal caso, decimos que $\neck{s}$ es
+	un collar maravilloso.
+\end{defi}
+
+\begin{obs}\ %
+	\begin{itemize}
+		\item La longitud de una secuencia $(n,m)$-maravillosa es $m \cdot 2^n$.
+		\item Una secuencia es $n$-de De Bruijn si y solo si es
+		      $(n,1)$-maravillosa.
+	\end{itemize}
+\end{obs}
+
+\begin{defi}
+	Un \emph{multigrafo de De Bruijn} de orden $n$ y grado $m$ es un multigrafo
+	$G_n^m$ que se obtiene a partir del grafo de De Bruijn de orden $n$
+	replicando $m$ veces cada arista.
+\end{defi}
+
+\begin{obs}
+	Las secuencias $(n,m)$-maravillosas se corresponden exactamente con los
+	ciclos eulerianos (hamiltonianos) en el multigrafo de De Bruijn de orden $n -
+		1$ ($n$) y grado $m$.
+\end{obs}
+
+\subsubsection{Secuencias maravillosas anidadas}
+
+\begin{defi}
+	Una secuencia $s \in \alphabet^*$ es una secuencia $(n,m)$-\emph{maravillosa
+		anidada} ($s \in \NM{n}{m}$) si se cumple simultáneamente que:
+	\begin{enumerate}
+		\item $s$ es una secuencia $(n,m)$-maravillosa.
+		\item Si $n > 1$, $s$ es la concatenación de dos secuencias
+		      $(n-1,m)$-maravillosas anidadas.
+	\end{enumerate}
+
+	Alternativamente, una secuencia es $(n,m)$-maravillosa anidada si, para todo
+	$n'$ tal que $1 \leq n' \leq n$, toda subsecuencia de longitud
+	$m \cdot 2^{n'}$ que comienza en una posición congruente a $0$ módulo
+	$m \cdot 2^{n'}$ es $(n',m)$-maravillosa.
+\end{defi}
+
+\begin{obs}
+	La propiedad de ser una secuencia maravillosa anidada no es invariante bajo
+	rotaciones. Por lo tanto, la noción de collar maravilloso anidado no está
+	bien definida.
+\end{obs}
+
+\note{Agregar la caracterización como ciclos anidados en multigrafos que hablamos por mail}
+
+\subsection{Secuencias perfectas y perfectas anidadas}
+
+\subsubsection{Secuencias perfectas}
+
+\begin{defi}
+	Una secuencia $s \in \alphabet^*$ es una secuencia $(n,m)$-\emph{perfecta}
+	($s \in \Pf{n}{m}$) si todos los patrones $w \in \alphabet^n$ aparecen
+	exactamente $m$ veces en $\neck{s}$, y cada una de estas apariciones comienza
+	en una posición distinta módulo $m$. En tal caso, decimos que $\neck{s}$
+	es un collar perfecto.
+\end{defi}
+
+\begin{obs}
+	Toda secuencia $(n,m)$-perfecta es también una secuencia $(n,m)$-maravillosa.
+\end{obs}
+
+\begin{defi}
+	Un \emph{grafo astuto} de orden $n$ y grado $m$ es un grafo $\tilde{G}_n^m$
+	cuyos vértices son los pares ordenados $(w, i) \in \alphabet^n \times \lbrace
+		0,\dots,m-1 \rbrace$ y existe una arista entre $(w_1, i_1)$ y $(w_2, i_2)$
+	si y solo si se cumplen simultáneamente:
+	\begin{enumerate}
+		\item ${w_1}\substr{1}{n-1} = {w_2}\substr{0}{n-2}$, es decir, los últimos
+		      $n-1$ caracteres de $w_1$ coinciden con los primeros $n-1$ caracteres
+		      de $w_2$, y además
+		\item $v_1 + 1 \equiv v_2 \pmod{m}$.
+	\end{enumerate}
+\end{defi}
+
+\begin{obs}
+	Las secuencias $(n,m)$-perfectas se corresponden con los ciclos
+	eulerianos (hamiltonianos) en el grafo astuto de orden $n-1$ (n) y grado $m$.
+
+	En \cite{ALVAREZ201648} se brinda una fórmula para la cantidad de
+	collares $(n,m)$-perfectos a partir de este hecho.
+\end{obs}
+
+\subsubsection{Secuencias perfectas anidadas}
+
+\begin{defi}
+	Una secuencia $s \in \alphabet^*$ es una secuencia $(n,m)$-\emph{perfecta
+		anidada} ($s \in \NPf{n}{m}$) si se cumple simultáneamente que:
+	\begin{enumerate}
+		\item $s$ es una secuencia $(n,m)$-perfecta.
+		\item Si $n > 1$, $s$ es la concatenación de dos secuencias
+		      $(n-1,m)$-perfectas anidadas.
+	\end{enumerate}
+\end{defi}
+
+\begin{obs}\ %
+	\begin{itemize}
+		\item Toda secuencia $(n,m)$-perfecta anidada es también una secuencia
+		      $(n,m)$-maravillosa anidada.
+		\item La propiedad de ser una secuencia perfecta anidada no es invariante
+		      bajo rotaciones, por lo que no está bien definida la noción de collar
+		      perfecto anidado.
+	\end{itemize}
+\end{obs}
+
+\subsubsection{Secuencias afines}
+
+\begin{defi}
+	Sean $n$ y $m = 2^d$ tales que $n \leq m$.
+	Una secuencia $(n,m)$-\emph{afín} es una secuencia $s \in
+		\alphabet^{m \cdot 2^n}$ de la forma
+	\[ s = (\mat{M} \cdot w_1)(\mat{M} \cdot w_2)\dots(\mat{M} \cdot w_{2^n}) \]
+	donde:
+	\begin{enumerate}
+		\item $\mat{M} \in \mathbb{F}_2^{m \times m}$ es una matriz de la forma
+		      $\Sigma_{k_1,\dots,k_{m}}(\mat{P}_d)$, siendo:
+		      \begin{enumerate}
+			      \item $\mat{P}_d \in \mathbb{F}_2^{m \times m}$ la matriz de Pascal
+			            con las columnas en orden inverso, definida como:
+			            \[
+				            \mat{P}_0 = \begin{bmatrix} 1 \end{bmatrix}; \qquad
+				            \mat{P}_d = \begin{bmatrix}
+					            \mat{P}_{d-1} & \mat{P}_{d-1} \\
+					            0             & \mat{P}_{d-1} \\
+				            \end{bmatrix} \text{ para } d > 0.
+			            \]
+			      \item $k_m = 0$; \qquad $k_i \in \lbrace k_{i+1}, k_{i+1} + 1
+				            \rbrace$.
+			      \item $\Sigma_{k_1,\dots,k_m}$ la transformación que consiste
+			            en rotar $k_i$ veces hacia abajo la $i$-ésima columna de una
+			            matriz, para cada $i = 1,\dots,m$.
+		      \end{enumerate}
+		\item Cada $w_i$ es de la forma $w_i = u_i \oplus z$, siendo
+		      $u_1,\dots,u_{2^n} \in \alphabet^m$ la enumeración en orden
+		      lexicográfico de las primeras $2^n$ palabras de $\alphabet^m$, y $z
+			      \in \alphabet^m$ una palabra arbitraria.
+	\end{enumerate}
+\end{defi}
+
+\begin{prop}
+	Existen exactamente $2^{2m - 1}$ secuencias $(n,m)$-afines.
+\end{prop}
+
+\begin{demosketch}
+	La construcción de una secuencia $(n,m)$-afín tiene dos parámetros libres:
+	\begin{enumerate}
+		\item Los $m - 1$ valores $k_1,\dots,k_{m - 1}$ que definen cómo se
+		      obtiene la matriz $\mat{M}$. Para cada uno de ellos existen $2$
+		      valores posibles, dando un total de $2^{m - 1}$ posibilidades.
+		\item La palabra arbitraria $z$, para la cual existen $2^m$
+		      posibilidades.
+	\end{enumerate}
+	Esto quiere decir que existen $2^{m - 1}\cdot2^m = 2^{2m - 1}$
+	formas distintas de elegir los parámetros con los cuales construir una
+	secuencia $(n,m)$-afín. Resta ver que para cada combinación posible de
+	parámetros, la secuencia obtenida es única. La demostración de este hecho se
+	sigue de que las matrices empleadas en el procedimiento son inversibles,
+	y puede leerse en \cite{BECHER2019101403}.
+\end{demosketch}
+
+\begin{teo}
+	Para $n$ y $m = 2^d$ tales que $n \leq m$, las secuencias $(n,m)$-afines se
+	corresponden exactamente con las secuencias $(n,m)$-perfectas anidadas.
+\end{teo}
+
+\begin{demosketch}
+	La demostración puede verse en \cite{BECHER2019101403}. En primer lugar se
+	prueba que las secuencias afines son perfectas anidadas, analizando
+	meticulosamente las características de la construcción, y luego se muestra
+	que todas las secuencias perfecta son afines a través de un argumento de
+	cardinalidad.
+\end{demosketch}
+
+\begin{coro}
+	Para $n$ y $m = 2^d$ tales que $n \leq m$, existen exactamente $2^{2m - 1}$
+	secuencias $(n,m)$-perfectas anidadas.
+\end{coro}
+
+\section{Resultados}
+
+Nuestro primer resultado es:
+
+\begin{teo}
+	\label{teo:existencia}
+	Sea $d > 0$. Existen secuencias $(d + 1, 2^d)$-maravillosas anidadas que no son perfectas anidadas.
+\end{teo}
+
+Ejemplos: La secuencia [inserte ejemplo aquí] es $(3, 4)$-maravillosa anidada pero no es perfecta anidada.
+La secuencia [inserte ejemplo aquí] es $(4, 8)$-maravillosa anidada pero no es perfecta anidada.
+
+	[Nuestro ideal: ensayar esto para $n = m$]
+
+	[Agregamos la tabla experimental de cantidades de maravillosas/perfectas anidadas para cada $n, m$]
+
+	[Agregamos la tabla experimental de cantidades de maravillosas/perfectas anidadas concatenando De Bruijn para cada $n, m$]
+
+\begin{prop}
+	No existen secuencias $(n,m)$-maravillosas anidadas con $n > 2m$.
+\end{prop}
+
+\begin{demo}
+	En primer lugar, debemos notar que basta probar el resultado para $n = 2m +
+		1$, ya que cualquier secuencia $(n',m)$-maravillosa anidada con $n' > 2m +
+		1$ consiste en la concatenación de varias secuencias
+	$(2m+1,m)$-maravillosas anidadas.
+
+	\note{Fijemos m.}
+	Razonando por el absurdo, sea $n = 2m + 1$ y supongamos que existe una
+	secuencia $s \in \NM{n}{m}$. Por definición, el patrón $0^{2m+1}$ debe
+	aparecer $m$ veces en $\neck{s}$. Sea $i$ la posición inicial en $s$, tomando
+	módulo $2m$, de la primera aparición de dicho patrón.
+	\note{no entiendo aqui ``tomando modulo 2m''. Yo lo sacaría.}
+
+	Recordemos que $s$ consiste en una concatenación de $m$-átomos, cada uno de
+	los cuales tiene longitud $2m$. Los $2m+1$ ceros del patrón mencionado
+	necesariamente abarcarán más de un átomo, con los primeros $2m - i$ ceros
+	ubicados dentro de un átomo y los $i + 1$ ceros restantes en el átomo
+	siguiente. Notar que, si $i < m$, entonces $2m - i > m$, por lo que hay más
+	de $m$ ceros en el primer átomo; si, por el contrario, $i \geq m$, entonces
+	$i + 1 > m$, por lo que hay más de $m$ ceros en el segundo átomo. Ninguno
+	de los dos casos es posible, ya que la cantidad de ceros en un $m$-átomo es
+	exactamente $m$. \qed
+\end{demo}
+
+\subsection{Métodos de construcción}
+
+\begin{defi}
+	Llamamos $m$-\emph{átomos} a las secuencias $\omega \in \alphabet^{2m}$ que
+	son $(1,m)$-maravillosas.
+\end{defi}
+
+\begin{obs}
+	Toda secuencia $(n,m)$-maravillosa es una concatenación de $2^{n-1}$
+	$m$-átomos.
+\end{obs}
+
+\begin{prop}
+	Existen exactamente $\binom{2m}{m}$ $m$-átomos distintos, correspondientes a
+	las formas de elegir las $m$ posiciones que serán ocupadas por el símbolo
+	$0$.
+\end{prop}
+
+\begin{demo}
+	Una secuencia es un $m$-átomo si y solo si es una permutación de la palabra
+	$0^m1^m$.
+
+	Por definición, en un $m$-átomo todos los patrones de longitud $1$, es
+	decir, los caracteres $0$ y $1$ deben aparecer exactamente $m$ veces. \qed
+\end{demo}
+
+\note{No tenemos definido lo que es una permutacion de una palabra.
+	Permutacion de una secuencia sí podes usar, porque viene del significado usual en matemática.
+	Tal vez sea mejor así: es una secuencia que
+	contiene exactamente m unos y m ceros, encualquier orden.}
+
+\begin{defi}
+	Una secuencia $s$ es $(n,m)$-\emph{autosimilar} si es de la forma
+	$\omega^{2^{n-1}}$, donde $\omega$ es un $m$-átomo. Es decir, si consiste
+	en $2^{n-1}$ repeticiones de un mismo $m$-átomo.
+\end{defi}
+
+\begin{obs}
+	\label{lema:autosimilar-cannot-be-np}
+	Una secuencia $(n,m)$-autosimilar con $n > 1$ no puede ser $(n,m)$-perfecta
+	anidada.
+\end{obs}
+
+\begin{demo}
+	Dado que la secuencia se construye repitiendo % al menos dos veces
+	un mismo
+	átomo de longitud $2m$, el patrón de longitud $n$ que aparece en la posición
+	$0$ de la secuencia aparece nuevamente en la posición $2m$. Esto contradice
+	la definición de secuencia perfecta, ya que cada aparición del patrón debería
+	comenzar en una posición distinta módulo $m$. \qed
+\end{demo}
+
+\begin{lema}
+	Sea $\omega \in \alphabet^{2^n}$ una secuencia $n$-de De Bruijn. Para todo
+	$n'$ tal que $1 \leq n' \leq n$, la secuencia $\omega$ es
+	$(n',2^{n-n'})$-maravillosa.
+\end{lema}
+
+\note{
+	Generalizar este lema para hablar de maravillosas en vez de De Bruijn.
+}
+
+\begin{demo}
+	Consideremos un patrón $w$ cualquiera de longitud $n'$. Para extender $w$ a
+	un patrón de longitud $n$ debe agregársele un sufijo de longitud $n-n'$, por
+	lo que existen $2^{n-n'}$ formas distintas de hacerlo. Todas
+	%estas extensiones posibles 
+	\note{los patrones}
+	aparecen exactamente una vez en $\omega$, ya que esta es
+	una secuencia $n$-de De Bruijn. Luego, $w$ aparece exactamente $2^{n-n'}$
+	veces en $\omega$, cada vez como prefijo de un patrón de longitud $n$
+	distinto. Por lo tanto, $s$ es una secuencia $(n',2^{n-n'})$-maravillosa.
+	\qed
+\end{demo}
+
+\begin{coro}
+	Una secuencia $n$-de De Bruijn es un $(2^{n-1})$-átomo.
+\end{coro}
+
+\begin{demo}
+	Resulta del lema anterior, tomando $n' = 1$. \qed
+\end{demo}
+
+
+\begin{lema}
+	Sea $\omega$ una secuencia $n$-de De Bruijn.
+	Para todo $n'$ tal que $n' \leq n$ y para todo $d \geq 0$, la
+	secuencia $\omega^{2^d}$ es $(n',2^{n-n'+d})$-maravillosa \note{anidada}.
+
+	\note{Generalizar este lema para considerar las maravillosas.}
+\end{lema}
+
+\begin{demo}
+	\note{Esta demo resulta de unificar dos demos; pulir.}
+	El caso $d = 0$ es exactamente lo probado en el lema anterior.
+	Consideremos $d > 0$ y supongamos que la propiedad vale para $d - 1$.
+	Sea $s' = \omega^{2^{d-1}}$; podemos ver que $s = s's'$.
+
+	Consideremos un patrón $w$ cualquiera de longitud $n'$. Por hipótesis
+	inductiva, $s'$ es una secuencia $(n',2^{n-n'+d-1})$-maravillosa. Luego, $w$
+	debe aparecer $2^{n-n'+d-1}$ veces en $\neck{s'}$.
+	Esto quiere decir que la cantidad de apariciones de $w$ en $\neck{s} =
+		\neck{s's'}$ es exactamente el doble: $2 \cdot 2^{n-n'+d-1} = 2^{n-n'+d}$.
+	Por lo tanto, $s$ es una secuencia $(n',2^{n-n'+d})$-maravillosa. \qed
+
+	Consideremos $n'$ tal que $1 \leq n' \leq n$. Basta ver que todas las
+	subsecuencias de $s$ con longitud $m \cdot 2^{n'}$ que comienzan en
+	posiciones congruentes a $0$ módulo $m \cdot 2^{n'}$ son
+	$(n',m)$-maravillosas. Observemos que $m \cdot 2^{n'} = 2^{n+n'-1} = 2^n
+		\cdot 2^{n'-1}$ es múltiplo de $2^n$, la longitud de $\omega$.
+	Luego, estas subsecuencias son todas de la forma $\omega^{2^{n'-1}}$.
+	Aplicando el lema anterior, con $d = n'-1$, tenemos que $\omega^{2^d}$
+	es $(n',2^{n-1})$ maravillosa, que es lo que queríamos demostrar. \qed
+\end{demo}
+\note{Si sacas m del enunciado del lema anterior hay que cambiar este tambien}
+
+% Esto ahora quedó en el lema anterior
+% \begin{prop}
+%   \label{prop:db-concatenation-is-nm}
+%   Sea $\omega \in \alphabet^{2^n}$ una secuencia $n$-de De Bruijn.
+%   Sea $m = 2^{n-1}$. La secuencia $s = \omega^{m}$ es $(n,m)$-maravillosa
+%   anidada.
+% \end{prop}
+
+\note{Llegamos hasta acá. Estamos listos para dar el método de construcción.}
+
+\begin{obs}
+	En la Proposición \ref{prop:db-concatenation-is-nm}, notar que $\omega$ es un
+	$m$-átomo. Por lo tanto, la secuencia $s = \omega^m$ es $(n,m)$-autosimilar.
+\end{obs}
+
+\note{Segun lo que hablamos, este enuciado será acerca de cortes de collares de Bruijn}
+\begin{lema}
+	\label{lema:db-sequence-count}
+	Existen exactamente $2^{2^{n-1}}$ secuencias $n$-de De Bruijn.
+\end{lema}
+
+\begin{demo}
+	Sea $\neck{s}$ un collar $n$-de De Bruijn, y sea $s$ un corte de dicho
+	collar. Para cada $i = 0,\dots,2^n-1$, el resultado de aplicar $\sigma^i(s)$
+	debe ser una secuencia distinta, ya que de existir $j \neq j'$ tales que
+	$\sigma^j(s) = \sigma^{j'}(s)$, el patrón de longitud $n$ que comienza en la
+	posición $j$ de $s$ aparecería de nuevo en la posición $j$, lo cual no es
+	posible. Luego, por cada collar $n$-de De Bruijn, se tienen $2^n$ secuencias
+	$n$-de De Bruijn distintas. Desde luego, las secuencias que corresponden a
+	collares distintos son también distintas.
+	\note{Avisa que  estas usando el resultado de de Bruijn que ya mencionaste en la seccion dedicada a de Bruijn}.
+	Por lo tanto, se tiene un total de
+	$2^n \cdot 2^{2^{n-1}-n} = 2^{2^{n-1}}$ secuencias $n$-de De Bruijn. \qed
+\end{demo}
+
+
+\note{Creo que menos variables es mejor. Que tal asi?\\
+	Sea $d > 0$.
+	Existen al menos $2^{2^d}$
+	secuencias $(d+1, 2^d)$-maravillosas anidadas que no son perfectas anidadas.
+}
+
+
+\begin{demo}[Teorema \ref{teo:existencia}]
+	Por el Lema \ref{lema:db-sequence-count}, existen $2^{2^{n-1}} = 2^m$ formas
+	distintas de elegir la secuencia $\omega$ que aparece en la Proposición
+	\ref{prop:db-concatenation-is-nm}. Para cada una de ellas se construye una
+	secuencia $s$ que es $(n, m)$-maravillosa anidada. Como además las
+	secuencias obtenidas son $(n,m)$-autosimilares y $n > 1$, aplicando el Lema
+	\ref{lema:autosimilar-cannot-be-np}, se tiene que ninguna de las secuencias
+	es perfecta anidada. \qed
+	\note{La demostración está bien.
+		Propongo algo así:
+		\\
+		Para cada corte de collar de Bruijn construimos
+		una secuencia $(d+1, 2^d)$-maravillosa anidada.
+		El Lema~\ref{lema:autosimilar-cannot-be-np} nos asegura
+		que no  es perfecta anidada.
+		Hay $2^{2^d}$ cortes de secuencias de Bruijn distintos.
+	}
+\end{demo}
+
+\begin{defi}
+	Consideremos el grafo de De Bruijn de orden $n$, $G_n$. Sea $w \in
+		\alphabet^n$ un nodo \note{vertice} de dicho grafo
+	y sea $k$ entre $0$ y $n$
+	%$0 \leq k \leq n$.
+	Decimos que $w' \in \alphabet^n$ es un \emph{$k$-sucesor} de $w$ si en $G_n$
+	existe un camino de longitud $k$ que va de $w$ a $w'$.
+	Análogamente, decimos que $w'$ es un \emph{$k$-antecesor} de $w$ si en $G_n$
+	existe un camino de longitud $k$ que va de $w'$ a $w$.
+
+	Notamos $\Succ{k}(w)$ y $\Pred{k}(w)$ a los conjuntos de $k$-sucesores y
+	$k$-predecesores de $w$, respectivamente.
+\end{defi}
+
+\begin{obs}\ %
+	\begin{enumerate}
+		\item La cantidad de $k$-sucesores (antecesores) de todo nodo es
+		      exactamente $2^k$.
+		\item Para todo nodo, $\Succ{n}(w) = \Pred{n}(w) = \alphabet^n$.
+	\end{enumerate}
+\end{obs}
+
+\begin{defi}
+	Sean $w,w',u,u' \in \alphabet^n$. Decimos que $(w,w')$ y $(u,u')$ son
+	\emph{pares cruzados} si los $n$ patrones de longitud $n + 1$ que aparecen en
+	$ww'$ y $uu'$ son los mismos que aparecen en $wu$ y $w'u'$.
+\end{defi}
+
+\begin{obs}
+	La relación entre pares cruzados es reflexiva y simétrica, pero no
+	transitiva.
+\end{obs}
+
+\begin{prop}
+	Sean $w, w' \in \alphabet^n$. Existen exactamente $(n + 1) \cdot 2^n - n
+		\cdot 2^{n - 1}$ pares $(u, u')$ tales que $(w, w')$ y $(u, u')$ son pares
+	cruzados.
+\end{prop}
+
+\begin{demo}
+	Sean $w_0 = w$, $w_n = w'$ y $w_0, w_1, \dots, w_n$ el camino de
+	$n$ aristas ($n + 1$ nodos) en $G_n$ que va de $w_0$ a $w_n$.
+
+	A continuación, definimos
+	\[ A_0 = \lbrace w_0 \rbrace, \qquad
+		B_0 = \alphabet^n, \]
+	y para cada $i = 1, \dots, n$:
+	\[ A_i = \Pred{i}(w_i) \,\backslash\, \Pred{i - 1}(w_{i - 1}), \qquad
+		B_i = \Succ{n - i}(w_i). \]
+
+	Afirmamos que el conjunto de pares cruzados con $(w_0, w_n)$ es
+	\[ C = \bigcup_{i = 0}^n A_i \times B_i. \]
+
+	La cantidad de elementos de $C$ es:
+	\begin{align*}
+		\sum_{i = 0}^n \vert A_i \vert \times \vert B_i \vert
+		 & = \sum_{i = 1}^n \vert A_i \vert \times \vert B_i \vert + \vert A_0
+		\vert \times \vert B_0 \vert                                           \\
+		 & = \sum_{i = 1}^n \left( 2^{i} - 2^{i - 1} \right) \cdot 2^{n - i} +
+		2^n                                                                    \\
+		 & = \sum_{i = 1}^n \left( 2^n - 2^{n - 1} \right) + 2^n               \\
+		 & = (n + 1) \cdot 2^n - n \cdot 2^{n - 1}.
+	\end{align*}
+\end{demo}
 
 \bibliography{references}{}
 \bibliographystyle{plain}
