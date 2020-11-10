@@ -2,15 +2,21 @@ module Queries where
 
 import AffineNecklaces
 import Atoms
+import Data.List (intersperse)
+import Data.List.Split (chunksOf)
 import Extension
 import MarvellousSequences
 import Necklaces
 import Patterns
+import Phases
 import System.Environment
 
 -- Auxiliaries for display
 showL :: [Int] -> String
 showL = concatMap show
+
+showLChunked :: Int -> [Int] -> String
+showLChunked s l = unwords (map (concatMap show) (chunksOf s l))
 
 printL :: [Int] -> IO ()
 printL = putStrLn . showL
@@ -54,8 +60,27 @@ order2TimesInOrder3 =
     nestedMarvellous233 = nestedMarvellous2 3 3
     nestedMarvellous223 = nestedMarvellous2 2 3
 
-generateNestedPerfect2 n m = writeLs (concat ["sequences/np-", show n, "-", show m, ".txt"]) $ recursiveNestedPerfect2 n m
+generateNestedPerfect2 n m = writeLs (concat ["../sequences/np-", show n, "-", show m, ".txt"]) $ recursiveNestedPerfect2 n m
 
-generateNestedMarvellous2 n m = writeLs (concat ["sequences/nm-", show n, "-", show m, ".txt"]) $ recursiveNestedMarvellous2 n m
+generateNestedMarvellous2 n m = writeLs (concat ["../sequences/nm-", show n, "-", show m, ".txt"]) $ recursiveNestedMarvellous2 n m
 
-generateNestedPerfectWithMatrix n d = writeLs (concat ["sequences/np-mat-", show n, "-", show (2 ^ d), ".txt"]) $ allAffineNecklaces n d
+generateNestedPerfectWithMatrix n d = writeLs (concat ["../sequences/np-mat-", show n, "-", show (2 ^ d), ".txt"]) $ allAffineNecklaces n d
+
+atomPiecesOfPerfect :: Int -> Int -> [([Int], [Int])]
+atomPiecesOfPerfect n d = map (\l -> (l, parseBinaryChunks (2 ^ d) l)) (allAffineNecklaces n d)
+
+padShow :: Int -> Int -> String
+padShow padd int = replicate (padd - length showedInt) ' ' ++ showedInt
+  where
+    showedInt = show int
+
+showAtomPiecesOfPerfect :: Int -> Int -> [String]
+showAtomPiecesOfPerfect n d =
+  map
+    (\(l, a) -> unlines [showLChunked (2 ^ d) l, unwords $ map (padShow (2 ^ d)) a])
+    (atomPiecesOfPerfect n d)
+
+writeAtomPiecesOfPerfect :: Int -> Int -> IO ()
+writeAtomPiecesOfPerfect n d = writeFile fileName (unlines $ showAtomPiecesOfPerfect n d)
+  where
+    fileName = "../sequences/nested-perfect-" ++ show n ++ "," ++ show (2 ^ d) ++ ".txt"

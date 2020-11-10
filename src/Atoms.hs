@@ -5,6 +5,7 @@ import Data.List.Split
 import Data.Maybe
 import MarvellousSequences
 import Math.Combinat.Sets (countKSublists)
+import Numeric (readInt)
 
 atomsCount :: Int -> Integer
 atomsCount m = countKSublists m (2 * m)
@@ -52,3 +53,20 @@ perfectAtomIndex m = fromJust . flip elemIndex (perfectAtoms m)
 
 asPerfectAtoms :: Int -> [Int] -> [Int]
 asPerfectAtoms m seq = map (perfectAtomIndex m) (chunksOf (2 * m) seq)
+
+--
+
+parseBinary :: [Int] -> Int
+parseBinary = foldl' (\acc x -> acc * 2 + x) 0
+
+parseBinaryChunks :: Int -> [Int] -> [Int]
+parseBinaryChunks size list = map parseBinary (chunksOf size list)
+
+showBinaryChunks :: Int -> [Int] -> String
+showBinaryChunks size list = unlines [showLChunked size list, unwords $ map (padShow size) (parseBinaryChunks size list)]
+  where
+    showLChunked size list = unwords (map (concatMap show) (chunksOf size list))
+    padShow padd int = replicate (padd - length (show int)) ' ' ++ show int
+
+putBinaryChunks :: Int -> [[Int]] -> IO ()
+putBinaryChunks size lists = putStr $ unlines $ map (showBinaryChunks size) lists

@@ -103,6 +103,13 @@ recursiveNestedMarvellous2 n m
 recursiveNestedMarvellousDB2 :: Int -> Int -> [[Int]]
 recursiveNestedMarvellousDB2 n d
   | n == 1 = deBruijn2 (d + 1)
-  | otherwise = filter (isNestedMarvellous 2 n (2 ^ d)) [s1 ++ s2 | s1 <- prevOrderSequences, s2 <- prevOrderSequences]
+  | otherwise = filter (isMarvellous 2 n (2 ^ d)) [s1 ++ s2 | s1 <- prevOrderSequences, s2 <- prevOrderSequences]
   where
     prevOrderSequences = recursiveNestedMarvellousDB2 (n - 1) d
+
+whiteRecursiveNestedMarvellous2 :: Int -> Int -> [[Int]]
+whiteRecursiveNestedMarvellous2 n m
+  | n == 1 = filter (\s -> head s == 0) $ filterSequences2 n m (isNestedMarvellous 2)
+  | otherwise = filter (isMarvellous 2 n m) [s1 ++ s2 | s1 <- prevOrderSequences, s2 <- prevOrderSequences]
+  where
+    prevOrderSequences = whiteRecursiveNestedMarvellous2 (n - 1) m
