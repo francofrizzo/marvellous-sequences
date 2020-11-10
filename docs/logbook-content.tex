@@ -1,6 +1,4 @@
-
 \newcommand{\note}[1]{\textbf{\textcolor{red}{#1}}}
-
 
 \section{Generalidades}
 
@@ -127,6 +125,8 @@ posiciones de $s$ que van desde $i$ hasta $j$, inclusive.
   rotaciones. Por lo tanto, la noción de collar maravilloso anidado no está
   bien definida.
 \end{obs}
+
+\note{Agregar la caracterización como ciclos anidados en multigrafos que hablamos por mail}
 
 \subsection{Secuencias perfectas y perfectas anidadas}
 
@@ -262,37 +262,21 @@ posiciones de $s$ que van desde $i$ hasta $j$, inclusive.
 
 \section{Resultados}
 
-\begin{defi}
-  Llamamos $m$-\emph{átomos} a las secuencias $\omega \in \alphabet^{2m}$ que
-  son $(1,m)$-maravillosas.
-\end{defi}
+Nuestro primer resultado es:
 
-\begin{obs}
-  Toda secuencia $(n,m)$-maravillosa es una concatenación de $2^{n-1}$
-  $m$-átomos.
-\end{obs}
+\begin{teo}
+  \label{teo:existencia}
+  Sea $d > 0$. Existen secuencias $(d + 1, 2^d)$-maravillosas anidadas que no son perfectas anidadas.
+\end{teo}
 
+Ejemplos: La secuencia [inserte ejemplo aquí] es $(3, 4)$-maravillosa anidada pero no es perfecta anidada.
+La secuencia [inserte ejemplo aquí] es $(4, 8)$-maravillosa anidada pero no es perfecta anidada.
 
-\note{No tenemos definido lo que es una permutacion de una palabra.
-Permutacion de una secuencia sí podes usar, porque viene del significado usual en matemática.
-Tal vez sea mejor así: es una secuencia que 
-contiene exactamente m unos y m ceros, encualquier orden.}
+  [Nuestro ideal: ensayar esto para $n = m$]
 
-\begin{lema}
-  Una secuencia es un $m$-átomo si y solo si es una permutación de la palabra
-  $0^m1^m$.
-\end{lema}
+  [Agregamos la tabla experimental de cantidades de maravillosas/perfectas anidadas para cada $n, m$]
 
-\begin{demo}
-  Por definición, en un $m$-átomo todos los patrones de longitud $1$, es
-  decir, los caracteres $0$ y $1$ deben aparecer exactamente $m$ veces. \qed
-\end{demo}
-
-\begin{coro}
-  Existen exactamente $\binom{2m}{m}$ $m$-átomos distintos, correspondientes a
-  las formas de elegir las $m$ posiciones que serán ocupadas por el símbolo
-  $0$.
-\end{coro}
+  [Agregamos la tabla experimental de cantidades de maravillosas/perfectas anidadas concatenando De Bruijn para cada $n, m$]
 
 \begin{prop}
   No existen secuencias $(n,m)$-maravillosas anidadas con $n > 2m$.
@@ -304,12 +288,12 @@ contiene exactamente m unos y m ceros, encualquier orden.}
     1$ consiste en la concatenación de varias secuencias
   $(2m+1,m)$-maravillosas anidadas.
 
-\note{Fijemos m.}
+  \note{Fijemos m.}
   Razonando por el absurdo, sea $n = 2m + 1$ y supongamos que existe una
   secuencia $s \in \NM{n}{m}$. Por definición, el patrón $0^{2m+1}$ debe
   aparecer $m$ veces en $\neck{s}$. Sea $i$ la posición inicial en $s$, tomando
   módulo $2m$, de la primera aparición de dicho patrón.
-\note{no entiendo aqui ``tomando modulo 2m''. Yo lo sacaría.}
+  \note{no entiendo aqui ``tomando modulo 2m''. Yo lo sacaría.}
 
   Recordemos que $s$ consiste en una concatenación de $m$-átomos, cada uno de
   los cuales tiene longitud $2m$. Los $2m+1$ ceros del patrón mencionado
@@ -322,21 +306,52 @@ contiene exactamente m unos y m ceros, encualquier orden.}
   exactamente $m$. \qed
 \end{demo}
 
+\subsection{Métodos de construcción}
+
+\begin{defi}
+  Llamamos $m$-\emph{átomos} a las secuencias $\omega \in \alphabet^{2m}$ que
+  son $(1,m)$-maravillosas.
+\end{defi}
+
+\begin{obs}
+  Toda secuencia $(n,m)$-maravillosa es una concatenación de $2^{n-1}$
+  $m$-átomos.
+\end{obs}
+
+\begin{prop}
+  Existen exactamente $\binom{2m}{m}$ $m$-átomos distintos, correspondientes a
+  las formas de elegir las $m$ posiciones que serán ocupadas por el símbolo
+  $0$.
+\end{prop}
+
+\begin{demo}
+  Una secuencia es un $m$-átomo si y solo si es una permutación de la palabra
+  $0^m1^m$.
+
+  Por definición, en un $m$-átomo todos los patrones de longitud $1$, es
+  decir, los caracteres $0$ y $1$ deben aparecer exactamente $m$ veces. \qed
+\end{demo}
+
+\note{No tenemos definido lo que es una permutacion de una palabra.
+  Permutacion de una secuencia sí podes usar, porque viene del significado usual en matemática.
+  Tal vez sea mejor así: es una secuencia que
+  contiene exactamente m unos y m ceros, encualquier orden.}
+
 \begin{defi}
   Una secuencia $s$ es $(n,m)$-\emph{autosimilar} si es de la forma
   $\omega^{2^{n-1}}$, donde $\omega$ es un $m$-átomo. Es decir, si consiste
   en $2^{n-1}$ repeticiones de un mismo $m$-átomo.
 \end{defi}
 
-\begin{lema}
+\begin{obs}
   \label{lema:autosimilar-cannot-be-np}
   Una secuencia $(n,m)$-autosimilar con $n > 1$ no puede ser $(n,m)$-perfecta
   anidada.
-\end{lema}
+\end{obs}
 
 \begin{demo}
   Dado que la secuencia se construye repitiendo % al menos dos veces
- un mismo
+  un mismo
   átomo de longitud $2m$, el patrón de longitud $n$ que aparece en la posición
   $0$ de la secuencia aparece nuevamente en la posición $2m$. Esto contradice
   la definición de secuencia perfecta, ya que cada aparición del patrón debería
@@ -349,13 +364,17 @@ contiene exactamente m unos y m ceros, encualquier orden.}
   $(n',2^{n-n'})$-maravillosa.
 \end{lema}
 
+\note{
+  Generalizar este lema para hablar de maravillosas en vez de De Bruijn.
+}
+
 \begin{demo}
   Consideremos un patrón $w$ cualquiera de longitud $n'$. Para extender $w$ a
   un patrón de longitud $n$ debe agregársele un sufijo de longitud $n-n'$, por
-  lo que existen $2^{n-n'}$ formas distintas de hacerlo. Todas 
-%estas extensiones posibles 
-\note{los patrones}
-aparecen exactamente una vez en $\omega$, ya que esta es
+  lo que existen $2^{n-n'}$ formas distintas de hacerlo. Todas
+  %estas extensiones posibles 
+  \note{los patrones}
+  aparecen exactamente una vez en $\omega$, ya que esta es
   una secuencia $n$-de De Bruijn. Luego, $w$ aparece exactamente $2^{n-n'}$
   veces en $\omega$, cada vez como prefijo de un patrón de longitud $n$
   distinto. Por lo tanto, $s$ es una secuencia $(n',2^{n-n'})$-maravillosa.
@@ -370,14 +389,17 @@ aparecen exactamente una vez en $\omega$, ya que esta es
   Resulta del lema anterior, tomando $n' = 1$. \qed
 \end{demo}
 
+
 \begin{lema}
-  Sea $\omega \in \alphabet^{2^n}$ una secuencia $n$-de De Bruijn. Para todo
-  $d \geq 0$, sea $m = 2^d$. Para todo $n'$ tal que $1 \leq n' \leq n$, la
-  secuencia $s = \omega^{m}$ es $(n',2^{n-n'+d})$-maravillosa.
+  Sea $\omega$ una secuencia $n$-de De Bruijn.
+  Para todo $n'$ tal que $n' \leq n$ y para todo $d \geq 0$, la
+  secuencia $\omega^{2^d}$ es $(n',2^{n-n'+d})$-maravillosa \note{anidada}.
+
+  \note{Generalizar este lema para considerar las maravillosas.}
 \end{lema}
-\note{Sacaria m del enunciado, para que haya menos letras y sea mas facil de leer}
 
 \begin{demo}
+  \note{Esta demo resulta de unificar dos demos; pulir.}
   El caso $d = 0$ es exactamente lo probado en el lema anterior.
   Consideremos $d > 0$ y supongamos que la propiedad vale para $d - 1$.
   Sea $s' = \omega^{2^{d-1}}$; podemos ver que $s = s's'$.
@@ -388,16 +410,7 @@ aparecen exactamente una vez en $\omega$, ya que esta es
   Esto quiere decir que la cantidad de apariciones de $w$ en $\neck{s} =
     \neck{s's'}$ es exactamente el doble: $2 \cdot 2^{n-n'+d-1} = 2^{n-n'+d}$.
   Por lo tanto, $s$ es una secuencia $(n',2^{n-n'+d})$-maravillosa. \qed
-\end{demo}
 
-\begin{prop}
-  \label{prop:db-concatenation-is-nm}
-  Sea $\omega \in \alphabet^{2^n}$ una secuencia $n$-de De Bruijn.
-  Sea $m = 2^{n-1}$. La secuencia $s = \omega^{m}$ es $(n,m)$-maravillosa
-  anidada.
-\end{prop}
-
-\begin{demo}
   Consideremos $n'$ tal que $1 \leq n' \leq n$. Basta ver que todas las
   subsecuencias de $s$ con longitud $m \cdot 2^{n'}$ que comienzan en
   posiciones congruentes a $0$ módulo $m \cdot 2^{n'}$ son
@@ -408,6 +421,16 @@ aparecen exactamente una vez en $\omega$, ya que esta es
   es $(n',2^{n-1})$ maravillosa, que es lo que queríamos demostrar. \qed
 \end{demo}
 \note{Si sacas m del enunciado del lema anterior hay que cambiar este tambien}
+
+% Esto ahora quedó en el lema anterior
+% \begin{prop}
+%   \label{prop:db-concatenation-is-nm}
+%   Sea $\omega \in \alphabet^{2^n}$ una secuencia $n$-de De Bruijn.
+%   Sea $m = 2^{n-1}$. La secuencia $s = \omega^{m}$ es $(n,m)$-maravillosa
+%   anidada.
+% \end{prop}
+
+\note{Llegamos hasta acá. Estamos listos para dar el método de construcción.}
 
 \begin{obs}
   En la Proposición \ref{prop:db-concatenation-is-nm}, notar que $\omega$ es un
@@ -428,24 +451,21 @@ aparecen exactamente una vez en $\omega$, ya que esta es
   posición $j$ de $s$ aparecería de nuevo en la posición $j$, lo cual no es
   posible. Luego, por cada collar $n$-de De Bruijn, se tienen $2^n$ secuencias
   $n$-de De Bruijn distintas. Desde luego, las secuencias que corresponden a
-  collares distintos son también distintas. 
-\note{Avisa que  estas usando el resultado de de Bruijn que ya mencionaste en la seccion dedicada a de Bruijn}.
-Por lo tanto, se tiene un total de
+  collares distintos son también distintas.
+  \note{Avisa que  estas usando el resultado de de Bruijn que ya mencionaste en la seccion dedicada a de Bruijn}.
+  Por lo tanto, se tiene un total de
   $2^n \cdot 2^{2^{n-1}-n} = 2^{2^{n-1}}$ secuencias $n$-de De Bruijn. \qed
 \end{demo}
 
 
 \note{Creo que menos variables es mejor. Que tal asi?\\
-  Sea $d > 0$. 
-Existen al menos $2^{2^d}$
+  Sea $d > 0$.
+  Existen al menos $2^{2^d}$
   secuencias $(d+1, 2^d)$-maravillosas anidadas que no son perfectas anidadas.
 }
-\begin{teo}
-  Sea $d > 0$. Sean $n = d + 1$, $m = 2^d$. Existen al menos $2^m$
-  secuencias $(n, m)$-maravillosas anidadas que no son perfectas anidadas.
-\end{teo}
 
-\begin{demo}
+
+\begin{demo}[Teorema \ref{teo:existencia}]
   Por el Lema \ref{lema:db-sequence-count}, existen $2^{2^{n-1}} = 2^m$ formas
   distintas de elegir la secuencia $\omega$ que aparece en la Proposición
   \ref{prop:db-concatenation-is-nm}. Para cada una de ellas se construye una
@@ -453,22 +473,22 @@ Existen al menos $2^{2^d}$
   secuencias obtenidas son $(n,m)$-autosimilares y $n > 1$, aplicando el Lema
   \ref{lema:autosimilar-cannot-be-np}, se tiene que ninguna de las secuencias
   es perfecta anidada. \qed
-\note{La demostración está bien.
-Propongo algo así:
-\\
-Para cada corte de collar de Bruijn construimos 
-una secuencia $(d+1, 2^d)$-maravillosa anidada.
-El Lema~\ref{lema:autosimilar-cannot-be-np} nos asegura 
-que no  es perfecta anidada.
-Hay $2^{2^d}$ cortes de secuencias de Bruijn distintos.
- }
+  \note{La demostración está bien.
+    Propongo algo así:
+    \\
+    Para cada corte de collar de Bruijn construimos
+    una secuencia $(d+1, 2^d)$-maravillosa anidada.
+    El Lema~\ref{lema:autosimilar-cannot-be-np} nos asegura
+    que no  es perfecta anidada.
+    Hay $2^{2^d}$ cortes de secuencias de Bruijn distintos.
+  }
 \end{demo}
 
 \begin{defi}
   Consideremos el grafo de De Bruijn de orden $n$, $G_n$. Sea $w \in
     \alphabet^n$ un nodo \note{vertice} de dicho grafo
- y sea $k$ entre $0$ y $n$
-%$0 \leq k \leq n$.
+  y sea $k$ entre $0$ y $n$
+  %$0 \leq k \leq n$.
   Decimos que $w' \in \alphabet^n$ es un \emph{$k$-sucesor} de $w$ si en $G_n$
   existe un camino de longitud $k$ que va de $w$ a $w'$.
   Análogamente, decimos que $w'$ es un \emph{$k$-antecesor} de $w$ si en $G_n$
