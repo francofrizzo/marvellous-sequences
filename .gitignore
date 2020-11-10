@@ -1,3 +1,5 @@
-sequences/*
+data
 references/*
 .log
+.ipynb_checkpoints
+.vscode
