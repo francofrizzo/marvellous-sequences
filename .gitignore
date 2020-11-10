@@ -1,5 +1,6 @@
 data
-references/*
+references
+src/jupyter/
 .log
 .ipynb_checkpoints
 .vscode
