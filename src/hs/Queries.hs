@@ -8,6 +8,7 @@ import Extension
 import MarvellousSequences
 import Necklaces
 import Patterns
+import PerfectRotations
 import Phases
 import System.Environment
 
