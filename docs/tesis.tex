@@ -58,60 +58,209 @@
 
 \section{Preliminares}
 
-Acá podemos mencionar la fórmula cerrada para contar secuencias maravillosas.
+Definir secuencia maravillosa.
 
-\section{Resultados}
+Dar conteo de secuencias maravillosas.
+Son $\binom{2m}{m}^{2^{n-1}}$.
 
-Teorema 1: para $n$, $m = 2^{n-1}$ existen las maravillosas anidadas que no son perfectas anidadas.
+Definir secuencia maravillosa anidada.
 
-Teorema deseado: para $n = m$ existen las maravillosas anidadas que no son perfectas anidadas.
+Definir secuencia perfecta anidada.
 
-Teorema: para $n, m$ con $n > 2m$ no existen secuencias maravillosas anidadas.
+Definir $m$-átomo.
 
-Problema: determinar existencia para otros valores de $n, m$.
+\section{Métodos de construcción}
 
 \subsection{Secuencias autosimilares}
 
-Esta subsección tiene por objeto dar un método de construcción de secuencias maravillosas anidadas
-para $n$, $m = 2^{n - 1}$. A través de este método
-de construcción queda demostrado el Teorema 1.
+En este apartado, presentaremos un método de construcción que permite generar
+secuencias $(n,m)$-maravillosas anidadas que no son perfectas anidadas, siempre
+y cuando se cumpla que $m = 2^{n - 1}$.
+Este método fue motivado por el estudio de una subfamilia de las secuencias
+maravillosas anidadas, que denominamos \emph{secuencias autosimilares}.
 
-	[Copiar ordenando y limpiando lo que está en el documento del logbook].
+\begin{defi}
+	Una secuencia $x$ es $(n,m)$-\emph{autosimilar} si consiste en $2^{n-1}$
+	repeticiones de una misma secuencia de longitud $2m$.
+\end{defi}
 
-Mencionar la relación entre las cantidades de secuencias autosimilares y las cantidades de maravillosas.
+\begin{example}
+	La secuencia \[ 01110110\ 01110110\ 01110110\ 01110110 \] es
+	$(3,4)$-autosimilar.
+	La secuencia \[ 110000101011 \ 110000101011 \] es $(2,6)$-autosimilar; además,
+	es $(2,6)$-maravillosa anidada.
+\end{example}
 
-\subsection{Otra construcción de secuencias $(n,m)$-maravillosas anidadas con $m = 2^{n - 1}$}
-
-\begin{lema}
-	Sean $x, y$ dos secuencias $(n - 1, m)$-maravillosas anidadas, que además representan ciclos $\frac{m}{2}$-hamiltonianos en el grafo de De Bruijn de orden $n$. Si se cumple que [la condición de pares cruzados para $n$ sobre los extremos de $x$ e $y$], entonces la concatenación
-	$xy$ es una secuencia $(n, m)$-maravillosa anidada.
-\end{lema}
-
-\begin{proof}
-	Demostrar este lema.
-\end{proof}
-
-\begin{prop}
-	La reversa de este lema es falsa.
+\begin{prop} \label{lemma:autosimilar-cannot-be-np}
+	Una secuencia $(n,m)$-autosimilar con $n > 1$ no puede ser $(n,m)$-perfecta.
 \end{prop}
 
-\begin{proof}
-	Damos un contraejemplo.
-\end{proof}
+\begin{demo}
+	Dado que la secuencia se construye repitiendo al menos dos veces una misma
+	secuencia de longitud $2m$, la palabra de longitud $n$ que aparece en la
+	posición $0$ de la secuencia aparece nuevamente en la posición $2m$.
+	Esto contradice la definición de secuencia perfecta, ya que cada aparición de
+	dicha palabra debería comenzar en una posición distinta módulo $m$.
+	\qed
+\end{demo}
 
-\section{Estadísticas sobre secuencias maravillosas}
+Nos interesa estudiar las secuencias $(n,m)$-maravillosas anidadas que, además,
+son autosimilares.
+Cabe señalar que las mismas están conformadas por un único $m$-átomo repetido
+$2^{n-1}$ veces.
+La proposición que enunciaremos a continuación nos permite caracterizarlas a
+partir de una propiedad verificable los átomos que les dan origen.
+Este resultado nos permitirá determinar para qué valores de $(n,m)$ existen
+este tipo de secuencias, cuál es su cantidad, y presentar un método para su
+construcción.
 
-Cantidad de maravillosas anidadas para pares $n, m$. Comparando con cantidad de perfectas anidadas.
+\begin{prop}
+	\label{prop:autosimilar-nm-characterization}
+	Sea $x = \omega^{2^{n-1}}$ una secuencia $(n,m)$-autosimilar.
+	$x$ es $(n,m)$-maravillosa anidada si y solo si $2^{n-1} \vert m$ y
+	$\omega$
+	es una secuencia $\left( n, \frac{m}{2^{n-1}} \right)$-maravillosa.
 
-Cantidad de secuencias autosimilares para cada $n, m$.
+	\note{Quizás esto queda mejor enunciado escribiendo $m = k \cdot
+			2^{n-1}$, como está en el Corolario
+		\ref{coro:autosimilar-nm-count}.}
+\end{prop}
 
-Cantidad de secuencias que se originan pegando De Bruijn para cada $n, m$.
+\begin{example}\ %
+	\begin{itemize}
+		\item El $4$-átomo $01011100$ es $(1,4)$, $(2,2)$ y
+		      $(3,1)$-maravilloso.
+		      Por lo tanto, las siguientes tres secuencias son $(1,4)$, $(2,4)$ y
+		      $(3,4)$-maravillosas anidadas, respectivamente.
+		      \[ 01011100; \qquad 01011100\ 01011100; \qquad 01011100\
+			      01011100\ 01011100\ 01011100.
+		      \]
+		\item El $4$-átomo $10001101$ es $(1,4)$ y $(2,2)$-maravilloso,
+		      pero no $(3,1)$-maravilloso.
+		      Por lo tanto, las siguientes dos secuencias son $(3,1)$ y $(3,2)$-maravillosas
+		      anidadas, respectivamente.
+		      \[ 10001101; \qquad 10001101\ 10001101,
+		      \]
+		      pero la secuencia
+		      \[ 10001101\ 10001101\ 10001101\
+			      10001101 \]
+		      no es $(3,4)$-maravillosa anidada.
+	\end{itemize}
+\end{example}
 
-Secuencias que surgen por rotar la mitad derecha de secuencias perfectas.
+Los siguientes dos lemas se presentan a modo de resultados intermedios para
+demostrar la proposición precendente.
 
-Secuencias que surgen por rotar la mitad izquierda de las anteriores (en las que rotamos la parte derecha).
+\begin{lema} \label{lemma:marvellous-for-smaller-n}
+	Sea $x$ una secuencia $(n,m)$-mavarillosa.
+	Para todo $k$ tal que $0 \leq k < n$, la secuencia $x$ es $(n - k,2^{k}
+		m)$-maravillosa.
+\end{lema}
 
-	[De las cantidades anteriores puede salir un nuevo método de construcción].
+\begin{example}
+	La secuencia $(3,4)$-maravillosa \[ 00001111\ 00101011\ 00101101\ 11100010, \]
+	es también $(2,8)$ y $(1,16)$-maravillosa.
+\end{example}
+
+\begin{demo}
+	Consideremos una palabra $w$ cualquiera de longitud $n - k$.
+	Para extender $w$ a una palabra de longitud $n$ debe agregársele un sufijo de
+	longitud $k$, por lo que existen $2^{k}$ formas distintas de hacerlo.
+	Todas estas palabras que resultan de extender $w$ aparecen exactamente $m$
+	veces en $x$, ya que esta es una secuencia $(n,m)$-mavarillosa.
+	Luego, $w$ aparece exactamente $2^{k}m$ veces en $x$, $m$ veces como prefijo de
+	una palabra de longitud $n$ distinto.
+	Por lo tanto, $x$ es una secuencia $(n - k,2^{k}m)$-maravillosa.
+	\qed
+\end{demo}
+
+\begin{lema}
+	\label{lemma:marvellous-for-concatenation}
+	Una secuencia $x$ es $(n,m)$-mavarillosa si y solo si para todo $d > 0$, la
+	secuencia $x^d$ es $(n,dm)$-maravillosa.
+
+	\note{No estoy seguro de si poner este lema.
+		Sirve para simplificar un poco la demo siguiente.
+	}
+\end{lema}
+
+Habiendo probado estos dos resultados, estamos en condiciones de presentar una
+demostración para la Proposición \ref{prop:autosimilar-nm-characterization}.
+
+\begin{demo}[Proposición \ref{prop:autosimilar-nm-characterization}]
+	Si partimos del supuesto de que $2^{n-1}$ no divide a $m$, o bien que
+	$\omega$ no es una secuencia $\left( n, \frac{m}{2^{n-1}}
+		\right)$-maravillosa,
+	podemos concluir que existe una palabra $w$ de longitud $n$ cuya
+	cantidad de
+	apariciones en $\omega$, mirada circularmente, es diferente de
+	$\frac{m}{2^{n-1}}$.
+	Por lo tanto, la cantidad de apariciones de $w$ en $x = \omega^{2^{n-1}}$,
+	mirada también circularmente, es diferente de $m$.
+	Es decir, en este caso, $x$ no puede ser una secuencia $(n,m)$-maravillosa
+	anidada.
+
+	\note{En el párrafo anterior podría usar el Lema
+		\ref{lemma:marvellous-for-concatenation} y queda más simple.}
+
+	Para demostrar la implicación opuesta, supongamos que $2^{n-1}$ y $\omega$ es
+	una secuencia $\left( n, \frac{m}{2^{n-1}} \right)$-maravillosa.
+	Demostraremos que para todo $n'$ tal que $1 \leq n' \leq n$, la secuencia
+	$\omega^{2^{n'-1}}$ es $(n',m)$-maravillosa anidada.
+	En el caso particular $n' = n$, esto equivale a decir que $x$ es una secuencia
+	$(n,m)$-maravillosa anidada.
+
+	En el caso $n' = 1$, el resultado se sigue del Lema
+	\ref{lemma:marvellous-for-smaller-n} que, tomando $k = n-1$, nos permite
+	afirmar que $\omega$ es una secuencia $(1,m)$-maravillosa.
+
+	Si $n'$ es tal que $1 < n' \leq n$, supongamos probado el resultado para
+	$n'-1$.
+	Esto quiere decir que, siendo $y = \omega^{2^{n' - 2}}$, $y$ es una secuencia
+	$(n'-1, m)$-maravillosa anidada.
+	Para probar que $\omega^{2^{n' - 1}} = yy$ es $(n',m)$-maravillosa anidada,
+	solo resta ver que es $(n',m)$-maravillosa, ya que es la concatenación de dos
+	secuencias $(n'-1, m)$-maravillosas anidadas.
+
+	Empleando otra vez el Lema \ref{lemma:marvellous-for-smaller-n}, esta vez para
+	$k = n - n'$, tenemos que $\omega$ es una secuencia $\left( n', \frac{m}{2^{n'
+				- 1}} \right)$.
+	Esto significa que la cantidad de apariciones de cada palabra de longitud $n'$
+	en $\omega$, mirada circularmente, es $\frac{m}{2^{n' - 1}}$; y por
+	consiguiente, es $m$ en $\omega^{2^{n'-1}}$, por lo que esta última secuencia
+	es $(n',m)$-maravillosa anidada.
+
+	\note{El párrafo anterior también se puede simplificar con el Lema
+		\ref{lemma:marvellous-for-concatenation}.}
+	\qed
+\end{demo}
+
+Dado que conocemos la cantidad de secuencias maravillosas que existen para
+cualesquiera valores de $n$ y $m$, podemos enunciar el siguiente corolario.
+
+\begin{coro} \label{coro:autosimilar-nm-count}
+	Sean $n, m > 0$.
+	Si existe $k > 0$ tal que $m = k \cdot 2^{n-1}$, existen
+	$\binom{2k}{k}^{2^{n-1}}$ secuencias $(n,m)$-maravillosas anidadas que son
+	autosimilares.
+	De lo contrario, no existe ninguna tal secuencia.
+\end{coro}
+
+\begin{center}
+	\begin{tabular}{ c | c | c | c | c | c | c | c | c | c }
+		  & 1 & 2 & 3  & 4  & 5   & 6   & 7    & 8     & 9     \\
+		\hline
+		1 & 2 & 6 & 20 & 70 & 252 & 924 & 3432 & 12870 & 48620
+		\\ \hline
+		2 & 0 & 4 & 0  & 36 & 0   & 400 & 0    & 4900  & 0     \\
+		\hline
+		3 & 0 & 0 & 0  & 16 & 0   & 0   & 0    & 1296  & 0     \\
+		\hline
+		4 & 0 & 0 & 0  & 0  & 0   & 0   & 0    & 256   & 0     \\
+		\hline
+		5 & 0 & 0 & 0  & 0  & 0   & 0   & 0    & 0     & 0
+	\end{tabular}
+\end{center}
 
 \bibliography{references}{}
 \bibliographystyle{plain}
