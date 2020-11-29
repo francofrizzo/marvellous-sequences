@@ -113,3 +113,7 @@ whiteRecursiveNestedMarvellous2 n m
   | otherwise = filter (isMarvellous 2 n m) [s1 ++ s2 | s1 <- prevOrderSequences, s2 <- prevOrderSequences]
   where
     prevOrderSequences = whiteRecursiveNestedMarvellous2 (n - 1) m
+
+-- Count patterns
+countPatterns :: Int -> Int -> [Int] -> [([Int], Int)]
+countPatterns k n seq = map (\p -> (p, timesInfixOfNecklace p seq)) (patterns k n)
