@@ -58,10 +58,154 @@
 
 \section{Preliminares}
 
-Definir secuencia maravillosa.
+Definir secuencias de De Bruijn.
 
-Dar conteo de secuencias maravillosas.
-Son $\binom{2m}{m}^{2^{n-1}}$.
+Mostrar representación como grafos de De Bruijn y dar conteo.
+
+Enunciar teorema BEST. ¿Con qué nivel de detalle? Definir laplaciano.
+
+\subsection{Secuencias maravillosas}
+
+A continuación presentaremos una generalización de las secuencias de De Bruijn,
+que denominaremos \emph{secuencias maravillosas}.
+
+Decimos que una secuencia es $(n,m)$-maravillosa si cada una de las $2^n$
+palabras de longitud $n$ aparece exactamente $m$ veces en la secuencia, mirada
+circularmente.
+
+\begin{examples}
+	Las siguientes secuencias son $(2,4)$ y $(3,3)$-maravillosas, respectivamente:
+	\[ 1110000111010010; \qquad 000111110110110100100100.
+	\]
+
+	Todos los cortes de collares $n$-de De Bruijn son ejemplos de secuencias
+	$(n,1)$-maravillosas.
+\end{examples}
+
+Llamaremos collar $(n,m)$-maravilloso a cada una de las clases de equivalencia
+de las secuencias $(n,m)$-maravillosas bajo la operación de rotación.
+
+Una pregunta inmediata que surge de esta definición es cómo puede extenderse a
+las secuencias maravillosas la caracterización como circuitos eulerianos
+presentada por De Bruijn en \cite{db} para los collares que llevan su nombre, y
+si es posible utilizar este enfoque para determinar la cantidad de secuencias
+maravillosas existentes para cada valor de $n$ y $m$, lo cual resultará de
+especial interés más adelante en este trabajo.
+
+Un enfoque posible consiste en definir una familia de \emph{multidigrafos de De
+	Bruijn}.
+Llamamos multidigrafo de De Bruijn de orden $n$ y grado $m$ al multidigrafo
+$G_n^m$ que se obtiene a partir del digrafo de De Bruijn de orden $n$ si se
+replica $m$ veces cada arista.
+Con esta definición, es inmediato comprobar que todo circuito euleriano en
+$G_n^m$ determina de manera unívoca un collar $(n+1, m)$-maravilloso:
+recordemos que cada arista de $G_n$ puede asociarse con una palabra distinta de
+longitud $n+1$; como en $G_n^m$ existen $m$ copias de cada arista, una
+secuencia obtenida a partir de un circuito euleriano contendrá cada una de
+estas palabras exactamente $m$ veces.
+
+No obstante, esto no vale a la inversa, ya que si $m > 1$, todo collar
+$(n+1,m)$-maravilloso se corresponde con más de un ciclo euleriano en $G_n^m$.
+Esto se debe a que las $m$ apariciones de una palabra de longitud $n + 1$ en un
+collar son indistinguibles, por lo que las $m$ aristas respectivas pueden ser
+permutadas, obteniendo un nuevo ciclo euleriano que se corresponde con el mismo
+collar.
+Concretamente, como existen $m! $ maneras de permutar cada conjunto de $m$
+aristas, se tiene un total de $2^{n+1} \cdot m!$ maneras distintas de
+representar un collar $(n+1,m)$-maravilloso con un circuito euleriano.
+
+Si se tiene este hecho en consideración, es posible aplicar el teorema BEST
+para contabilizar la cantidad de circuitos eulerianos en los multidigrafos de
+De Bruijn y así obtener una fórmula cerrada para la cantidad de collares
+maravillosos.
+Sin embargo, si lo que se desea contar son las secuencias maravillosas --en
+lugar de los collares--, surge una nueva dificultad, ya que a diferencia de los
+collares de De Bruijn, el período de un collar maravilloso no es invariante, es
+decir, la cantidad de secuencias distintas que pueden obtenerse realizando
+cortes a un collar maravilloso es diferente para cada collar.
+
+Para salvar este obstáculo, decidimos buscar un enfoque alternativo que
+permitiera caracterizar directamente las secuencias maravillosas, utilizando la
+noción de \emph{circuito $\pi$-euleriano} presentada por Farrell y Levine en
+\cite{Farrell_Levine_2016}.
+
+\begin{defi}[\cite{Farrell_Levine_2016}]
+	Sea $G$ un digrafo con vértices $v_1, \dots, v_n$, y sea $\pi \in
+		\mathbb{N}^n$
+	un vector con valores estrictamente positivos.
+	Un circuito $\pi$-euleriano en $G$ es un circuito donde cada arista
+	($v_i$, $v_j$) se utiliza exactamente $\pi_j$ veces.
+\end{defi}
+
+Esta noción generaliza la de circuito euleriano, ya que estos son circuitos
+$\pi$-eulerianos con $\pi = (1, \dots, 1)$.
+Partiendo de aquí, los autores presentan la siguiente generalización del
+teorema BEST.
+
+\begin{lema}[Teorema BEST generalizado, \cite{Farrell_Levine_2016}]
+	\label{prop:BEST-generalized}
+	Sea $G$ un multidigrafo fuertemente conexo con vértices $v_1, \dots, v_n$, y
+	sea $\pi \in \mathbb{N}^n$.
+	Existen un circuito $\pi$-euleriano en $G$ si y solo si \[ \laplacian(G) \cdot
+		\pi = 0, \] en cuyo caso la cantidad de estos circuitos que comienzan con una
+	arista $e$ determinada es \[ \epsilon_\pi(G, e) = c_e \cdot \prod_{i=1}^n
+		\frac{(d_i\pi_i - 1)! }{(\pi_i!)^{d_i-1}(\pi_i-1)!}, \] donde $c_e$ es la
+	cantidad de árboles generadores de $G$ orientados hacia la cola de $e$, y $d_i$
+	es el grado de salida de $v_i$.
+\end{lema}
+
+El interés de esta definición para nuestro problema particular radica en que
+una secuencia $(n+1,m)$-maravillosa puede identificarse de forma unívoca con un
+circuito $\pi$-euleriano en $G_n$ tomando $\pi = (m,\dots,m)$ y fijando cuál
+será su arista inicial.
+Esto nos permite enunciar y demostrar el siguiente resultado.
+
+\begin{teo}
+	\label{teo:marvellous-count}
+	Sea $n, m > 0$.
+	La cantidad de secuencias $(n,m)$-maravillosas es exactamente $\binom{2m}{m}^{2^{n-1}}$.
+\end{teo}
+
+\begin{demo}
+	Consideraremos primero el caso en que $n > 1$.
+	En este caso, como se mencionó anteriormente, fijando $\pi = (m, \dots, m)$,
+	basta con determinar la cantidad de circuitos $\pi$-eulerianos en $G_{n-1}$
+	para cada una de las posibles elecciones de arista inicial.
+	Es decir que, en virtud del Lema \ref{prop:BEST-generalized}, la cantidad de
+	secuencias maravillosas será igual a \[ \sum_e \epsilon_\pi(G_{n-1}, e) =
+		\sum_e c_e \cdot \prod_{i=1}^{2^{n-1}} \frac{(d_i\pi_i - 1)!
+		}{(\pi_i!)^{d_i-1}(\pi_i-1)!}, \] donde la suma se realiza sobre todas las
+	aristas del digrafo $G_{n-1}$.
+
+	Se sabe que la cantidad de aristas de $G_{n-1}$ es $2^n$; por otro lado, la
+	cantidad de árboles generadores orientados hacia cualquiera de los nodos de
+	$G_{n-1}$ es $\frac{2^{2^{n-1}}}{2^n}$ [¿cita?], con lo cual $c_e =
+		\frac{2^{2^{n-1}}}{2^n}$ para todo $e$; es decir, $\sum_{e} c_e = 2^{2^{n-1}}$.
+	Reemplazando en la expresión anterior, se obtiene \[ 2^{2^{n-1}} \cdot
+		\prod_{i=1}^{2^{n-1}} \frac{(d_i\pi_i - 1)! }{(\pi_i!)^{d_i-1}(\pi_i-1)!}.
+	\]
+
+	Dado que $G_{n-1}$ es un digrafo regular cuyos vértices tienen todos grado de
+	salida $2$, y dado que $\pi_i = m$ para todo $i = 1, \dots, 2^{n-1}$, la
+	expresión anterior equivale a
+	\begin{align*}
+		2^{2^{n-1}} \cdot \left( \frac{(2m - 1)! }{m!(m-1)!} \right)^{2^{n-1}}
+			&= \left( \frac{2 (2m - 1)! }{m!(m-1)!} \right)^{2^{n-1}} \\
+			&= \left( \frac{2m (2m - 1)! }{m!m(m-1)!} \right)^{2^{n-1}} \\
+			&= \left( \frac{(2m)! }{m!m!} \right)^{2^{n-1}} \\
+			&= \binom{2m}{m}^{2^{n-1}}.
+	\end{align*}
+
+	Resta demostrar el caso en que $n = 1$. Para esto, basta observar que una
+	secuencia $(1,m)$-maravillosa es una secuencia de longitud $2m$ en donde
+	los símbolos $0$ y $1$ aparecen exactamente $m$ veces cada uno. Por lo tanto,
+	construir una de estas secuencias consiste en seleccionar cuáles $m$ de entre
+	las $2m$ posiciones contendrán el carácter $0$. La cantidad de formas distintas
+	de hacer esto es, por definición, $\binom{2m}{m}$, lo cual es consistente con
+	la fórmula presentada. \qed
+\end{demo}
+
+\subsection{Secuencias maravillosas anidadas}
 
 Definir secuencia maravillosa anidada.
 
@@ -114,19 +258,15 @@ Este resultado nos permitirá determinar para qué valores de $(n,m)$ existen
 este tipo de secuencias, cuál es su cantidad, y presentar un método para su
 construcción.
 
-\begin{prop}
-	\label{prop:autosimilar-nm-characterization}
+\begin{teo}
+	\label{teo:autosimilar-nm-characterization}
 	Sea $x = \omega^{2^{n-1}}$ una secuencia $(n,m)$-autosimilar.
 	$x$ es $(n,m)$-maravillosa anidada si y solo si $2^{n-1} \vert m$ y
 	$\omega$
 	es una secuencia $\left( n, \frac{m}{2^{n-1}} \right)$-maravillosa.
+\end{teo}
 
-	\note{Quizás esto queda mejor enunciado escribiendo $m = k \cdot
-			2^{n-1}$, como está en el Corolario
-		\ref{coro:autosimilar-nm-count}.}
-\end{prop}
-
-\begin{example}\ %
+\begin{examples}\ %
 	\begin{itemize}
 		\item El $4$-átomo $01011100$ es $(1,4)$, $(2,2)$ y
 		      $(3,1)$-maravilloso.
@@ -146,10 +286,10 @@ construcción.
 			      10001101 \]
 		      no es $(3,4)$-maravillosa anidada.
 	\end{itemize}
-\end{example}
+\end{examples}
 
 Los siguientes dos lemas se presentan a modo de resultados intermedios para
-demostrar la proposición precendente.
+demostrar el Teorema \ref{teo:autosimilar-nm-characterization}.
 
 \begin{lema} \label{lemma:marvellous-for-smaller-n}
 	Sea $x$ una secuencia $(n,m)$-mavarillosa.
@@ -185,9 +325,9 @@ demostrar la proposición precendente.
 \end{lema}
 
 Habiendo probado estos dos resultados, estamos en condiciones de presentar una
-demostración para la Proposición \ref{prop:autosimilar-nm-characterization}.
+demostración para el Teorema \ref{teo:autosimilar-nm-characterization}.
 
-\begin{demo}[Proposición \ref{prop:autosimilar-nm-characterization}]
+\begin{demo}[Teorema \ref{teo:autosimilar-nm-characterization}]
 	Si partimos del supuesto de que $2^{n-1}$ no divide a $m$, o bien que
 	$\omega$ no es una secuencia $\left( n, \frac{m}{2^{n-1}}
 		\right)$-maravillosa,
@@ -240,11 +380,17 @@ cualesquiera valores de $n$ y $m$, podemos enunciar el siguiente corolario.
 
 \begin{coro} \label{coro:autosimilar-nm-count}
 	Sean $n, m > 0$.
-	Si existe $k > 0$ tal que $m = k \cdot 2^{n-1}$, existen
+	Si $2^{n-1} \vert m$, sea $k = \frac{m}{2^{n-1}}$; existen
 	$\binom{2k}{k}^{2^{n-1}}$ secuencias $(n,m)$-maravillosas anidadas que son
 	autosimilares.
 	De lo contrario, no existe ninguna tal secuencia.
 \end{coro}
+
+\begin{proof}
+	Se sigue de forma inmediata de la caracterización dada por el Teorema
+	\ref{teo:autosimilar-nm-characterization} y la fórmula para la cantidad de
+	secuencias maravillosas presentada en el Teorema \ref{teo:marvellous-count}.
+\end{proof}
 
 \begin{center}
 	\begin{tabular}{ c | c | c | c | c | c | c | c | c | c }
