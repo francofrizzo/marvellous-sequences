@@ -19,11 +19,10 @@
 \usepackage{enumitem}
 \setlist[enumerate,1]{label=(\alph*)}
 \setlist[enumerate,2]{label=\roman*.}
-
 \usepackage{float}
 \usepackage[center]{caption}
-
 \usepackage{cite}
+\usepackage{diagbox}
 
 \newcommand\myauthor{Franco Frizzo}
 \newcommand\mytitle{Tesis de licenciatura}
@@ -58,11 +57,11 @@
 
 \section{Preliminares}
 
-Definir secuencias de De Bruijn.
+\pending{Definir secuencias de De Bruijn.}
 
-Mostrar representación como grafos de De Bruijn y dar conteo.
+\pending{Mostrar representación como grafos de De Bruijn y dar conteo.}
 
-Enunciar teorema BEST. ¿Con qué nivel de detalle? Definir laplaciano.
+\pending{Enunciar teorema BEST. ¿Con qué nivel de detalle? Definir laplaciano.}
 
 \subsection{Secuencias maravillosas}
 
@@ -154,6 +153,14 @@ teorema BEST.
 	es el grado de salida de $v_i$.
 \end{lema}
 
+\note{El laplaciano ahí molesta un poco. La condición $\laplacian(G) \cdot
+\pi = 0$ está puesta como una forma de generalizar que el grafo sea euleriano.
+En el caso para el que lo vamos a usar nosotros el grafo es euleriano, por lo
+cual la condición va a ser verdadera, pero en rigor para usar el teorema
+habría que mostrar que eso vale. No me quedó del todo claro cómo escribirlo
+sin enredarme mucho, igual habría que ver cuánto voy a hablar previamente
+del laplaciano y de cómo se calculan los cofactores para un grafo de De Bruijn.}
+
 El interés de esta definición para nuestro problema particular radica en que
 una secuencia $(n+1,m)$-maravillosa puede identificarse de forma unívoca con un
 circuito $\pi$-euleriano en $G_n$ tomando $\pi = (m,\dots,m)$ y fijando cuál
@@ -207,11 +214,11 @@ Esto nos permite enunciar y demostrar el siguiente resultado.
 
 \subsection{Secuencias maravillosas anidadas}
 
-Definir secuencia maravillosa anidada.
+\pending{Definir secuencia maravillosa anidada.}
 
-Definir secuencia perfecta anidada.
+\pending{Definir secuencia perfecta anidada.}
 
-Definir $m$-átomo.
+\pending{Definir $m$-átomo.}
 
 \section{Métodos de construcción}
 
@@ -314,16 +321,6 @@ demostrar el Teorema \ref{teo:autosimilar-nm-characterization}.
 	\qed
 \end{demo}
 
-\begin{lema}
-	\label{lemma:marvellous-for-concatenation}
-	Una secuencia $x$ es $(n,m)$-mavarillosa si y solo si para todo $d > 0$, la
-	secuencia $x^d$ es $(n,dm)$-maravillosa.
-
-	\note{No estoy seguro de si poner este lema.
-		Sirve para simplificar un poco la demo siguiente.
-	}
-\end{lema}
-
 Habiendo probado estos dos resultados, estamos en condiciones de presentar una
 demostración para el Teorema \ref{teo:autosimilar-nm-characterization}.
 
@@ -339,9 +336,6 @@ demostración para el Teorema \ref{teo:autosimilar-nm-characterization}.
 	mirada también circularmente, es diferente de $m$.
 	Es decir, en este caso, $x$ no puede ser una secuencia $(n,m)$-maravillosa
 	anidada.
-
-	\note{En el párrafo anterior podría usar el Lema
-		\ref{lemma:marvellous-for-concatenation} y queda más simple.}
 
 	Para demostrar la implicación opuesta, supongamos que $2^{n-1}$ y $\omega$ es
 	una secuencia $\left( n, \frac{m}{2^{n-1}} \right)$-maravillosa.
@@ -364,14 +358,11 @@ demostración para el Teorema \ref{teo:autosimilar-nm-characterization}.
 
 	Empleando otra vez el Lema \ref{lemma:marvellous-for-smaller-n}, esta vez para
 	$k = n - n'$, tenemos que $\omega$ es una secuencia $\left( n', \frac{m}{2^{n'
-				- 1}} \right)$.
+				- 1}} \right)$-maravillosas.
 	Esto significa que la cantidad de apariciones de cada palabra de longitud $n'$
 	en $\omega$, mirada circularmente, es $\frac{m}{2^{n' - 1}}$; y por
 	consiguiente, es $m$ en $\omega^{2^{n'-1}}$, por lo que esta última secuencia
 	es $(n',m)$-maravillosa anidada.
-
-	\note{El párrafo anterior también se puede simplificar con el Lema
-		\ref{lemma:marvellous-for-concatenation}.}
 	\qed
 \end{demo}
 
@@ -392,9 +383,13 @@ cualesquiera valores de $n$ y $m$, podemos enunciar el siguiente corolario.
 	secuencias maravillosas presentada en el Teorema \ref{teo:marvellous-count}.
 \end{proof}
 
-\begin{center}
+La siguiente tabla muestra las cantidades de secuencias maravillosas anidadas
+autosimilares para los primeros valores de $n$ y $m$.
+
+\begin{table}[H]
+	\centering
 	\begin{tabular}{ c | c | c | c | c | c | c | c | c | c }
-		  & 1 & 2 & 3  & 4  & 5   & 6   & 7    & 8     & 9     \\
+		\diagbox{$n$}{$m$}	& 1 & 2 & 3  & 4  & 5   & 6   & 7    & 8     & 9     \\
 		\hline
 		1 & 2 & 6 & 20 & 70 & 252 & 924 & 3432 & 12870 & 48620
 		\\ \hline
@@ -406,7 +401,18 @@ cualesquiera valores de $n$ y $m$, podemos enunciar el siguiente corolario.
 		\hline
 		5 & 0 & 0 & 0  & 0  & 0   & 0   & 0    & 0     & 0
 	\end{tabular}
-\end{center}
+	\caption{Cantidad de secuencias $(n,m)$-maravillosas anidadas autosimilares.}
+\end{table}
+
+Puede notarse que, debido a la condición de que $2^{n-1} \vert m$ necesaria
+para la existencia de este tipo de secuencias, el menor $m$ para el cual la
+cantidad de secuencias no es $0$ dado un $n$ fijo es $m = 2^{n-1}$. Este caso
+es especialmente interesante ya que los átomos que se utilizarán son secuencias
+$(n, 1)$-maravillosas, es decir, secuencias $n$-de De Bruijn.
+
+\note{Creo que acá se podría hacer referencia a métodos existentes para
+construir secuencias de De Bruijn y como este método permite adaptarlos
+de una forma muy simple para obtener secuencias maravillosas anidadas.}
 
 \bibliography{references}{}
 \bibliographystyle{plain}
