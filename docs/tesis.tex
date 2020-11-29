@@ -128,13 +128,13 @@ permitiera caracterizar directamente las secuencias maravillosas, utilizando la
 noción de \emph{circuito $\pi$-euleriano} presentada por Farrell y Levine en
 \cite{Farrell_Levine_2016}.
 
-\begin{defi}[\cite{Farrell_Levine_2016}]
+\begin{definition}[\cite{Farrell_Levine_2016}]
 	Sea $G$ un digrafo con vértices $v_1, \dots, v_n$, y sea $\pi \in
 		\mathbb{N}^n$
 	un vector con valores estrictamente positivos.
 	Un circuito $\pi$-euleriano en $G$ es un circuito donde cada arista
 	($v_i$, $v_j$) se utiliza exactamente $\pi_j$ veces.
-\end{defi}
+\end{definition}
 
 Esta noción generaliza la de circuito euleriano, ya que estos son circuitos
 $\pi$-eulerianos con $\pi = (1, \dots, 1)$.
@@ -167,13 +167,13 @@ circuito $\pi$-euleriano en $G_n$ tomando $\pi = (m,\dots,m)$ y fijando cuál
 será su arista inicial.
 Esto nos permite enunciar y demostrar el siguiente resultado.
 
-\begin{teo}
-	\label{teo:marvellous-count}
+\begin{theorem}
+	\label{theorem:marvellous-count}
 	Sea $n, m > 0$.
 	La cantidad de secuencias $(n,m)$-maravillosas es exactamente $\binom{2m}{m}^{2^{n-1}}$.
-\end{teo}
+\end{theorem}
 
-\begin{demo}
+\begin{proof}
 	Consideraremos primero el caso en que $n > 1$.
 	En este caso, como se mencionó anteriormente, fijando $\pi = (m, \dots, m)$,
 	basta con determinar la cantidad de circuitos $\pi$-eulerianos en $G_{n-1}$
@@ -210,7 +210,7 @@ Esto nos permite enunciar y demostrar el siguiente resultado.
 	las $2m$ posiciones contendrán el carácter $0$. La cantidad de formas distintas
 	de hacer esto es, por definición, $\binom{2m}{m}$, lo cual es consistente con
 	la fórmula presentada. \qed
-\end{demo}
+\end{proof}
 
 \subsection{Secuencias maravillosas anidadas}
 
@@ -230,10 +230,10 @@ y cuando se cumpla que $m = 2^{n - 1}$.
 Este método fue motivado por el estudio de una subfamilia de las secuencias
 maravillosas anidadas, que denominamos \emph{secuencias autosimilares}.
 
-\begin{defi}
+\begin{definition}
 	Una secuencia $x$ es $(n,m)$-\emph{autosimilar} si consiste en $2^{n-1}$
 	repeticiones de una misma secuencia de longitud $2m$.
-\end{defi}
+\end{definition}
 
 \begin{example}
 	La secuencia \[ 01110110\ 01110110\ 01110110\ 01110110 \] es
@@ -242,18 +242,18 @@ maravillosas anidadas, que denominamos \emph{secuencias autosimilares}.
 	es $(2,6)$-maravillosa anidada.
 \end{example}
 
-\begin{prop} \label{lemma:autosimilar-cannot-be-np}
+\begin{proposition} \label{proposition:autosimilar-cannot-be-np}
 	Una secuencia $(n,m)$-autosimilar con $n > 1$ no puede ser $(n,m)$-perfecta.
-\end{prop}
+\end{proposition}
 
-\begin{demo}
+\begin{proof}
 	Dado que la secuencia se construye repitiendo al menos dos veces una misma
 	secuencia de longitud $2m$, la palabra de longitud $n$ que aparece en la
 	posición $0$ de la secuencia aparece nuevamente en la posición $2m$.
 	Esto contradice la definición de secuencia perfecta, ya que cada aparición de
 	dicha palabra debería comenzar en una posición distinta módulo $m$.
 	\qed
-\end{demo}
+\end{proof}
 
 Nos interesa estudiar las secuencias $(n,m)$-maravillosas anidadas que, además,
 son autosimilares.
@@ -265,13 +265,13 @@ Este resultado nos permitirá determinar para qué valores de $(n,m)$ existen
 este tipo de secuencias, cuál es su cantidad, y presentar un método para su
 construcción.
 
-\begin{teo}
-	\label{teo:autosimilar-nm-characterization}
+\begin{theorem}
+	\label{theorem:autosimilar-nm-characterization}
 	Sea $x = \omega^{2^{n-1}}$ una secuencia $(n,m)$-autosimilar.
 	$x$ es $(n,m)$-maravillosa anidada si y solo si $2^{n-1} \vert m$ y
 	$\omega$
 	es una secuencia $\left( n, \frac{m}{2^{n-1}} \right)$-maravillosa.
-\end{teo}
+\end{theorem}
 
 \begin{examples}\ %
 	\begin{itemize}
@@ -296,7 +296,7 @@ construcción.
 \end{examples}
 
 Los siguientes dos lemas se presentan a modo de resultados intermedios para
-demostrar el Teorema \ref{teo:autosimilar-nm-characterization}.
+demostrar el Teorema \ref{theorem:autosimilar-nm-characterization}.
 
 \begin{lema} \label{lemma:marvellous-for-smaller-n}
 	Sea $x$ una secuencia $(n,m)$-mavarillosa.
@@ -309,7 +309,7 @@ demostrar el Teorema \ref{teo:autosimilar-nm-characterization}.
 	es también $(2,8)$ y $(1,16)$-maravillosa.
 \end{example}
 
-\begin{demo}
+\begin{proof}
 	Consideremos una palabra $w$ cualquiera de longitud $n - k$.
 	Para extender $w$ a una palabra de longitud $n$ debe agregársele un sufijo de
 	longitud $k$, por lo que existen $2^{k}$ formas distintas de hacerlo.
@@ -319,12 +319,12 @@ demostrar el Teorema \ref{teo:autosimilar-nm-characterization}.
 	una palabra de longitud $n$ distinto.
 	Por lo tanto, $x$ es una secuencia $(n - k,2^{k}m)$-maravillosa.
 	\qed
-\end{demo}
+\end{proof}
 
 Habiendo probado estos dos resultados, estamos en condiciones de presentar una
-demostración para el Teorema \ref{teo:autosimilar-nm-characterization}.
+demostración para el Teorema \ref{theorem:autosimilar-nm-characterization}.
 
-\begin{demo}[Teorema \ref{teo:autosimilar-nm-characterization}]
+\begin{proof}[Demostración del Teorema \ref{theorem:autosimilar-nm-characterization}]
 	Si partimos del supuesto de que $2^{n-1}$ no divide a $m$, o bien que
 	$\omega$ no es una secuencia $\left( n, \frac{m}{2^{n-1}}
 		\right)$-maravillosa,
@@ -364,23 +364,23 @@ demostración para el Teorema \ref{teo:autosimilar-nm-characterization}.
 	consiguiente, es $m$ en $\omega^{2^{n'-1}}$, por lo que esta última secuencia
 	es $(n',m)$-maravillosa anidada.
 	\qed
-\end{demo}
+\end{proof}
 
 Dado que conocemos la cantidad de secuencias maravillosas que existen para
 cualesquiera valores de $n$ y $m$, podemos enunciar el siguiente corolario.
 
-\begin{coro} \label{coro:autosimilar-nm-count}
+\begin{corollary} \label{corollary:autosimilar-nm-count}
 	Sean $n, m > 0$.
 	Si $2^{n-1} \vert m$, sea $k = \frac{m}{2^{n-1}}$; existen
 	$\binom{2k}{k}^{2^{n-1}}$ secuencias $(n,m)$-maravillosas anidadas que son
 	autosimilares.
 	De lo contrario, no existe ninguna tal secuencia.
-\end{coro}
+\end{corollary}
 
 \begin{proof}
 	Se sigue de forma inmediata de la caracterización dada por el Teorema
-	\ref{teo:autosimilar-nm-characterization} y la fórmula para la cantidad de
-	secuencias maravillosas presentada en el Teorema \ref{teo:marvellous-count}.
+	\ref{theorem:autosimilar-nm-characterization} y la fórmula para la cantidad de
+	secuencias maravillosas presentada en el Teorema \ref{theorem:marvellous-count}.
 \end{proof}
 
 La siguiente tabla muestra las cantidades de secuencias maravillosas anidadas
