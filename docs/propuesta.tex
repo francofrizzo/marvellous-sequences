@@ -1,0 +1,140 @@
+\documentclass[a4paper,11pt]{article}
+
+\usepackage{a4wide}
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{url}
+
+\usepackage{amsmath, amscd, amssymb, amsthm, latexsym}
+
+
+
+
+
+\begin{document}
+
+
+\newtheorem*{problema}{Problema}
+
+\begin{center}
+
+{\Large\bf Propuesta de Tesis de Licenciatura\\
+ en Ciencias de la Computación}
+\medskip
+\\
+Departamento de Computaci\'on\\
+ Facultad de Ciencias Exactas y Naturales\\
+Universidad de Buenos Aires
+\end{center}
+\bigskip
+
+\noindent
+\begin{tabular}{ll}
+Tema:   &{\large \bf Secuencias maravillosas}\\
+Alumno: &Franco FRIZZO\\
+Email:  &francofrizzo@gmail.com\\
+%LU: & \\
+Directores:&  Ver\'onica Becher \\
+E-mail: &vbecher@dc.uba.ar \\
+Fecha:& 28 Septiembre   2020\\
+\end{tabular}
+\bigskip
+
+
+\section*{\bf Problema}
+Una secuencia $s$ de símbolos de $\{0,1\}$  es {\em maravillosa} de orden $(n,m)$
+si todas las secuencias 
+ de longitud $n$ ocurren exactamente  $n$ veces en
+ la palabra circular definida por $s$.
+Una  secuencia es {\em maravillosa anidada} de orden $(n,m)$
+si es maravillosa  de orden $(n,m)$
+y, cuando  $n>1$, es la concatenación  dos secuencias
+ maravillosas  anidadas de orden $(n-1,m)$.
+
+Se sabe que para todo $(n,m)$
+ existen las secuencias maravillosas anidadas que cumplen que 
+todas las secuencias de longitud $m$ ocurren en distintas posiciones módulo $m$.
+¿Es necesaria esta condición de ocurrencia en posiciones 
+que son distintas módulo $m$?
+Es decir, ¿Existen las secuencias maravillosas anidadas de orden $(n,m)$ 
+sin la restricción de que las ocurrencias
+sean en distintas posiciones módulo $m$?
+
+\section*{Antecedentes}
+
+Consideremos el alfabeto de dos símbolos, $\{0,1\}$.
+  Una secuencia $s$ de símbolos de $\{0,1\}$ es una secuencia de  Bruijn
+de orden $n$ si todos las secuencias  de longitud $n$,
+  aparecen exactamente una vez en la palabra circular definida por $s$.
+Las secuencias de Bruijn de orden $n$ tienen longitud $2^n$.
+Nicolaas~Govert de~Bruijn \cite{db} dio esta definición al mismo tiempo que contó 
+las caracterizó como etiquetas de ciclos Eulerianos en los llamados grafos de Bruijn,
+y contó cuantas hay.
+
+
+Recientemente  Alvarez, Becher, Ferrari y  Yuhjtman \cite{perfectos}
+presentaron una generalización de las secuencias de Bruijn,
+que se llaman {\em secuencias perfectas}.
+  Una secuencia $s $ de símbolos de $\{0,1\}$  es una secuencia
+ \emph{perfecta} de orden $(n,m)$  si todas las secuencias 
+ de longitud $n$ ocurren exactamente  $n$ veces en
+ la palabra circular definida por $s$  en distintas  posiciones módulo~$m$.
+Las secuencias perfectas de orden $(n,m)$ tiene longitud  $m2^n$.
+En \cite{perfectos} las secuencias perfectas están caracterizadas como las etiquetas de 
+ciclos Eulerianos en los llamados grafos astutos, y 
+hay una fórmula para la cantidad de secuencias perfectas de orden $(n,m)$.
+
+
+Becher y Carton \cite{perfectosanidados} definieron 
+ las {\em secuencias perfectas anidadas} de orden $(n,m)$
+como las que son  perfectas de orden $(n,m)$
+y, cuando  $n>1$, son la concatenación  dos secuencias
+ perfectas anidadas de orden $(n-1,m)$.
+En \cite{perfectosanidados} las secuencias perfectas anidadas están caracterizadas 
+como secuencias , que se obtienen a partir de una  transformación
+lineal que  se optiene a partir del triángulo de Pascal. También 
+ este trabajo cuenta la cantidad de secuencias perfectas anidadas
+$(n,m) $  cuando $m$ es potencia de~$2$.
+
+Becher y Carton definieron las  {\em secuencias maravillosas anidadas} 
+de orden $(n,m)$ soltando la restricción de que las $m$ 
+ocurrencias debían ocurrir  en 
+posiciones distintas módulo~$m$, y dejaron abierta la pregunta de si existen o no las 
+{\em secuencias maravillosas anidadas} que no son {\em perfectas anidadas}.
+
+
+\section*{Objetivo}
+Nos proponemos responder la pregunta formulada por Becher y Carton 
+ de si existen secuencias maravillosas anidadas que no son perfectas anidadas.
+En caso de responder positivamente nos proponemos dar algoritmos de construcción de estas secuencias
+maravillosas.  Si fuera posible nos proponemos contar la 
+cantidad de secuencias maravillosas anidadas de orden $(n,m)$.
+
+
+
+
+
+
+\begin{thebibliography}{9}
+
+\bibitem{perfectos}
+Nicolás Alvarez, Verónica Becher, Pablo~A. Ferrari, and Sergio~A. Yuhjtman.
+\newblock Perfect necklaces.
+\newblock {\em Advances in Applied Mathematics}, 80:48 -- 61, 2016.
+
+\bibitem{perfectosanidados}
+Verónica Becher and Olivier Carton.
+\newblock Normal numbers and nested perfect necklaces.
+\newblock {\em Journal of Complexity}, 54:101403, 2019.
+
+\bibitem{db}
+Nicolaas~Govert de~Bruijn.
+\newblock A combinatorial problem.
+\newblock {\em Proc. Koninklijke Nederlandse Academie van Wetenschappen},
+  49:758--764, 1946.
+
+\end{thebibliography}
+\end{document}:
+
+
+ 
