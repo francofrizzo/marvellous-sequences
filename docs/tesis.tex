@@ -24,6 +24,10 @@
 \usepackage{cite}
 \usepackage{diagbox}
 
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+\usetikzlibrary{babel}
+
 \newcommand\myauthor{Franco Frizzo}
 \newcommand\mytitle{Tesis de licenciatura}
 \newcommand\mydate{\today}
@@ -53,43 +57,240 @@
 \maketitle
 \tableofcontents
 
+\newpage
+
 \section{Introducción}
 
 \section{Preliminares}
 
-\pending{Definir secuencias de De Bruijn.}
+Para comenzar, presentamos algunas definiciones sobre secuencias que son
+esenciales para comprender este trabajo, como así también algunos detalles
+de la notación que utilizamos a lo largo del mismo.
 
-\pending{Mostrar representación como grafos de De Bruijn y dar conteo.}
+Sea $\alphabet = \lbrace 0, 1 \rbrace$ un alfabeto de dos caracteres. Llamamos
+\emph{palabra} o \emph{cadena} a una secuencia finita de caracteres tomados de
+este alfabeto. Para referirnos a las posiciones que ocupan los caracteres dentro
+de una palabra, las numeramos comenzando en $1$.
 
-\pending{Enunciar teorema BEST. ¿Con qué nivel de detalle? Definir laplaciano.}
+Definimos la función de rotación $\sigma: \alphabet^* \to \alphabet^*$ como
+una transformación biyectiva que quita el último carácter de una palabra y lo
+coloca al principio. Es decir,
+\[ \sigma(\alpha_1\dots\alpha_{n-1}\alpha_n) =
+	\alpha_n\alpha_1\dots\alpha_{n-1}. \]
+
+La aplicación sucesiva de la función de rotación divide a las palabras en clases
+de equivalencia, que llamamos \emph{collares}. Un collar es, entonces, el
+conjunto de todas las rotaciones posibles de una palabra, y lo notamos usando
+corchetes:
+\[ \neck{w} = \lbrace \sigma^{n}(w) : n \in \nats_0 \rbrace. \]
+Por ejemplo,
+\[ \neck{11100} = \lbrace 11100, 01110, 00111, 10011, 11001 \rbrace. \]
+Un collar puede pensarse como una ``palabra circular'', donde no importa
+cuál de los caracteres es el primero. A cada una de las palabras que forman
+parte de un collar la llamamos un \emph{corte} del mismo.
+
+El \emph{período} de una palabra $w$ es el menor $n > 0$ tal que
+$\sigma^n(w) = w$. Por ejemplo, la cadena $11001100$ tiene período $4$, mientras que $11001101$ tiene período $8$.
+Notar que el período de una cadena necesariamente divide a su longitud.
+Además, es igual a la cantidad de cortes distintos que posee el collar al que
+pertenece la palabra.
+
+Una \emph{subcadena} es una secuencia de caracteres consecutivos dentro de una
+palabra. Usamos la notación $w\substr{i}{j}$ para hacer referencia a la
+subcadena de $w$ que comprende las posiciones que van desde $i$ hasta $j$,
+inclusive. En ocasiones, decimos que una palabra \emph{aparece} en otra palabra
+para referirnos a que es una subcadena. Por ejemplo, $101$ y $1001$ aparecen en
+(o son subcadenas de) la palabra $01010011$. Decimos que una palabra
+\emph{aparece circularmente} en otra si aparece en alguna palabra del collar
+correspondiente. Por ejemplo, $110$ no aparece en la palabra anterior, pero sí
+aparece circularmente. En este caso, también podemos decir directamente que
+la palabra \emph{aparece} en el collar.
+
+\subsection{Collares y secuencias de De Bruijn}
+
+En \cite{db}, Nicolaas G. de Bruijn realizó un detallado estudio de una clase
+de collares que han pasado a ser conocidos con su nombre.
+
+\begin{definition}[Collar de De Bruijn]
+	Un \emph{collar de De Bruijn} de orden $n$ (o $n$-de De Bruijn) es un collar
+	de longitud $2^n$ en el que cada una de las posibles palabras de longitud $n$ 
+	aparece exactamente una vez.
+\end{definition}
+
+\begin{examples}
+	El collar $\neck{11000101}$ es un collar de De Bruijn de orden $3$. El collar $\neck{0101100111101000}$ es un collar de De Bruijn de orden $4$.
+\end{examples}
+
+De Bruijn presenta una bonita caracterización de estos collares como circuitos
+en una familia de digrafos que ha dado en conocerse como digrafos de De Bruijn.
+El digrafo de De Bruijn de orden $n$ tiene como vértices todas las posibles
+palabras de longitud $n$; existe una arista entre dos palabras si los últimos
+$n-1$ caracteres de la primera coinciden con los primeros $n-1$ caracteres de la
+segunda. Utilizamos la notación $G_n$ para referirnos al digrafo de De Bruijn
+de orden $n$.
+
+\begin{figure}[h] \centering
+	\begin{tabular}{ccc}
+		\begin{tabular}{c}
+			\begin{tikzpicture}[->,>=stealth,auto,node distance=2cm,
+				every loop/.style={},thick,main node/.style={circle,draw}]
+			
+			\node[main node] (0) {0};
+			\node[main node] (1) [below of=0] {1};
+			
+			\draw[every node/.style={font=\scriptsize}]
+			(0) edge [bend left] node {01} (1)
+					edge [loop above] node {00} (0)
+			(1) edge [bend left] node {10} (0)
+					edge [loop below] node {11} (1);
+			\end{tikzpicture}
+		\end{tabular} &
+
+		\begin{tabular}{c}
+			\begin{tikzpicture}[->,>=stealth,auto,node distance=2.2cm,
+				every loop/.style={},thick,main node/.style={circle,draw,font=\small}]
+			
+			\node[main node] (00) {00};
+			\node[main node] (01) [below right of=00] {01};
+			\node[main node] (10) [below left of=00] {10};
+			\node[main node] (11) [below right of=10] {11};
+			
+			\draw[every node/.style={font=\scriptsize}]
+			(00) edge [loop above] node {000} (00)
+					edge [bend left] node {001} (01)
+			(01) edge [bend left] node {011} (11)
+					edge [bend left] node {010} (10)
+			(10) edge [bend left] node {100} (00)
+					edge [bend left] node {101} (01)
+			(11) edge [bend left] node {110} (10)
+					edge [loop below] node {111} (11);
+			\end{tikzpicture}
+		\end{tabular} &
+
+		\begin{tabular}{c}
+			\begin{tikzpicture}[->,>=stealth,auto,node distance=1.6cm,
+				every loop/.style={},thick,main node/.style={circle,draw,font=\footnotesize}]
+			
+			\node[main node] (000) {000};
+			\node[main node] (010) [below of=000] {010};
+			\node[main node] (101) [below of=010] {101};
+			\node[main node] (111) [below of=101] {111};
+			
+			\node[main node] (001) [right of=010,yshift=.35cm] {001};
+			\node[main node] (100) [left of=010,yshift=.35cm] {100};
+			\node[main node] (011) [right of=101,yshift=-.35cm] {011};
+			\node[main node] (110) [left of=101,yshift=-.35cm] {110};
+			
+			\draw[every node/.style={font=\scriptsize}]
+			(000) edge [loop above] node {0000} (000)
+						edge [bend left=20] node {0001} (001)
+			(001) edge [bend left=20] node {0010} (010)
+						edge [bend left=25] node {0011} (011)
+			(010) edge [bend left=20] node {0100} (100)
+						edge [bend left] node {0101} (101)
+			(011) edge [bend left=15] node {0110} (110)
+						edge [bend left=20] node {0111} (111)
+			(100) edge [bend left=20] node {1000} (000)
+						edge [bend left=15] node {1001} (001)
+			(101) edge [bend left] node {1010} (010)
+						edge [bend left=20] node {1011} (011)
+			(110) edge [bend left=25] node {1100} (100)
+						edge [bend left=20] node {1101} (101)
+			(111) edge [bend left=20] node {1110} (110)
+						edge [loop below] node {1111} (111);
+			\end{tikzpicture}
+		\end{tabular} \\
+		$G_1$ & $G_2$ & $G_3$
+	\end{tabular}
+	\caption{Digrafos de De Bruijn de orden $1$, $2$ y $3$.}
+\end{figure}
+
+Cada collar de $n$-de De Bruijn se corresponde unívocamente con un circuito
+hamiltoniano en el digrafo $G_n$, es decir, un camino cerrado que visita cada
+vértice exactamente una vez. El collar se conforma concatenando en orden
+el primer carácter de cada uno de los vértices visitados por el circuito.
+
+Una propiedad muy interesante de la familia de digrafos de De Bruijn es que
+cada $G_n$ es el grafo de línea de $G_{n-1}$; es decir, $G_n$ puede
+construirse tomando como vértices el conjunto de aristas de $G_{n-1}$ y
+colocando una arista entre cada par de vértices si las aristas correspondientes
+en $G_{n-1}$ son adyacentes. Esto quiere decir que los circuitos hamiltonianos
+en $G_n$ se corresponden con circuitos eulerianos en $G_{n-1}$, esto es,
+caminos cerrados que utilizan cada arista exactamente una vez.
+
+De Bruijn utiliza esta naturaleza recursiva de la familia de digrafos $G_n$
+para demostrar una fórmula cerrada para la cantidad de collares de De Bruijn
+de orden $n$ existentes, que es exactamente $\frac{2^{2^{n-1}}}{2^n}$.
+
+Cabe señalar que, debido a sus características, la forma más natural de
+presentar la definición de los collares de De Bruijn es justamente en términos
+de collares, o palabras circulares. No obstante --y esta situación se repite
+para otras definiciones similares que aparecen más adelante en este trabajo--,
+en ocasiones interesa tener en cuenta cada corte particular de un collar como
+un elemento distinto. Por eso, en adelante, utilizaremos el término
+\emph{secuencia de De Bruijn} para referirnos a un corte de un collar de De
+Bruijn\footnote{Queremos hacer énfasis en este punto, ya que el término
+\emph{secuencia de De Bruijn} es utilizado de forma ambigua en la literatura.
+Para algunos autores, una secuencia de De Bruijn de orden $n$ es una secuencia
+de longitud $2^n + n - 1$, donde cada palabra posible de longitud $n$ aparece
+exactamente una vez, sin considerar apariciones circulares.}.
+
+¿Cuántas secuencias $n$-de De Bruijn existen para cada $n$? Se puede notar que
+el período de una secuencia $n$-de De Bruijn es necesariamente igual a su
+longitud, $2^n$ de lo contrario, la palabra de longitud $n$ con la que comienza
+volvería a aparecer más adelante. Luego, cada collar $n$-de De Bruijn tiene
+$2^n$ cortes distintos, con lo cual la cantidad de secuencias $n$-de De Bruijn
+es exactamente $2^{2^{n-1}}$.
+
+\subsection{El teorema BEST}
+
+El teorema BEST es un resultado en teoría de grafos que permite determinar la
+cantidad de circuitos eulerianos en un digrafo. Recibe su nombre por las
+iniciales de sus descubridores, de Bruijn, van Aardenne-Ehrenfest, Smith y
+Tutte.
+
+\begin{lemma*}[BEST, \pending{citar}]
+	Sea $G$ un multidigrafo euleriano con vértices $v_1, \dots, v_n$.
+	La cantidad de circuitos eulerianos en $G$ está dada por
+	\[ \epsilon(G) = c \cdot \prod_{i=1}^n (d_i - 1)!, \]
+	donde $d_i$ es el grado de salida de $v_i$ y $c$ es la cantidad de árboles
+	generadores de $G$ orientados hacia un vértice arbitrario.
+\end{lemma*}
+
+Recordemos que un multidigrafo euleriano es aquel en el que existe algún circuito euleriano, o equivalentemente, aquel en que los grados de entrada y de
+salida coinciden para todos los vértices.
+
+\pending{Enunciar cómo se aplica para grafos de De Bruijn. ¿Definir laplaciano
+o solo citar cantidad de árboles generadores?}
 
 \subsection{Secuencias maravillosas}
 
 A continuación presentaremos una generalización de las secuencias de De Bruijn,
 que denominaremos \emph{secuencias maravillosas}.
 
-Decimos que una secuencia es $(n,m)$-maravillosa si cada una de las $2^n$
-palabras de longitud $n$ aparece exactamente $m$ veces en la secuencia, mirada
-circularmente.
+\begin{definition}[Secuencia maravillosa]
+Un \emph{collar $(n,m)$-maravilloso} es una collar de longitud $m \cdot 2^n$
+en el que cada una de las posibles palabras de longitud $n$ aparece
+exactamente $m$ veces.
+
+Una \emph{secuencia $(n,m)$-maravillosa} es un corte de un collar
+$(n,m)$-maravilloso.
+\end{definition}
 
 \begin{examples}
 	Las siguientes secuencias son $(2,4)$ y $(3,3)$-maravillosas, respectivamente:
 	\[ 1110000111010010; \qquad 000111110110110100100100.
 	\]
 
-	Todos los cortes de collares $n$-de De Bruijn son ejemplos de secuencias
+	Todas las secuencias $n$-de De Bruijn son ejemplos de secuencias
 	$(n,1)$-maravillosas.
 \end{examples}
 
-Llamaremos collar $(n,m)$-maravilloso a cada una de las clases de equivalencia
-de las secuencias $(n,m)$-maravillosas bajo la operación de rotación.
-
 Una pregunta inmediata que surge de esta definición es cómo puede extenderse a
-las secuencias maravillosas la caracterización como circuitos eulerianos
-presentada por De Bruijn en \cite{db} para los collares que llevan su nombre, y
-si es posible utilizar este enfoque para determinar la cantidad de secuencias
-maravillosas existentes para cada valor de $n$ y $m$, lo cual resultará de
-especial interés más adelante en este trabajo.
+los collares maravillosos la caracterización como circuitos eulerianos
+presentada para los collares de De Bruijn, y si es posible utilizar este enfoque
+para determinar la cantidad de secuencias maravillosas existentes para cada valor de $n$ y $m$, lo cual resulta de especial interés más adelante en este
+trabajo.
 
 Un enfoque posible consiste en definir una familia de \emph{multidigrafos de De
 	Bruijn}.
@@ -97,11 +298,52 @@ Llamamos multidigrafo de De Bruijn de orden $n$ y grado $m$ al multidigrafo
 $G_n^m$ que se obtiene a partir del digrafo de De Bruijn de orden $n$ si se
 replica $m$ veces cada arista.
 Con esta definición, es inmediato comprobar que todo circuito euleriano en
-$G_n^m$ determina de manera unívoca un collar $(n+1, m)$-maravilloso:
-recordemos que cada arista de $G_n$ puede asociarse con una palabra distinta de
+$G_n^m$ (o hamiltoniano en $G_{n+1}^m$) determina de manera unívoca un collar
+$(n+1, m)$-maravilloso.
+Recordemos que cada arista de $G_n$ puede asociarse con una palabra distinta de
 longitud $n+1$; como en $G_n^m$ existen $m$ copias de cada arista, una
 secuencia obtenida a partir de un circuito euleriano contendrá cada una de
 estas palabras exactamente $m$ veces.
+
+
+\begin{figure}[h] \centering
+	\begin{tikzpicture}[->,>=stealth,auto,node distance=2.2cm,
+		every loop/.style={},thick,main node/.style={circle,draw,font=\small}]
+	
+	\node[main node] (00) {00};
+	\node[main node] (01) [below right of=00] {01};
+	\node[main node] (10) [below left of=00] {10};
+	\node[main node] (11) [below right of=10] {11};
+	
+	\draw[every node/.style={font=\scriptsize}]
+	(00) edge [in=30, out=60, loop] (00)
+	     edge [loop above] node {000} (00)
+	     edge [in=120, out=150, loop] (00)
+	     edge [bend left=36] node {001} (01)
+	     edge [bend left=23] (01)
+	     edge [bend left=10] (01)
+	(01) edge [bend left=36] node {011} (11)
+	     edge [bend left=23] (11)
+	     edge [bend left=10] (11)
+	     edge [bend left=36] node {010} (10)
+	     edge [bend left=23] (10)
+	     edge [bend left=10] (10)
+	(10) edge [bend left=36] node {100} (00)
+	     edge [bend left=23] (00)
+	     edge [bend left=10] (00)
+	     edge [bend left=36] node {101} (01)
+	     edge [bend left=23] (01)
+	     edge [bend left=10] (01)
+	(11) edge [bend left=36] node {110} (10)
+	     edge [bend left=23] (10)
+	     edge [bend left=10] (10)
+	     edge [in=210, out=240, loop] (11)
+	     edge [loop below] node {111} (11)
+	     edge [in=300, out=330, loop] (11);
+	\end{tikzpicture}
+	\caption{Multidigrafo de De Bruijn de orden $2$ y grado $3$.}
+\end{figure}
+
 
 No obstante, esto no vale a la inversa, ya que si $m > 1$, todo collar
 $(n+1,m)$-maravilloso se corresponde con más de un ciclo euleriano en $G_n^m$.
@@ -128,7 +370,7 @@ permitiera caracterizar directamente las secuencias maravillosas, utilizando la
 noción de \emph{circuito $\pi$-euleriano} presentada por Farrell y Levine en
 \cite{Farrell_Levine_2016}.
 
-\begin{definition}[\cite{Farrell_Levine_2016}]
+\begin{definition}[Circuito $\pi$-euleriano, \cite{Farrell_Levine_2016}]
 	Sea $G$ un digrafo con vértices $v_1, \dots, v_n$, y sea $\pi \in
 		\mathbb{N}^n$
 	un vector con valores estrictamente positivos.
@@ -141,25 +383,19 @@ $\pi$-eulerianos con $\pi = (1, \dots, 1)$.
 Partiendo de aquí, los autores presentan la siguiente generalización del
 teorema BEST.
 
-\begin{lema}[Teorema BEST generalizado, \cite{Farrell_Levine_2016}]
+\begin{lemma*}[BEST generalizado, \cite{Farrell_Levine_2016}]
 	\label{prop:BEST-generalized}
 	Sea $G$ un multidigrafo fuertemente conexo con vértices $v_1, \dots, v_n$, y
 	sea $\pi \in \mathbb{N}^n$.
-	Existen un circuito $\pi$-euleriano en $G$ si y solo si \[ \laplacian(G) \cdot
-		\pi = 0, \] en cuyo caso la cantidad de estos circuitos que comienzan con una
-	arista $e$ determinada es \[ \epsilon_\pi(G, e) = c_e \cdot \prod_{i=1}^n
-		\frac{(d_i\pi_i - 1)! }{(\pi_i!)^{d_i-1}(\pi_i-1)!}, \] donde $c_e$ es la
-	cantidad de árboles generadores de $G$ orientados hacia la cola de $e$, y $d_i$
-	es el grado de salida de $v_i$.
-\end{lema}
-
-\note{El laplaciano ahí molesta un poco. La condición $\laplacian(G) \cdot
-\pi = 0$ está puesta como una forma de generalizar que el grafo sea euleriano.
-En el caso para el que lo vamos a usar nosotros el grafo es euleriano, por lo
-cual la condición va a ser verdadera, pero en rigor para usar el teorema
-habría que mostrar que eso vale. No me quedó del todo claro cómo escribirlo
-sin enredarme mucho, igual habría que ver cuánto voy a hablar previamente
-del laplaciano y de cómo se calculan los cofactores para un grafo de De Bruijn.}
+	Existen un circuito $\pi$-euleriano en $G$ si y solo si
+	\[ \laplacian(G) \cdot \pi = 0, \]
+	en cuyo caso la cantidad de estos circuitos que comienzan con una arista $e$
+	determinada es
+	\[ \epsilon_\pi(G, e) = c_e \cdot
+		\prod_{i=1}^n \frac{(d_i\pi_i - 1)! }{(\pi_i!)^{d_i-1}(\pi_i-1)!}, \]
+	donde $d_i$ es el grado de salida de $v_i$, y $c_e$ es la cantidad de árboles
+	generadores de $G$ orientados hacia la cola de $e$.
+\end{lemma*}
 
 El interés de esta definición para nuestro problema particular radica en que
 una secuencia $(n+1,m)$-maravillosa puede identificarse de forma unívoca con un
@@ -209,7 +445,7 @@ Esto nos permite enunciar y demostrar el siguiente resultado.
 	construir una de estas secuencias consiste en seleccionar cuáles $m$ de entre
 	las $2m$ posiciones contendrán el carácter $0$. La cantidad de formas distintas
 	de hacer esto es, por definición, $\binom{2m}{m}$, lo cual es consistente con
-	la fórmula presentada. \qed
+	la fórmula presentada.
 \end{proof}
 
 \subsection{Secuencias maravillosas anidadas}
@@ -252,7 +488,6 @@ maravillosas anidadas, que denominamos \emph{secuencias autosimilares}.
 	posición $0$ de la secuencia aparece nuevamente en la posición $2m$.
 	Esto contradice la definición de secuencia perfecta, ya que cada aparición de
 	dicha palabra debería comenzar en una posición distinta módulo $m$.
-	\qed
 \end{proof}
 
 Nos interesa estudiar las secuencias $(n,m)$-maravillosas anidadas que, además,
@@ -298,11 +533,11 @@ construcción.
 Los siguientes dos lemas se presentan a modo de resultados intermedios para
 demostrar el Teorema \ref{theorem:autosimilar-nm-characterization}.
 
-\begin{lema} \label{lemma:marvellous-for-smaller-n}
+\begin{lemma} \label{lemma:marvellous-for-smaller-n}
 	Sea $x$ una secuencia $(n,m)$-mavarillosa.
 	Para todo $k$ tal que $0 \leq k < n$, la secuencia $x$ es $(n - k,2^{k}
 		m)$-maravillosa.
-\end{lema}
+\end{lemma}
 
 \begin{example}
 	La secuencia $(3,4)$-maravillosa \[ 00001111\ 00101011\ 00101101\ 11100010, \]
@@ -318,7 +553,6 @@ demostrar el Teorema \ref{theorem:autosimilar-nm-characterization}.
 	Luego, $w$ aparece exactamente $2^{k}m$ veces en $x$, $m$ veces como prefijo de
 	una palabra de longitud $n$ distinto.
 	Por lo tanto, $x$ es una secuencia $(n - k,2^{k}m)$-maravillosa.
-	\qed
 \end{proof}
 
 Habiendo probado estos dos resultados, estamos en condiciones de presentar una
@@ -363,7 +597,6 @@ demostración para el Teorema \ref{theorem:autosimilar-nm-characterization}.
 	en $\omega$, mirada circularmente, es $\frac{m}{2^{n' - 1}}$; y por
 	consiguiente, es $m$ en $\omega^{2^{n'-1}}$, por lo que esta última secuencia
 	es $(n',m)$-maravillosa anidada.
-	\qed
 \end{proof}
 
 Dado que conocemos la cantidad de secuencias maravillosas que existen para

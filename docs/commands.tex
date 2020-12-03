@@ -1,23 +1,28 @@
-\DeclareTextFontCommand{\emph}{\bfseries}
+% \DeclareTextFontCommand{\emph}{\bfseries}
 
 \theoremstyle{plain}
 \newtheorem{theorem}{Teorema}
 \newtheorem{proposition}[theorem]{Proposición}
 \newtheorem{corollary}[theorem]{Corolario}
-\newtheorem{lema}[theorem]{Lema}
+\newtheorem{lemma}[theorem]{Lema}
+\newtheorem*{theorem*}{Teorema}
+\newtheorem*{proposition*}{Proposición}
+\newtheorem*{corollary*}{Corolario}
+\newtheorem*{lemma*}{Lema}
 
 \theoremstyle{definition}
 \newtheorem{definition}{Definición}
-\newtheorem*{example}{Ejemplo}
-\newtheorem*{examples}{Ejemplos}
 
 \theoremstyle{remark}
 \newtheorem*{remark}{Observación}
+\newtheorem*{example}{Ejemplo}
+\newtheorem*{examples}{Ejemplos}
 
 \newcommand{\note}[1]{\textbf{\textcolor{red}{#1}}}
 \newcommand{\pending}[1]{\textbf{\textcolor{blue}{#1}}}
 
 \newcommand{\alphabet}{\ensuremath{\mathcal{A}}}
+\newcommand{\nats}{\ensuremath{\mathbb{N}}}
 
 \newcommand{\neck}[1]{\left[#1\right]}
 \newcommand{\substr}[2]{_{[#1\,..\,#2]}}

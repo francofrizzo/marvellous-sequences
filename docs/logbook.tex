@@ -62,7 +62,7 @@ Trabajaremos con secuencias finitas $s \in \alphabet^*$ formadas por estos dos
 caracteres. Al referirnos a las posiciones dentro de una secuencia,
 consideraremos que las mismas se numeran comenzando en $0$. Usaremos la
 notación $s\substr{i}{j}$ para referirnos a la subsecuencia formada por las
-posiciones de $s$ que van desde $i$ hasta $j$, inclusive.
+posiciones consecutivas de $s$ que van desde $i$ hasta $j$, inclusive.
 
 \begin{definition}
 	Definimos la función de rotación $\sigma: \alphabet^* \to \alphabet^*$ como
@@ -399,7 +399,7 @@ La secuencia [inserte ejemplo aquí] es $(4, 8)$-maravillosa anidada pero no es 
 \end{definition}
 
 \begin{remark}
-	\label{lema:autosimilar-cannot-be-np}
+	\label{lemma:autosimilar-cannot-be-np}
 	Una secuencia $(n,m)$-autosimilar con $n > 1$ no puede ser $(n,m)$-perfecta
 	anidada.
 \end{remark}
@@ -413,11 +413,11 @@ La secuencia [inserte ejemplo aquí] es $(4, 8)$-maravillosa anidada pero no es 
 	comenzar en una posición distinta módulo $m$.
 \end{proof}
 
-\begin{lema}
+\begin{lemma}
 	Sea $\omega \in \alphabet^{2^n}$ una secuencia $n$-de De Bruijn. Para todo
 	$n'$ tal que $1 \leq n' \leq n$, la secuencia $\omega$ es
 	$(n',2^{n-n'})$-maravillosa.
-\end{lema}
+\end{lemma}
 
 \note{
 	Generalizar este lema para hablar de maravillosas en vez de De Bruijn.
@@ -445,13 +445,13 @@ La secuencia [inserte ejemplo aquí] es $(4, 8)$-maravillosa anidada pero no es 
 \end{proof}
 
 
-\begin{lema}
+\begin{lemma}
 	Sea $\omega$ una secuencia $n$-de De Bruijn.
 	Para todo $n'$ tal que $n' \leq n$ y para todo $d \geq 0$, la
 	secuencia $\omega^{2^d}$ es $(n',2^{n-n'+d})$-maravillosa \note{anidada}.
 
 	\note{Generalizar este lema para considerar las maravillosas.}
-\end{lema}
+\end{lemma}
 
 \begin{proof}
 	\note{Esta demo resulta de unificar dos demos; pulir.}
@@ -493,10 +493,10 @@ La secuencia [inserte ejemplo aquí] es $(4, 8)$-maravillosa anidada pero no es 
 \end{remark}
 
 \note{Segun lo que hablamos, este enuciado será acerca de cortes de collares de Bruijn}
-\begin{lema}
-	\label{lema:db-sequence-count}
+\begin{lemma}
+	\label{lemma:db-sequence-count}
 	Existen exactamente $2^{2^{n-1}}$ secuencias $n$-de De Bruijn.
-\end{lema}
+\end{lemma}
 
 \begin{proof}
 	Sea $\neck{s}$ un collar $n$-de De Bruijn, y sea $s$ un corte de dicho
@@ -521,19 +521,19 @@ La secuencia [inserte ejemplo aquí] es $(4, 8)$-maravillosa anidada pero no es 
 
 
 \begin{proof}[Teorema \ref{teo:existencia}]
-	Por el Lema \ref{lema:db-sequence-count}, existen $2^{2^{n-1}} = 2^m$ formas
+	Por el Lema \ref{lemma:db-sequence-count}, existen $2^{2^{n-1}} = 2^m$ formas
 	distintas de elegir la secuencia $\omega$ que aparece en la Proposición
 	\ref{prop:db-concatenation-is-nm}. Para cada una de ellas se construye una
 	secuencia $s$ que es $(n, m)$-maravillosa anidada. Como además las
 	secuencias obtenidas son $(n,m)$-autosimilares y $n > 1$, aplicando el Lema
-	\ref{lema:autosimilar-cannot-be-np}, se tiene que ninguna de las secuencias
+	\ref{lemma:autosimilar-cannot-be-np}, se tiene que ninguna de las secuencias
 	es perfecta anidada.
 	\note{La demostración está bien.
 		Propongo algo así:
 		\\
 		Para cada corte de collar de Bruijn construimos
 		una secuencia $(d+1, 2^d)$-maravillosa anidada.
-		El Lema~\ref{lema:autosimilar-cannot-be-np} nos asegura
+		El Lema~\ref{lemma:autosimilar-cannot-be-np} nos asegura
 		que no  es perfecta anidada.
 		Hay $2^{2^d}$ cortes de secuencias de Bruijn distintos.
 	}
