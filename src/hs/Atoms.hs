@@ -5,54 +5,53 @@ import Data.List.Split
 import Data.Maybe
 import MarvellousSequences
 import Math.Combinat.Sets (countKSublists)
-import Numeric (readInt)
 
-atomsCount :: Int -> Integer
-atomsCount m = countKSublists m (2 * m)
+atoms2Count :: Int -> Integer
+atoms2Count m = countKSublists m (2 * m)
 
-atoms :: Int -> [[Int]]
-atoms = nestedMarvellous2 1
+atoms :: Int -> Int -> [[Int]]
+atoms k = nestedMarvellous k 1
 
-atomIndex :: Int -> [Int] -> Int
-atomIndex m = fromJust . flip elemIndex (atoms m)
+atomIndex :: Int -> Int -> [Int] -> Int
+atomIndex k m = fromJust . flip elemIndex (atoms k m)
 
-atomPairs :: Int -> [(Int, Int)]
-atomPairs m = [(i + 1, j + 1) | i <- [0 .. length a - 1], j <- [0 .. length a - 1], isMarvellous 2 2 m ((a !! i) ++ (a !! j))]
+atom2Pairs :: Int -> [(Int, Int)]
+atom2Pairs m = [(i + 1, j + 1) | i <- [0 .. length a - 1], j <- [0 .. length a - 1], isMarvellous 2 2 m ((a !! i) ++ (a !! j))]
   where
-    a = atoms m
+    a = atoms 2 m
 
-validAtomPairsProportion :: Int -> Float
-validAtomPairsProportion m = (fromIntegral $ length (atomPairs m)) / (fromIntegral $ ((atomsCount m) ^ 2))
+validAtom2PairsProportion :: Int -> Float
+validAtom2PairsProportion m = (fromIntegral $ length (atom2Pairs m)) / (fromIntegral $ ((atoms2Count m) ^ 2))
 
-asAtoms :: Int -> [Int] -> [Int]
-asAtoms m seq = map (atomIndex m) (chunksOf (2 * m) seq)
+asAtoms :: Int -> Int -> [Int] -> [Int]
+asAtoms k m seq = map (atomIndex k m) (chunksOf (k * m) seq)
 
-nestedMarvellousAsAtoms :: Int -> Int -> [[Int]]
-nestedMarvellousAsAtoms n m = map (asAtoms m) (recursiveNestedMarvellous2 n m)
+nestedMarvellous2AsAtoms :: Int -> Int -> [[Int]]
+nestedMarvellous2AsAtoms n m = map (asAtoms 2 m) (recursiveNestedMarvellous2 n m)
 
-marvellousAutosimilar :: Int -> Int -> [[Int]]
-marvellousAutosimilar n m
-  | n == 1 = atoms m
-  | otherwise = filter (isNestedMarvellous 2 n m) [x ++ x | x <- marvellousAutosimilar (n - 1) m]
+marvellousAutosimilar :: Int -> Int -> Int -> [[Int]]
+marvellousAutosimilar k n m
+  | n == 1 = atoms k m
+  | otherwise = filter (isNestedMarvellous k n m) [x ++ x ++ x | x <- marvellousAutosimilar k (n - 1) m]
 
-marvellousWeaklyAutosimilar :: Int -> Int -> Int -> [[Int]]
-marvellousWeaklyAutosimilar w n m
-  | n == 1 = atoms m
-  | w == 0 = marvellousAutosimilar n m
-  | otherwise = filter (isMarvellous 2 n m) [x ++ y | x <- prevLev, y <- prevLev]
+marvellousWeaklyAutosimilar :: Int -> Int -> Int -> Int -> [[Int]]
+marvellousWeaklyAutosimilar k w n m
+  | n == 1 = atoms k m
+  | w == 0 = marvellousAutosimilar k n m
+  | otherwise = filter (isMarvellous k n m) [x ++ y ++ z | x <- prevLev, y <- prevLev, z <- prevLev]
   where
-    prevLev = marvellousWeaklyAutosimilar (w - 1) (n - 1) m
+    prevLev = marvellousWeaklyAutosimilar k (w - 1) (n - 1) m
 
 --
 
-perfectAtoms :: Int -> [[Int]]
-perfectAtoms = nestedPerfect2 1
+perfectAtoms :: Int -> Int -> [[Int]]
+perfectAtoms k = nestedPerfect k 1
 
-perfectAtomIndex :: Int -> [Int] -> Int
-perfectAtomIndex m = fromJust . flip elemIndex (perfectAtoms m)
+perfectAtomIndex :: Int -> Int -> [Int] -> Int
+perfectAtomIndex k m = fromJust . flip elemIndex (perfectAtoms k m)
 
-asPerfectAtoms :: Int -> [Int] -> [Int]
-asPerfectAtoms m seq = map (perfectAtomIndex m) (chunksOf (2 * m) seq)
+asPerfectAtoms :: Int -> Int -> [Int] -> [Int]
+asPerfectAtoms k m seq = map (perfectAtomIndex k m) (chunksOf (k * m) seq)
 
 --
 
