@@ -84,7 +84,8 @@ conjunto de todas las rotaciones posibles de una palabra, y lo notamos usando
 corchetes:
 \[ \neck{w} = \lbrace \sigma^{n}(w) : n \in \nats_0 \rbrace. \]
 Por ejemplo,
-\[ \neck{11100} = \lbrace 11100, 01110, 00111, 10011, 11001 \rbrace. \]
+\[ \neck{11100} = \lbrace 11100, 01110, 00111, 10011, 11001 \rbrace; \]
+\[ \neck{00000} = \lbrace 00000 \rbrace. \]
 Un collar puede pensarse como una ``palabra circular'', donde no importa
 cuál de los caracteres es el primero. A cada una de las palabras que forman
 parte de un collar la llamamos un \emph{corte} del mismo.
@@ -118,7 +119,8 @@ de collares que han pasado a ser conocidos con su nombre.
 \end{definition}
 
 \begin{examples}
-	El collar $\neck{11000101}$ es un collar de De Bruijn de orden $3$. El collar $\neck{0101100111101000}$ es un collar de De Bruijn de orden $4$.
+	El collar $\neck{11000101}$ es un collar de De Bruijn de orden $3$.
+	El collar $\neck{0101100111101000}$ es un collar de De Bruijn de orden $4$.
 \end{examples}
 
 De Bruijn presenta una bonita caracterización de estos collares como circuitos
