@@ -1009,10 +1009,8 @@ de secuencias maravillosas anidadas en casos en que la generación exhaustiva
 se vuelve computacionalmente prohibitiva. Continuando con el caso $m = 8$,
 en el Cuadro \ref{table:estimation} se exhibe la cantidad de secuencias halladas para distintos
 valores de $n$ limitando el espacio de búsqueda de cada iteración a un máximo
-de 100.000.000 de secuencias. \note{Este umbral se puede subir y buscar
-resultados más precisos, solo va a tardar un poco más (para 1.000.000.000 tarda
-aproximadamente 30 minutos para cada $n$, pero no creo que sea suficiente para
-que aparezca alguna secuencia con $n = 6$).}
+de 1.000.000.000 de secuencias. \note{Este umbral se puede subir y buscar
+resultados más precisos, solo va a tardar un poco más.}
 
 \begin{table}[H]
 	\centering
@@ -1021,15 +1019,15 @@ que aparezca alguna secuencia con $n = 6$).}
 		\hline
 		$n$ & 1 & 2 & 3 & 4 & 5 & 6 \\
 		\hline
-		Pares examinados & - & 100.000.000 & 100.000.000 & 100.000.000 & 100.000.000 & 33124 \\
+		Tamaño estimado del espacio de búsqueda & - & 165.636.900 & $1.91 \times 10^{15}$ & $7.79 \times 10^{27}$ & $1.78 \times 10^{50}$ & $1.35 \times 10^{89}$ \\
 		\hline
-		Secuencias maravillosas anidadas halladas & 12.870 & 26.387.344 & 4.615.431 & 171.343 & 182 & 0 \\
+		Pares examinados & - & 165.636.900 & 1.000.000.000 & 1.000.000.000 & 1.000.000.000 & 4.293.184 \\
 		\hline
-		Proporción & - & $26.39\%$ & $4.615\%$ & $0.1713\%$ & $0.00000182\%$ & 0 \\
+		Secuencias maravillosas anidadas halladas & 12.870 & 43.705.512 & 46.201.550 & 1.710.968 & 2.072 & 0 \\
 		\hline
-		Tamaño estimado del espacio de búsqueda & - & 165.636.900 & $1.91 \times 10^{15}$ & $7.77 \times 10^{27}$ & $1.77 \times 10^{50}$ & $1.04 \times 10^{89}$ \\
+		Proporción & - & $26.39\%$ & $4.620\%$ & $0.1711\%$ & $0.00000207\%$ & $0\%$ \\
 		\hline
-		Cant. estimada de sec. marav. anidadas & 12.870 & 43.707.179 & $8.82 \times 10^{13}$ & $1.33 \times 10^{25}$ & $3.23 \times 10^{44}$ & - \\
+		Cant. estimada de sec. marav. anidadas & 12.870 & 43.705.512 & $8.83 \times 10^{13}$ & $1.33 \times 10^{25}$ & $3.68 \times 10^{44}$ & - \\
 		\hline
 		Cant. de secuencias perfectas anidadas & 256 & 512 & 1.024 & 2.048 & 4.096 & 8.192 \\
 		\hline
@@ -1078,8 +1076,8 @@ visualmente estas cantidades.
 			ymode=log,
 		]
 		\addplot 
-			coordinates {(1,12870) (2,43707179) (3,8.82e13)
-			(4,1.33e25) (5,3.23e44)};
+			coordinates {(1,12870) (2,43705512) (3,8.83e13)
+			(4,1.33e25) (5,3.68e44)};
 		\addplot 
 			coordinates {(1,256) (2,512) (3,1024)
 			(4,2048) (5,4096)};
