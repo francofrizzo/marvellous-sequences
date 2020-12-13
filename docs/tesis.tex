@@ -12,7 +12,6 @@
 \usepackage{bm}
 \usepackage{cases}
 \usepackage{xfrac}
-\usepackage{color}
 \usepackage{framed}
 \usepackage{fancyhdr}
 
@@ -24,9 +23,19 @@
 \usepackage{cite}
 \usepackage{diagbox}
 
+\usepackage[table]{xcolor}
+\definecolor{ne-proof}{HTML}{ea5c69}
+\definecolor{ne-empir}{HTML}{ffac81}
+\definecolor{ne-conjc}{HTML}{fdf2ac}
+\definecolor{e-count-for}{HTML}{58d383}
+\definecolor{e-count-emp}{HTML}{71d7e9}
+\definecolor{e-examples}{HTML}{d9edfa}
+
 \usepackage{tikz}
 \usetikzlibrary{arrows}
 \usetikzlibrary{babel}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.9}
 
 \newcommand\myauthor{Franco Frizzo}
 \newcommand\mytitle{Tesis de licenciatura}
@@ -60,6 +69,8 @@
 \newpage
 
 \section{Introducción}
+
+\newpage
 
 \section{Preliminares}
 
@@ -208,8 +219,8 @@ de orden $n$.
 		\end{tabular} \\
 		$G_1$ & $G_2$ & $G_3$
 	\end{tabular}
-	\caption{Digrafos de De Bruijn de orden $1$, $2$ y $3$ para un
-		alfabeto de $2$ símbolos.}
+	\caption{Digrafos de De Bruijn de orden $1$, $2$ y $3$
+		para $\alphabet = \lbrace 0, 1 \rbrace$.}
 \end{figure}
 
 Cada collar de $n$-de De Bruijn se corresponde unívocamente con un circuito
@@ -277,7 +288,7 @@ A continuación presentaremos una generalización de las secuencias de De Bruijn
 que denominaremos \emph{secuencias maravillosas}.
 
 \begin{definition}[Secuencia maravillosa]
-Un \emph{collar $(n,m)$-maravilloso} es una collar de longitud $m \cdot b^n$
+Un \emph{collar $(n,m)$-maravilloso} es un collar de longitud $m \cdot b^n$
 en el que cada una de las posibles palabras de longitud $n$ aparece
 exactamente $m$ veces.
 
@@ -350,9 +361,8 @@ estas palabras exactamente $m$ veces.
 	     edge [in=300, out=330, loop] (11);
 	\end{tikzpicture}
 	\caption{Multidigrafo de De Bruijn de orden $2$ y grado $3$
-		para un alfabeto de $2$ símbolos.}
+		para $\alphabet = \lbrace 0, 1 \rbrace$.}
 \end{figure}
-
 
 No obstante, esto no vale a la inversa, ya que si $m > 1$, todo collar
 $(n+1,m)$-maravilloso se corresponde con más de un ciclo euleriano en $G_n^m$.
@@ -473,11 +483,44 @@ Esto nos permite enunciar y demostrar el siguiente resultado.
 
 \subsection{Secuencias maravillosas anidadas}
 
-\pending{Definir secuencia maravillosa anidada.}
+Las secuencias maravillosas que acabamos de presentar son primas cercanas de
+las \emph{secuencias perfectas}.
+Una secuencia $(n,m)$-perfecta es una secuencia de longitud $m \cdot b^n$ en la
+que cada posible palabra de longitud $n$ aparece circularmente exactamente
+$m$ veces, al igual que en las secuencias maravillosas, pero con la restricción
+adicional de que cada una de estas apariciones se produce en una posición
+distinta módulo $m$.
+Puede verse una presentación de estas secuencias en \cite{ALVAREZ201648},
+junto a una caracterización de las mismas en términos de grafos.
 
-\pending{Definir secuencia perfecta anidada.}
+En \cite{BECHER2019101403}, Becher y Carton definen las \emph{secuencias
+perfectas anidadas}; las mismas son secuencias maravillosas que, a su vez,
+son la concatenación de secuencias maravillosas anidadas del orden inferior.
+Los autores brindan un método basado en matrices que permite --bajo ciertas
+restricciones-- generar estas secuencias.
 
-\pending{Definir $m$-átomo.}
+Esto motiva una definición análoga, pero considerando secuencias maravillosas en
+lugar de perfectas: las \emph{secuencias maravillosas anidadas}, el principal
+objeto de estudio de este trabajo.
+
+\begin{definition}
+	Una \emph{secuencia $(n,m)$-maravillosa anidada} es una secuencia de
+	longitud $m \cdot b^n$ para la que se cumple simultáneamente que
+	\begin{enumerate}
+		\item es una secuencia $(n,m)$-maravillosa; y
+		\item si $n > 1$, es la concatenación de $b$ secuencias
+		      $(n-1,m)$-maravillosas anidadas.
+	\end{enumerate}
+
+	Alternativamente, una secuencia es $(n,m)$-maravillosa anidada si, para todo
+	$n'$ tal que $1 \leq n' \leq n$, toda subsecuencia de longitud
+	$m \cdot b^{n'}$ que comienza en una posición congruente a $0$ módulo
+	$m \cdot b^{n'}$ es $(n',m)$-maravillosa.
+\end{definition}
+
+\pending{Explicar problema a resolver (ver cómo se lleva con la introducción).}
+
+\newpage
 
 \section{Métodos de construcción}
 
@@ -644,8 +687,9 @@ de $2$ y de $3$ símbolos.
 
 \begin{table}[H]
 	\centering
-	\begin{tabular}{ c | c | c | c | c | c | c | c | c | c }
-		\diagbox{$n$}{$m$}	& 1 & 2 & 3  & 4  & 5   & 6   & 7    & 8     & 9     \\
+	\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+		\hline
+		\diagbox[width=3em]{$n$}{$m$}	& 1 & 2 & 3  & 4  & 5   & 6   & 7    & 8     & 9     \\
 		\hline
 		1 & 2 & 6 & 20 & 70 & 252 & 924 & 3.432 & 12.870 & 48.620
 		\\ \hline
@@ -655,7 +699,8 @@ de $2$ y de $3$ símbolos.
 		\hline
 		4 & 0 & 0 & 0  & 0  & 0   & 0   & 0     & 256    & 0     \\
 		\hline
-		5 & 0 & 0 & 0  & 0  & 0   & 0   & 0     & 0      & 0
+		5 & 0 & 0 & 0  & 0  & 0   & 0   & 0     & 0      & 0     \\
+		\hline
 	\end{tabular}
 	\caption{Cantidad de secuencias $(n,m)$-maravillosas anidadas autosimilares
 		considerando un alfabeto de $2$ símbolos.}
@@ -663,12 +708,14 @@ de $2$ y de $3$ símbolos.
 
 \begin{table}[H]
 	\centering
-	\begin{tabular}{ c | c | c | c | c | c | c | c | c | c }
+	\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+		\hline
 		\diagbox[width=3em]{$n$}{$m$} & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 \\ \hline
-		1 & 6 & 90 & 1.680 & 34.650 & 756.756 & 17.153.136 & 399.072.960 & 9.465.511.770 & 227.873.431.500 \\ \hline
-		2 & 0 & 0  & 216   & 0      & 0       & 729.000    & 0           & 0             & 4.741.632.000 \\ \hline
+		1 & 6 & 90 & 1.680 & 34.650 & 756.756 & 17.153.136 & 399.072.960 & $9.5 \times 10^{9}$ & $2.3 \times 10^{11}$ \\ \hline
+		2 & 0 & 0  & 216   & 0      & 0       & 729.000    & 0           & 0             & $4.7 \times 10^{9}$ \\ \hline
 		3 & 0 & 0  & 0     & 0      & 0       & 0          & 0           & 0             & 10.077.696    \\ \hline
-		4 & 0 & 0  & 0     & 0      & 0       & 0          & 0           & 0             & 0
+		4 & 0 & 0  & 0     & 0      & 0       & 0          & 0           & 0             & 0 \\
+		\hline
 	\end{tabular}
 	\caption{Cantidad de secuencias $(n,m)$-maravillosas anidadas autosimilares
 		considerando un alfabeto de $3$ símbolos.}
@@ -678,11 +725,372 @@ Puede notarse que, debido a la condición de que $b^{n-1} \vert m$ necesaria
 para la existencia de este tipo de secuencias, el menor $m$ para el cual la
 cantidad de secuencias no es $0$ dado un $n$ fijo es $m = b^{n-1}$. Este caso
 es especialmente interesante ya que los átomos que se utilizarán son secuencias
-$(n, 1)$-maravillosas, es decir, secuencias $n$-de De Bruijn.
+$(n, 1)$-maravillosas, es decir, secuencias $n$-de De Bruijn, para cuya
+generación se han estudiado ya diversos métodos.
 
-\note{Creo que acá se podría hacer referencia a métodos existentes para
-construir secuencias de De Bruijn y como este método permite adaptarlos
-de una forma muy simple para obtener secuencias maravillosas anidadas.}
+\newpage
+
+\section{Ejemplos y conjeturas}
+
+¿Cuáles son los valores de $n$ y $m$ para los cuáles existen secuencias
+maravillosas anidadas? ¿Cuál es la cantidad de tales secuencias, en los casos
+en que sí existen? ¿Cuántas de ellas, además, no son perfectas anidadas?
+En esta sección presentamos las respuestas a las que pudimos arribar en el curso
+de este trabajo, como así también algunas conjeturas acerca de los casos para
+los que no contamos con certezas. En adelante, consideraremos siempre que
+$\alphabet = \lbrace 0, 1 \rbrace$. El Cuadro
+\ref{table:nested-marvellous-existence} presenta un resumen visual de los
+resultados.
+
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+		\hline
+		\diagbox[width=3em]{$n$}{$m$} & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16  \\
+		\hline
+		1 & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A/R & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A/R & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A/R & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A/R \\
+		\hline
+		2 & \cellcolor{e-count-emp} & \cellcolor{e-count-emp} A/R & \cellcolor{e-count-emp} & \cellcolor{e-count-emp} A/R & \cellcolor{e-count-emp} & \cellcolor{e-count-emp} A & \cellcolor{e-count-emp} & \cellcolor{e-count-emp} A/R & & A & & A & & A & & A \\
+		\hline
+		3 & \cellcolor{ne-proof} & \cellcolor{e-count-emp} & \cellcolor{e-count-emp} & \cellcolor{e-count-emp} A/R & \cellcolor{e-count-emp} & \cellcolor{e-examples} & \cellcolor{e-examples} & \cellcolor{e-examples} A/R & & & & A & & & & A \\
+		\hline
+		4 & \cellcolor{ne-proof} & \cellcolor{ne-empir} & \cellcolor{e-count-emp} & \cellcolor{e-examples} R & \cellcolor{e-examples} & \cellcolor{e-examples} & \cellcolor{e-examples} & \cellcolor{e-examples} A/R & & & & & & & & A \\
+		\hline
+		5 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-empir} & \cellcolor{e-examples} & & & & \cellcolor{e-examples} R & & & & & & & & A \\
+		\hline
+		6 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-empir} & \cellcolor{ne-conjc} & & & & \cellcolor{e-examples} R & & & & & & & & \\
+		\hline
+		7 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & & & \cellcolor{e-examples} R & & & & & & & & \\
+		\hline
+		8 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & & \cellcolor{e-examples} R & & & & & & & & \\
+		\hline
+		9 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & & & & & & & & & \\
+		\hline
+		10 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & & & & & & & & \\
+		\hline
+		11 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & & & & & & & \\
+		\hline
+		12 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & & & & & & \\
+		\hline
+		13 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & & & & & \\
+		\hline
+		14 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & & & & \\
+		\hline
+		15 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & & & \\
+		\hline
+		16 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & & \\
+		\hline
+	\end{tabular} \vspace{.75em} \\
+	
+	{
+		\setlength{\fboxsep}{.5em}
+		\fbox{
+			\footnotesize
+			\begin{tabular}{cl cl}
+			\multicolumn{4}{c}{\textbf{\normalsize Referencia}} \vspace{.4em} \\
+			\multicolumn{2}{c}{\textit{Valores para los que existen secuencias}}
+				& \multicolumn{2}{c}{\textit{Valores para los que no existen secuencias}} \vspace{.25em} \\
+			\color{e-count-for}{$\blacksquare$} & Cantidad expresada como fórmula cerrada
+				& \color{ne-proof}{$\blacksquare$} & No existencia demostrada \\
+			\color{e-count-emp}{$\blacksquare$} & Cantidad determinada experimentalmente
+				& \color{ne-empir}{$\blacksquare$} & No existencia determinada experimentalmente \\
+			\color{e-examples}{$\blacksquare$}  & Ejemplos hallados \\
+			R & Ejemplos hallados rotando secuencias perfectas \\
+			A & Método de secuencias autosimilares \\
+			\multicolumn{4}{c}{\textit{Conjeturas}} \\
+			$\square$  & Se conjetura que existen secuencias
+				& \color{ne-conjc}{$\blacksquare$}  & Se conjetura que no existen secuencias \\
+			\end{tabular}
+		}
+	}
+
+	\caption{Existencia de secuencias $(n,m)$-maravillosas anidadas para los
+	primeros valores de $n$ y $m$.}
+	\label{table:nested-marvellous-existence}
+\end{table}
+
+Para determinados valores de $n$ y $m$, es posible extraer algunas conclusiones
+a partir de lo ya presentado hasta ahora. En particular:
+
+\begin{itemize}
+	\item En el caso $n = 1$, las secuencias $(1,m)$-maravillosas anidadas se
+	corresponden exactamente con las secuencias $(1,m)$-maravillosas. 
+	Gracias al Teorema \ref{theorem:marvellous-count}, sabemos que estas
+	existen y que su cantidad es exactamente $\frac{(2m)!}{(m!)^2}$. De las
+	mismas, solo $2^m$ son perfectas anidadas, según la fórmula dada en
+	\cite{BECHER2019101403}.
+	\item En los casos en que $m$ es un múltiplo de $2^{n-1}$, el método de
+	construcción por secuencias autosimilares nos permite afirmar que existen
+	secuencias $(n,m)$-maravillosas anidadas que no son $(n,m)$-perfectas
+	anidadas. Lo expuesto hasta el momento no es suficiente para
+	determinar si existen secuencias $(n,m)$-maravillosas anidadas que no sean
+	perfectas anidadas ni se puedan generar a través de este método.
+	Cabe notar que este caso corresponde a valores de $n$ relativamente pequeños
+	con respecto a $m$ ya que, en el mejor de los casos, $m = 2^{n-1}$, con 
+	lo que la relación entre ambos parámetros es a lo sumo de orden logarítmico.
+\end{itemize}
+
+Para poder abordar el análisis de los restantes valores posibles de $n$ y $m$
+realizamos una exploración computacional, intentando generar exhaustivamente
+todas las secuencias $(n,m)$-maravillosas anidadas.
+La técnica que utilizamos es del tipo \emph{generate and test} y consiste en:
+\begin{enumerate}[label=\arabic*.]
+	\item Fijar un valor para el parámetro $m$.
+	\item Generar todas las secuencias $(1,m)$-maravillosas ($m$-átomos) de manera
+	combinatoria.
+	\item Iterar sobre los valores de $n = 2, 3, \dots$, considerando como espacio
+	de búsqueda todas las posibles concatenaciones de dos secuencias
+	$(n-1, m)$-maravillosas anidadas (generadas en la iteración anterior) y
+	eliminando aquellas que no sean $(n,m)$-maravillosas.
+\end{enumerate}
+Si bien este enfoque iterativo permite acotar el espacio de búsqueda, el mismo
+crece rápidamente a medida que aumentan los valores de $n$ y $m$, por lo que
+solo fue posible obtener resultados en los casos más pequeños.
+En el Cuadro \ref{table:nested-marvellous-count} presentamos estos resultados.
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+		\hline
+		\diagbox[width=3em]{$n$}{$m$}
+		  & 1 & 2  & 3     & 4       & 5          & 6       & 7         & 8          \\
+		\hline
+		1 & 2 & 6  & 20    & 70      & 252        & 924     & 3.432     & 12.870     \\ \hline
+		2 & 2 & 16 & 156   & 1.720   & 20.420     & 254.744 & 3.292.632 & 43.705.512 \\
+		\hline
+		3 & 0 & 16 & 1.344 & 237.504 & 26.647.952 & -       & -         & -          \\
+		\hline
+		4 & 0 & 0  & 1.568 & -       & -          & -       & -         & -          \\
+		\hline
+		5 & 0 & 0  & 0     & -       & -          & -       & -         & -          \\
+		\hline
+	\end{tabular}
+	\caption{Cantidad total de secuencias $(n,m)$-maravillosas anidadas binarias
+		para los valores para los fue posible generarlas de forma exhaustiva.}
+	\label{table:nested-marvellous-count}
+\end{table}
+
+Un primer hecho que puede constatarse al observar las columnas correspondientes
+a $m = 1, 2, 3$ es la inexistencia de secuencias cuando el valor de $n$ crece
+más allá de $m + 1$. Naturalmente, surge la pregunta de si esto se puede
+generalizar para valores de $m$ más grandes.
+Un análisis de la situación permite concluir que existe una
+incompatibilidad entre los distintos niveles de anidación de las secuencias.
+A medida que $n$ crece con respecto a $m$, se fuerza la aparición de largas
+cadenas de ceros y de unos dentro de la misma. Sin embargo, la secuencia debe
+a su vez consistir en la concatenación de muchas pequeñas secuencias
+$(1,m)$-maravillosas, donde la cantidad de ceros y unos debe estar equilibrada.
+El resultado que presentamos a continuación formaliza este razonamiento.
+
+\begin{proposition}
+	No existen secuencias $(n,m)$-maravillosas anidadas para ningunos $n$, $m$
+	tales que $n > 2m$.
+\end{proposition}
+
+\begin{proof}
+	Consideremos un valor fijo para $m$.
+	En primer lugar, debemos notar que basta probar el resultado para $n = 2m +
+		1$, ya que cualquier secuencia $(n',m)$-maravillosa anidada con $n'$ mayor
+		que este $n$ puede factorizarse como una concatenación de secuencias
+	$(n,m)$-maravillosas anidadas.
+
+		Razonando por el absurdo, sea $n = 2m + 1$ y supongamos que existe una
+	secuencia $x$ que es $(n,m)$-maravillosa anidada.
+	Por definición, el patrón $0^{2m+1}$ debe aparecer $m$ veces circularmente
+	en $x$. Sea $i$ la posición inicial en $x$ de la primera aparición de dicho
+	patrón módulo $2m$.
+
+	Recordemos que $x$ consiste en una concatenación de $m$-átomos, cada uno de
+	los cuales tiene longitud $2m$. Los $2m+1$ ceros del patrón mencionado
+	necesariamente abarcarán más de un átomo, con los primeros $2m - i + 1$ ceros
+	ubicados dentro de un átomo y los $i$ ceros restantes en el átomo
+	siguiente.
+
+	\[ \underbrace{\alpha\dots\alpha}_{2m}
+		\; \underbrace{\alpha\dots\alpha}_{2m} \; \cdots
+		\; \underbrace{\alpha\dots\alpha\overbrace{00\dots00}^{2m-i+1}}_{2m}
+		\; \underbrace{\overbrace{00\dots00}^{i}\dots\alpha}_{2m} \; \cdots
+		\; \underbrace{\alpha\dots\alpha}_{2m} \]
+
+	Notar que si $i \leq m$, entonces $2m - i + 1 > m$, por lo que hay
+	más de $m$ ceros en el primer átomo; si, por el contrario, $i > m$, entonces
+	hay más de $m$ ceros en el segundo átomo. Ninguno
+	de los dos casos es posible, ya que la cantidad de ceros en un $m$-átomo es
+	exactamente $m$.
+\end{proof}
+
+Para los casos restantes, aventuramos las siguientes conjeturas, para las que
+no contamos con demostración:
+\begin{itemize}
+	\item \textbf{Conjetura 1}. Para todo $(n,m)$ con $n > m + 1$ no existen
+		secuencias $(n,m)$-maravillosas anidadas.
+	\item \textbf{Conjetura 2}. Para todo $(n,m)$ con $n \leq m + 1$ existen
+	secuencias $(n,m)$-maravillosas anidadas. Además, la cantidad de estas
+	secuencias es considerablemente mayor que la cantidad de secuencias
+	$(n,m)$-perfectas anidadas.
+\end{itemize}
+
+La primera conjetura es motivada, en primer lugar, porque se cumple para todos
+los valores de $m$ que pudieron ser estudiados exhaustivamente en forma
+computacional. Además, en estos casos se ve que fijando $m$ e incrementando
+$n$, la cantidad de secuencias halladas aumenta de forma sostenida hasta que
+$n = m$; en el caso $n = m + 1$ el incremento en la cantidad es nulo o menor.
+Esto sugiere que las incompatibilidades entre los niveles extremos de anidación
+de las secuencias comienzan a manifestarse antes de llegar a $n = 2m$.
+No obstante, es claro que esta conclusión podría estar sesgada debido a que
+los valores de $m$ que fue posible estudiar son muy pequeños.
+
+En respaldo de la segunda conjetura, podemos exhibir una serie de ejemplos
+que constatan la existencia de secuencias $(n,m)$-maravillosas anidadas para
+algunos de los valores de los parámetros. Los mismos fueron obtenidos a partir
+de dos métodos distintos.
+
+\begin{itemize}
+	\item \textbf{Rotaciones de secuencias perfectas anidadas}. Es posible obtener ejemplos
+	de secuencias $(n,m)$-maravillosas anidadas que no son perfectas anidadas
+	partiendo de una secuencia $(n,m)$-perfecta anidada y rotando una de sus
+	mitades. Esta operación preserva la propiedad de que ambas mitades de la
+	secuencia sean $(n-1,m)$-maravillosas anidadas, y en muchos casos se logra
+	preservar la cantidad de apariciones de todos los patrones de longitud $n$,
+	dejando de cumplirse que todas sean en distintas posiciones módulo $m$.
+
+	Mediante este método pudimos generar ejemplos para $m = 2, 4, 8$ y
+	$n = 1, \dots, m$ (recordemos que el método para generar secuencias perfectas
+	anidadas presentado en \cite{BECHER2019101403} solo está definido para valores
+	de $m$ que sean potencias de $2$). Consideramos que este método tiene buenas
+	perspectivas de funcionar también para $m = 16, 32$, etc.
+
+	\note{¿Dar ejemplos concretos? ¿Para qué valores?}
+
+	\item \textbf{\emph{Generate and test} submuestreando el espacio de búsqueda}.
+	Consiste en adaptar el método de generación exhaustivo antes descripto, de
+	manera que en cada iteración solo se utilicen algunas de las secuencias
+	obtenidas para determinado valor de $n$ en la generación de posibles
+	secuencias de orden $n + 1$, descartando el resto. De esta forma ya no es
+	posible determinar \emph{cuántas} secuencias existen, pero sí obtener una
+	buena cantidad de ejemplos, muchos de los cuales no son secuencias perfectas
+	anidadas.
+
+	Con este método se consiguieron ejemplos para:
+	\begin{itemize}
+		\item $m = 4$; $n = 4, 5$.
+		\item $m = 5$; $n = 4, 5$.
+		\item $m = 6$; $n = 3, 4, 5$.
+		\item $m = 7$; $n = 3, 4, 5$.
+	\end{itemize}
+
+	\note{¿Dar ejemplos concretos? ¿Para qué valores?}
+\end{itemize}
+
+Estos ejemplos dan cuenta de la existencia de secuencias maravillosas anidadas
+que no son perfectas; pero no responden al interrogante de cuántas
+existen, y cómo se comparan las cantidades de unas y otras.
+No obstante, el segundo de los dos métodos presentados permite realizar una
+estimación que arroja algo de luz sobre esta pregunta. La observación central
+es que, si el espacio de búsqueda es submuestrado de forma aleatoria,
+la proporción de secuencias maravillosas anidadas halladas es similar
+a la existente en el espacio de búsqueda completo.
+
+A modo de ejemplo, sabemos que la cantidad de secuencias $(1,8)$-maravillosas
+anidadas es 12.870. El conjunto de pares de estas secuencias, que es el espacio
+de búsqueda completo para secuencias $(2,8)$-maravillosas anidadas, tiene
+(12.870)$^2$ = 165.636.900 secuencias. De ellas solo 43.705.512, un $26.39\%$,
+son $(2,8)$-maravillosas anidadas. Ahora bien, restringiendo la cantidad de
+pares examinados a, por ejemplo, solo un millón seleccionados al azar, puede
+obtenerse una estimación muy razonable de esta proporción. Realizando diez
+corridas independientes, encontramos una media de 263.734 secuencias,
+un $26.37\%$ de las secuencias inspeccionadas.
+
+\note{Acá se puede hablar de cuál sería el error en la estimación y cosas así,
+	pero me pareció que no venía al caso.}
+
+Gracias a este enfoque podemos hacernos una idea aproximada de la cantidad
+de secuencias maravillosas anidadas en casos en que la generación exhaustiva
+se vuelve computacionalmente prohibitiva. Continuando con el caso $m = 8$,
+en el Cuadro \ref{table:estimation} se exhibe la cantidad de secuencias halladas para distintos
+valores de $n$ limitando el espacio de búsqueda de cada iteración a un máximo
+de 100.000.000 de secuencias. \note{Este umbral se puede subir y buscar
+resultados más precisos, solo va a tardar un poco más (para 1.000.000.000 tarda
+aproximadamente 30 minutos para cada $n$, pero no creo que sea suficiente para
+que aparezca alguna secuencia con $n = 6$).}
+
+\begin{table}[H]
+	\centering
+	\small
+	\begin{tabular}{|p{32mm}|c|c|c|c|c|c|}
+		\hline
+		$n$ & 1 & 2 & 3 & 4 & 5 & 6 \\
+		\hline
+		Pares examinados & - & 100.000.000 & 100.000.000 & 100.000.000 & 100.000.000 & 33124 \\
+		\hline
+		Secuencias maravillosas anidadas halladas & 12.870 & 26.387.344 & 4.615.431 & 171.343 & 182 & 0 \\
+		\hline
+		Proporción & - & $26.39\%$ & $4.615\%$ & $0.1713\%$ & $0.00000182\%$ & 0 \\
+		\hline
+		Tamaño estimado del espacio de búsqueda & - & 165.636.900 & $1.91 \times 10^{15}$ & $7.77 \times 10^{27}$ & $1.77 \times 10^{50}$ & $1.04 \times 10^{89}$ \\
+		\hline
+		Cant. estimada de sec. marav. anidadas & 12.870 & 43.707.179 & $8.82 \times 10^{13}$ & $1.33 \times 10^{25}$ & $3.23 \times 10^{44}$ & - \\
+		\hline
+		Cant. de secuencias perfectas anidadas & 256 & 512 & 1.024 & 2.048 & 4.096 & 8.192 \\
+		\hline
+	\end{tabular}
+	\caption{Resultados de estimar la cantidad de secuencias maravillosas anidadas
+	para $m = 8$ submuestreando el espacio de búsqueda.}
+	\label{table:estimation}
+\end{table}
+
+Para cada valor de $n$, se asume que el tamaño del espacio de búsqueda completo
+sería el cuadrado de la cantidad de secuencias estimada para $n - 1$; este
+valor aparece en la fila ``Tamaño estimado del espacio de búsqueda''. Luego,
+se extrapola a este espacio completo la proporción de secuencias maravillosas
+anidadas hallada en el subconjunto que se tomó al submuestrear, obteniendo
+los valores de la fila ``Cantidad estimada de secuencias maravillosas
+anidadas''.
+
+Es necesario destacar que estos resultados, de carácter meramente exploratorio,
+podrían presentar sesgos que es imposible eliminar sin un estudio más profundo.
+La limitación más importante es que en cada iteración el espacio de búsqueda
+utilizado está limitado a los pares de secuencias generadas en el paso anterior,
+con lo cual, a medida que se incrementa $n$, la forma en que se submuestrea el
+espacio es cada vez menos uniforme. Aún así, el hecho de que para encontrar
+secuencias maravillosas anidadas sea suficiente con examinar una porción ínfima
+del espacio de búsqueda completo sugiere fuertemente que las mismas son muy
+abundantes.
+
+En particular, todo indica que para valores relativamente pequeños de
+$n$ con respecto a $m$, la cantidad de secuencias maravillosas anidadas es
+muy superior a la cantidad de secuencias perfectas anidadas. El gráfico
+de la Figura \ref{figure:compare-marvellous-perfect} permite comparar
+visualmente estas cantidades.
+
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}
+		\begin{axis}[
+			x tick label style={
+				/pgf/number format/1000 sep=},
+			enlargelimits=0.05,
+			legend style={at={(1.1,1)},
+				anchor=north west},
+			legend cell align={left},
+			ybar,
+			enlarge x limits={0.15},
+			ymode=log,
+		]
+		\addplot 
+			coordinates {(1,12870) (2,43707179) (3,8.82e13)
+			(4,1.33e25) (5,3.23e44)};
+		\addplot 
+			coordinates {(1,256) (2,512) (3,1024)
+			(4,2048) (5,4096)};
+		\legend{Maravillosas anidadas (est.),Perfectas anidadas}
+		\end{axis}
+	\end{tikzpicture}
+	\caption{Comparación entre la cantidad estimada de secuencias maravillosas
+	anidadas y la cantidad de secuencias perfectas anidadas, para $m = 8$
+	(escala logarítmica).}
+	\label{figure:compare-marvellous-perfect}
+\end{figure}
 
 \bibliography{references}{}
 \bibliographystyle{plain}
