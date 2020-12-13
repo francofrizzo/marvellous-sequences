@@ -1,12 +1,31 @@
 #include <iostream>
+#include <sstream>
+#include <iomanip>
 #include <fstream>
 #include <algorithm>
 #include <string>
 #include <map>
 #include <vector>
 #include <math.h>
+#include <chrono>
 
 typedef std::vector<bool> sequence;
+
+std::string humanize_seconds(double seconds) {
+  std::ostringstream result;
+  if (seconds >= 86400) {
+    result << (int) seconds / 86400 << " days, " << ((int) seconds % 86400) / 3600 << " hours";
+  } else if (seconds >= 3600) {
+    result << (int) seconds / 3600 << " hours, " << ((int) seconds % 3600) / 60 << " minutes";
+  } else if (seconds >= 60) {
+    result << (int) seconds / 60 << " minutes, " << (int) seconds % 60 << " seconds";
+  } else if (seconds >= 0) {
+    result << (int) seconds << " seconds";
+  } else {
+    result << "unknown time";
+  }
+  return result.str();
+}
 
 void write_to_file(std::ofstream &file, const sequence &new_seq) {
   for (auto it = new_seq.begin(); it != new_seq.end(); it++) {
@@ -107,6 +126,7 @@ std::vector<sequence> nested_marvellous(int n, int m, long random_sample_bound, 
     
     // Now check every possible pair
     long pair_index = 0;
+    auto start_time = std::chrono::high_resolution_clock::now();
     for (long i1 = 0; i1 < prev_lev_seqs.size(); i1++) {
       for (long i2 = 0; i2 < prev_lev_seqs.size(); i2++) {
         // Random sample. We keep the for-structure for simplicity.
@@ -153,7 +173,11 @@ std::vector<sequence> nested_marvellous(int n, int m, long random_sample_bound, 
           }
         }
         if (pair_index % 5000 == 0) {
-          std::cout << "\r   " << ret.size() << " sequences found, " << pair_index << " (" << (100 * (float) (pair_index) / (using_random_sampling ? random_sample_bound : search_space_size)) << "\%) examined";
+          auto current_time = std::chrono::high_resolution_clock::now();
+          std::chrono::duration<double> elapsed_time = current_time - start_time;
+          double progress = (double) (pair_index) / (using_random_sampling ? random_sample_bound : search_space_size);
+          double remaining_seconds = elapsed_time.count() * (1 - progress) / progress;
+          std::cout << "\r   " << ret.size() << " sequences found, " << pair_index << " (" << (100 * progress) << "\%) examined, " << humanize_seconds(remaining_seconds) << " remaining";
         }
         pair_index++;
 
@@ -162,10 +186,14 @@ std::vector<sequence> nested_marvellous(int n, int m, long random_sample_bound, 
           break;
         }
       }
+      if (using_random_sampling && pair_index > random_sample_bound) {
+        pair_index--;
+        break;
+      }
     }
 
     std::cout << std::endl << "   Done" << std::endl;
-    std::cout << "   " << ret.size() << " sequences found" << std::endl;
+    std::cout << "   " << ret.size() << " sequences found, " << pair_index << " examined" << std::endl;
     if (print_to_file) {
       output_file.close();
     }
@@ -177,6 +205,8 @@ std::vector<sequence> nested_marvellous(int n, int m, long random_sample_bound, 
 }
 
 int main(int argc, char **argv) {
+  srand(time(NULL));
+
   int n = std::stoi(argv[1]);
   int m = std::stoi(argv[2]);
 
