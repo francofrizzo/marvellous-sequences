@@ -238,7 +238,10 @@ caminos cerrados que utilizan cada arista exactamente una vez.
 
 De Bruijn utiliza esta naturaleza recursiva de la familia de digrafos $G_n$
 para demostrar una fórmula cerrada para la cantidad de collares de De Bruijn
-de orden $n$ existentes, que es exactamente $\frac{b^{b^{n-1}}}{b^n}$.
+de orden $n$ existentes, que en el caso de un alfabeto binario es exactamente
+$\frac{2^{2^{n-1}}}{2^n}$. Este resultado fue luego generalizado en
+\cite{van_Aardenne_Ehrenfest_1951} para alfabetos de tamaño arbitrario,
+donde la cantidad de collares es $\frac{(b!)^{b^{n-1}}}{b^n}$.
 
 Cabe señalar que, debido a sus características, la forma más natural de
 presentar la definición de los collares de De Bruijn es justamente en términos
@@ -258,29 +261,66 @@ el período de una secuencia $n$-de De Bruijn es necesariamente igual a su
 longitud, $b^n$; de lo contrario, la palabra de longitud $n$ con la que comienza
 volvería a aparecer más adelante. Luego, cada collar $n$-de De Bruijn tiene
 $b^n$ cortes distintos, con lo cual la cantidad de secuencias $n$-de De Bruijn
-es exactamente $b^{b^{n-1}}$.
+es exactamente $(b!)^{b^{n-1}}$.
 
-\subsection{El teorema BEST}
+\subsection{El teorema \BEST{}}
 
-El teorema BEST es un resultado en teoría de grafos que permite determinar la
-cantidad de circuitos eulerianos en un digrafo. Recibe su nombre por las
+El teorema \BEST{} es un resultado en teoría de grafos que permite determinar la
+cantidad de circuitos eulerianos en un multidigrafo. Recibe su nombre por las
 iniciales de sus descubridores, de Bruijn, van Aardenne-Ehrenfest, Smith y
 Tutte.
 
-\begin{lemma*}[BEST, \pending{citar}]
+\begin{theorem*}[\BEST{}, \pending{[cita]}]
 	Sea $G$ un multidigrafo euleriano con vértices $v_1, \dots, v_n$.
 	La cantidad de circuitos eulerianos en $G$ está dada por
-	\[ \epsilon(G) = c \cdot \prod_{i=1}^n (d_i - 1)!, \]
-	donde $d_i$ es el grado de salida de $v_i$ y $c$ es la cantidad de árboles
-	generadores de $G$ orientados hacia un vértice arbitrario.
-\end{lemma*}
+	\[ \operatorname{ec}(G) = t_k \cdot \prod_{i=1}^n (d_i - 1)!, \]
+	donde $d_i$ es el grado de salida de $v_i$ y $t_k$ es la cantidad de árboles
+	generadores de $G$ orientados hacia un vértice $v_k$ arbitrario.
+\end{theorem*}
 
-Recordemos que un multidigrafo euleriano es aquel en el que existe algún circuito
-euleriano, o equivalentemente, aquel en que los grados de entrada y de
-salida coinciden para todos los vértices.
+\note{Desde acá se podría omitir. La única verdadera razón para definir
+laplaciano es que aparece en el enunciado del teorema BEST generalizado,
+y no estoy convencido de si reformularlo para que el laplaciano no aparezca
+o qué hacer.}
 
-\pending{Enunciar cómo se aplica para grafos de De Bruijn. ¿Definir laplaciano
-o solo citar cantidad de árboles generadores?}
+Para obtener la cantidad de árboles generadores en un multidigrafo euleriano,
+puede usarse a su vez el teorema de Kirchoff, que permite calcularla
+a partir de su \emph{matriz laplaciana}, definida como
+\[ \laplacian(G) = \left\lbrace \begin{array}{ll}
+	d_i - d_{ii} & \text{si $i = j$} \\
+	-d_{ij}       & \text{si $i \neq j$}
+\end{array} \right\rbrace_{i,j = 1,\dots,n}, \]
+donde $d_i$ es el grado de salida de $v_i$ y $d_{ij}$ es la cantidad de
+aristas que van de $i$ a $j$.
+
+\begin{theorem*}[Kirchoff, \pending{[cita]}]
+	Sea $G$ un multidigrafo con vértices $v_1, \dots, v_n$. La cantidad
+	de árboles generadores orientados hacia un vértice $v_i$ es el $i$-ésimo
+	cofactor de la matriz $\laplacian(G)$, es decir,
+	\[ t_i = \operatorname{det}(\laplacian_i(G)), \]
+	siendo $\laplacian_i(G)$ la matriz que se obtiene al omitir la $i$-ésima fila
+	y la $i$-ésima columna de $\laplacian(G)$.
+\end{theorem*}
+
+\note{Hasta acá se podría omitir.}
+
+En multidigrafos eulerianos, el vértice que se elija resulta irrelevante, ya
+que la cantidad de árboles generadores hacia cualquiera de ellos es invariante;
+en otras palabras, todos los cofactores de $\laplacian(G)$ son iguales. En
+el caso concreto del digrafo de De Bruijn de orden $n$, es posible demostrar
+\pending{[cita]} que
+\[ t_k = \frac{b^{b^{n}}}{b^{n+1}}, \]
+lo cual, junto al hecho de que posee exactamente $b^n$ vértices y el grado de
+salida de todos ellos es exactamente $b$, permite utilizar el teorema \BEST{} para
+contabilizar la cantidad de circuitos eulerianos:
+\begin{align*}
+	\operatorname{ec}(G_n) &= t_k \cdot \prod_{i=1}^{b^n} (d_i - 1)! \\
+		&= \frac{b^{b^{n}}}{b^{n+1}} \cdot \left((b - 1)!\right)^{b^n} \\
+		&= \frac{(b!)^{b^{n}}}{b^{n+1}}.
+\end{align*}
+
+Notar que esta fórmula se corresponde exactamente con la dada en la sección
+anterior para la cantidad de collares de De Bruijn de orden $n + 1$.
 
 \subsection{Secuencias maravillosas}
 
@@ -374,7 +414,7 @@ Concretamente, como existen $m! $ maneras de permutar cada conjunto de $m$
 aristas, se tiene un total de $b^{n+1} \cdot m!$ maneras distintas de
 representar un collar $(n+1,m)$-maravilloso con un circuito euleriano.
 
-Si se tiene este hecho en consideración, es posible aplicar el teorema BEST
+Si se tiene este hecho en consideración, es posible aplicar el teorema \BEST{}
 para contabilizar la cantidad de circuitos eulerianos en los multidigrafos de
 De Bruijn y así obtener una fórmula cerrada para la cantidad de collares
 maravillosos.
@@ -400,23 +440,23 @@ noción de \emph{circuito $\pi$-euleriano} presentada por Farrell y Levine en
 Esta noción generaliza la de circuito euleriano, ya que estos son circuitos
 $\pi$-eulerianos con $\pi = (1, \dots, 1)$.
 Partiendo de aquí, los autores presentan la siguiente generalización del
-teorema BEST.
+teorema \BEST{}.
 
-\begin{lemma*}[BEST generalizado, \cite{Farrell_Levine_2016}]
+\begin{lemma*}[\BEST{} generalizado, \cite{Farrell_Levine_2016}]
 	\label{prop:BEST-generalized}
 	Sea $G$ un multidigrafo fuertemente conexo con vértices $v_1, \dots, v_n$, y
 	sea $\pi \in \mathbb{N}^n$.
-	Existen un circuito $\pi$-euleriano en $G$ si y solo si
+	Existen circuitos $\pi$-eulerianos en $G$ si y solo si
 	\[ \laplacian(G) \cdot \pi = 0, \]
 	en cuyo caso la cantidad de estos circuitos que comienzan con una arista $e$
 	determinada es
-	\[ \epsilon_\pi(G, e) = c_e \cdot
+	\[ \operatorname{ec}_\pi(G, e) = t_e \cdot
 		\prod_{i=1}^n \frac{(d_i\pi_i - 1)! }{(\pi_i!)^{d_i-1}(\pi_i-1)!}, \]
-	donde $d_i$ es el grado de salida de $v_i$, y $c_e$ es la cantidad de árboles
+	donde $d_i$ es el grado de salida de $v_i$, y $t_e$ es la cantidad de árboles
 	generadores de $G$ orientados hacia la cola de $e$.
 \end{lemma*}
 
-El interés de esta definición para nuestro problema particular radica en que
+El interés de esta generalización para nuestro problema particular radica en que
 una secuencia $(n+1,m)$-maravillosa puede identificarse de forma unívoca con un
 circuito $\pi$-euleriano en $G_n$ tomando $\pi = (m,\dots,m)$ y fijando cuál
 será su arista inicial.
@@ -426,7 +466,7 @@ Esto nos permite enunciar y demostrar el siguiente resultado.
 	\label{theorem:marvellous-count}
 	Sean $n, m > 0$.
 	La cantidad de secuencias $(n,m)$-maravillosas es exactamente
-	$\left( \frac{(bm)! }{(m!)^b} \right)^{b^{n-1}}$.
+	\[ \left( \frac{(bm)! }{(m!)^b} \right)^{b^{n-1}}. \]
 \end{theorem}
 
 \begin{proof}
@@ -434,16 +474,19 @@ Esto nos permite enunciar y demostrar el siguiente resultado.
 	En este caso, como se mencionó anteriormente, fijando $\pi = (m, \dots, m)$,
 	basta con determinar la cantidad de circuitos $\pi$-eulerianos en $G_{n-1}$
 	para cada una de las posibles elecciones de arista inicial.
-	Es decir que, en virtud del Lema \ref{prop:BEST-generalized}, la cantidad de
+	Sabemos que existen circuitos $\pi$-eulerianos en $G_{n-1}$, ya que se trata
+	de un digrafo euleriano, por lo que basta con tomar un circuito euleriano y
+	repetirlo $m$ veces para obtener un ejemplo.
+	Es decir que, en virtud del teorema \BEST{} generalizado, la cantidad de
 	secuencias maravillosas será igual a \[ \sum_e \epsilon_\pi(G_{n-1}, e) =
-		\sum_e c_e \cdot \prod_{i=1}^{b^{n-1}} \frac{(d_i\pi_i - 1)!
+		\sum_e t_e \cdot \prod_{i=1}^{b^{n-1}} \frac{(d_i\pi_i - 1)!
 		}{(\pi_i!)^{d_i-1}(\pi_i-1)!}, \] donde la suma se realiza sobre todas las
 	aristas del digrafo $G_{n-1}$.
 
 	Se sabe que la cantidad de aristas de $G_{n-1}$ es $b^n$; por otro lado, la
-	cantidad de árboles generadores orientados hacia cualquiera de los nodos de
-	$G_{n-1}$ es $\frac{b^{b^{n-1}}}{b^n}$ [¿cita?], de donde se sigue que
-	$\sum_{e} c_e = b^{b^{n-1}}$.
+	cantidad de árboles generadores orientados hacia cualquiera de los vértices
+	de $G_{n-1}$ es $\frac{b^{b^{n-1}}}{b^n}$ [¿cita?], de donde se sigue que
+	$\sum_{e} t_e = b^{b^{n-1}}$.
 	Reemplazando en la expresión anterior, se obtiene \[ b^{b^{n-1}} \cdot
 		\prod_{i=1}^{b^{n-1}} \frac{(d_i\pi_i - 1)! }{(\pi_i!)^{d_i-1}(\pi_i-1)!}.
 	\]
@@ -517,6 +560,8 @@ objeto de estudio de este trabajo.
 	$m \cdot b^{n'}$ que comienza en una posición congruente a $0$ módulo
 	$m \cdot b^{n'}$ es $(n',m)$-maravillosa.
 \end{definition}
+
+\pending{Hablar de átomos.}
 
 \pending{Explicar problema a resolver (ver cómo se lleva con la introducción).}
 
@@ -596,7 +641,7 @@ construcción.
 	\end{itemize}
 \end{examples}
 
-El siguiente lema se presentan a modo de resultado intermedio para
+El siguiente lema se presenta a modo de resultado intermedio para
 demostrar el Teorema \ref{theorem:autosimilar-nm-characterization}.
 
 \begin{lemma} \label{lemma:marvellous-for-smaller-n}
@@ -723,7 +768,7 @@ de $2$ y de $3$ símbolos.
 
 Puede notarse que, debido a la condición de que $b^{n-1} \vert m$ necesaria
 para la existencia de este tipo de secuencias, el menor $m$ para el cual la
-cantidad de secuencias no es $0$ dado un $n$ fijo es $m = b^{n-1}$. Este caso
+cantidad de secuencias no es $0$, dado un $n$ fijo, es $m = b^{n-1}$. Este caso
 es especialmente interesante ya que los átomos que se utilizarán son secuencias
 $(n, 1)$-maravillosas, es decir, secuencias $n$-de De Bruijn, para cuya
 generación se han estudiado ya diversos métodos.
@@ -744,6 +789,7 @@ resultados.
 
 \begin{table}[h]
 	\centering
+	\small
 	\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
 		\hline
 		\diagbox[width=3em]{$n$}{$m$} & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16  \\
@@ -780,10 +826,10 @@ resultados.
 		\hline
 		16 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & & \\
 		\hline
-	\end{tabular} \vspace{.75em} \\
+	\end{tabular} \vspace{1em} \\
 	
 	{
-		\setlength{\fboxsep}{.5em}
+		\setlength{\fboxsep}{.3em}
 		\fbox{
 			\footnotesize
 			\begin{tabular}{cl cl}
