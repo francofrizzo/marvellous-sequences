@@ -1,7 +1,6 @@
 module PerfectRotations where
 
 import AffineNecklaces (allAffineNecklaces)
-import Data.List (nub)
 import MarvellousSequences (isNestedMarvellous, isNestedPerfect)
 import Necklaces (rotateNecklace)
 
@@ -18,5 +17,7 @@ perfectRotations n d = map (\seq -> map (rotateLast seq halfSize) rotationIndice
     halfSize = 2 ^ (n + d -1)
     rotationIndices = [1]
 
-filteredPerfectRotations :: Int -> Int -> [[Int]]
-filteredPerfectRotations n d = nub $ filter (\s -> isNestedMarvellous 2 n (2 ^ d) s && not (isNestedPerfect 2 n (2 ^ d) s)) (concat $ perfectRotations n d)
+-- rotationIndices = [0 .. halfSize - 1]
+
+filteredPerfectRotations :: Int -> Int -> [[[Int]]]
+filteredPerfectRotations n d = map (filter (\s -> isNestedMarvellous 2 n (2 ^ d) s && not (isNestedPerfect 2 n (2 ^ d) s))) (perfectRotations n d)
