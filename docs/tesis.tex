@@ -70,9 +70,84 @@
 
 \section{Introducción}
 
+Una secuencia $s$ de símbolos de $\{0,1\}$  es {\em maravillosa} de orden $(n,m)$
+si todas las secuencias 
+ de longitud $n$ ocurren exactamente  $n$ veces en
+ la palabra circular definida por $s$.
+Una  secuencia es {\em maravillosa anidada} de orden $(n,m)$
+si es maravillosa  de orden $(n,m)$
+y, cuando  $n>1$, es la concatenación  dos secuencias
+ maravillosas  anidadas de orden $(n-1,m)$.
+
+Se sabe que para todo $(n,m)$
+ existen las secuencias maravillosas anidadas que cumplen que 
+todas las secuencias de longitud $m$ ocurren en distintas posiciones módulo $m$.
+¿Es necesaria esta condición de ocurrencia en posiciones 
+que son distintas módulo $m$?
+Es decir, ¿Existen las secuencias maravillosas anidadas de orden $(n,m)$ 
+sin la restricción de que las ocurrencias
+sean en distintas posiciones módulo $m$?
+
+\subsection{Antecedentes}
+
+Consideremos un alfabeto finito. Los collares --o palabras circulares-- de
+De Bruijn de orden $n$ son aquellas en las que todas las palabras de longitud
+$n$ aparecen exactamente una vez.
+Las secuencias de De Bruijn de orden $n$ tienen longitud $b^n$, siendo $b$ la
+cantidad de símbolos del alfabeto.
+Nicolaas~Govert de~Bruijn \cite{de-bruijn-combinatorial-problem} dio esta definición al mismo tiempo que las caracterizó como circuitos eulerianos
+en los llamados grafos de De Bruijn, y contó cuántas hay.
+
+Recientemente Alvarez, Becher, Ferrari y Yuhjtman \cite{alvarez-perfect-necklaces}
+presentaron una generalización de los collares de De Bruijn,
+que se llaman \emph{collares perfectos}.
+Una collar es \emph{perfecto} de orden $(n,m)$ si todas las secuencias 
+de longitud $n$ ocurren exactamente $m$ veces, y todas ellas en distintas
+posiciones módulo~$m$.
+Las secuencias perfectas de orden $(n,m)$ tienen longitud  $mb^n$.
+En \cite{alvarez-perfect-necklaces} las secuencias perfectas están
+caracterizadas como circuitos eulerianos en los llamados grafos astutos,
+dándose una fórmula para la cantidad de secuencias perfectas de orden $(n,m)$.
+
+Becher y Carton \cite{becher-nested-perfect} definieron las
+\emph{secuencias perfectas anidadas}; las mismas son palabras lineales --no
+circulares-- que, miradas circularmente, son perfectas de orden $(n,m)$ y,
+además, cuando $n>1$, son la concatenación de dos secuencias perfectas anidadas
+de orden $(n-1, m)$.
+En \cite{becher-nested-perfect} las secuencias perfectas anidadas son
+caracterizadas como el resultado de una transformación lineal que puede
+obtenerse a partir del triángulo de Pascal. Este trabajo también cuenta la
+cantidad de secuencias perfectas anidadas $(n,m)$ siempre que $m$ es potencia
+de $2$.
+
+Becher y Carton definieron las \emph{secuencias maravillosas anidadas}
+de orden $(n,m)$ soltando la restricción de que las $m$ 
+ocurrencias debían ocurrir  en 
+posiciones distintas módulo $m$, y dejaron abierta la pregunta de si existen o no las 
+{\em secuencias maravillosas anidadas} que no son {\em perfectas anidadas}.
+
+
+\subsection{Objetivo y resultados}
+En este trabajo, nos propusimos responder la pregunta formulada por Becher y
+Carton de si existen secuencias maravillosas anidadas que no son perfectas
+anidadas.
+En caso de responder positivamente, nos propusimos dar métodos de construcción
+que permitieran obtener secuencias de estas características, con el objetivo
+de máxima de contar la cantidad de secuencias maravillosas anidadas de orden
+$(n,m)$ y, en caso de que esto no fuera posible, de poder brindar ejemplos que
+garantizaran su existencia.
+
+
+
+\subsection{Estructura del documento}
+
+El resto de este documento está estructurado de la siguiente manera. El
+Capítulo \ref{asd} hace un 
+
 \newpage
 
 \section{Preliminares}
+\label{asd}
 
 Para comenzar, presentamos algunas definiciones sobre secuencias que son
 esenciales para comprender este trabajo, como así también algunos detalles
@@ -124,7 +199,7 @@ la palabra \emph{aparece} en el collar.
 
 \subsection{Collares y secuencias de De Bruijn}
 
-En \cite{db}, Nicolaas G. de Bruijn realizó un detallado estudio de una clase
+En \cite{de-bruijn-combinatorial-problem}, Nicolaas G. de Bruijn realizó un detallado estudio de una clase
 de collares que han pasado a ser conocidos con su nombre.
 
 \begin{definition}[Collar de De Bruijn]
@@ -133,9 +208,11 @@ de collares que han pasado a ser conocidos con su nombre.
 	aparece exactamente una vez.
 \end{definition}
 
-\begin{examples}
-	El collar $\neck{11000101}$ es un collar de De Bruijn de orden $3$.
-	El collar $\neck{0101100111101000}$ es un collar de De Bruijn de orden $4$.
+\begin{examples}\ \\
+	\begin{itemize}
+		\item El collar $\neck{11000101}$ es un collar de De Bruijn de orden $3$.
+		\item El collar $\neck{0101100111101000}$ es un collar de De Bruijn de orden $4$.
+	\end{itemize}
 \end{examples}
 
 De Bruijn presenta una bonita caracterización de estos collares como circuitos
@@ -240,7 +317,7 @@ De Bruijn utiliza esta naturaleza recursiva de la familia de digrafos $G_n$
 para demostrar una fórmula cerrada para la cantidad de collares de De Bruijn
 de orden $n$ existentes, que en el caso de un alfabeto binario es exactamente
 $\frac{2^{2^{n-1}}}{2^n}$. Este resultado fue luego generalizado en
-\cite{van_Aardenne_Ehrenfest_1951} para alfabetos de tamaño arbitrario,
+\cite{van-aardenne-ehrenfest-circuits-and-trees} para alfabetos de tamaño arbitrario,
 donde la cantidad de collares es $\frac{(b!)^{b^{n-1}}}{b^n}$.
 
 Cabe señalar que, debido a sus características, la forma más natural de
@@ -278,11 +355,6 @@ Tutte.
 	generadores de $G$ orientados hacia un vértice $v_k$ arbitrario.
 \end{theorem*}
 
-\note{Desde acá se podría omitir. La única verdadera razón para definir
-laplaciano es que aparece en el enunciado del teorema BEST generalizado,
-y no estoy convencido de si reformularlo para que el laplaciano no aparezca
-o qué hacer.}
-
 Para obtener la cantidad de árboles generadores en un multidigrafo euleriano,
 puede usarse a su vez el teorema de Kirchoff, que permite calcularla
 a partir de su \emph{matriz laplaciana}, definida como
@@ -301,8 +373,6 @@ aristas que van de $i$ a $j$.
 	siendo $\laplacian_i(G)$ la matriz que se obtiene al omitir la $i$-ésima fila
 	y la $i$-ésima columna de $\laplacian(G)$.
 \end{theorem*}
-
-\note{Hasta acá se podría omitir.}
 
 En multidigrafos eulerianos, el vértice que se elija resulta irrelevante, ya
 que la cantidad de árboles generadores hacia cualquiera de ellos es invariante;
@@ -427,9 +497,9 @@ cortes a un collar maravilloso es diferente para cada collar.
 Para salvar este obstáculo, decidimos buscar un enfoque alternativo que
 permitiera caracterizar directamente las secuencias maravillosas, utilizando la
 noción de \emph{circuito $\pi$-euleriano} presentada por Farrell y Levine en
-\cite{Farrell_Levine_2016}.
+\cite{farrell-multi-eulerian-tours}.
 
-\begin{definition}[Circuito $\pi$-euleriano, \cite{Farrell_Levine_2016}]
+\begin{definition}[Circuito $\pi$-euleriano, \cite{farrell-multi-eulerian-tours}]
 	Sea $G$ un digrafo con vértices $v_1, \dots, v_n$, y sea $\pi \in
 		\mathbb{N}^n$
 	un vector con valores estrictamente positivos.
@@ -442,7 +512,7 @@ $\pi$-eulerianos con $\pi = (1, \dots, 1)$.
 Partiendo de aquí, los autores presentan la siguiente generalización del
 teorema \BEST{}.
 
-\begin{lemma*}[\BEST{} generalizado, \cite{Farrell_Levine_2016}]
+\begin{lemma*}[\BEST{} generalizado, \cite{farrell-multi-eulerian-tours}]
 	\label{prop:BEST-generalized}
 	Sea $G$ un multidigrafo fuertemente conexo con vértices $v_1, \dots, v_n$, y
 	sea $\pi \in \mathbb{N}^n$.
@@ -533,10 +603,10 @@ que cada posible palabra de longitud $n$ aparece circularmente exactamente
 $m$ veces, al igual que en las secuencias maravillosas, pero con la restricción
 adicional de que cada una de estas apariciones se produce en una posición
 distinta módulo $m$.
-Puede verse una presentación de estas secuencias en \cite{ALVAREZ201648},
+Puede verse una presentación de estas secuencias en \cite{alvarez-perfect-necklaces},
 junto a una caracterización de las mismas en términos de grafos.
 
-En \cite{BECHER2019101403}, Becher y Carton definen las \emph{secuencias
+En \cite{becher-nested-perfect}, Becher y Carton definen las \emph{secuencias
 perfectas anidadas}; las mismas son secuencias maravillosas que, a su vez,
 son la concatenación de secuencias maravillosas anidadas del orden inferior.
 Los autores brindan un método basado en matrices que permite --bajo ciertas
@@ -567,11 +637,9 @@ objeto de estudio de este trabajo.
 
 \newpage
 
-\section{Métodos de construcción}
+\section{Una familia maravillosa: las secuencias maravillosas autosimilares}
 
-\subsection{Secuencias autosimilares}
-
-En este apartado, presentaremos un método de construcción que permite generar
+En esta sección presentamos un método de construcción que permite generar
 secuencias $(n,m)$-maravillosas anidadas que no son perfectas anidadas, siempre
 y cuando se cumpla que $m = b^{n - 1}$.
 Este método fue motivado por el estudio de una subfamilia de las secuencias
@@ -864,7 +932,7 @@ a partir de lo ya presentado hasta ahora. En particular:
 	Gracias al Teorema \ref{theorem:marvellous-count}, sabemos que estas
 	existen y que su cantidad es exactamente $\frac{(2m)!}{(m!)^2}$. De las
 	mismas, solo $2^m$ son perfectas anidadas, según la fórmula dada en
-	\cite{BECHER2019101403}.
+	\cite{becher-nested-perfect}.
 	\item En los casos en que $m$ es un múltiplo de $2^{n-1}$, el método de
 	construcción por secuencias autosimilares nos permite afirmar que existen
 	secuencias $(n,m)$-maravillosas anidadas que no son $(n,m)$-perfectas
@@ -915,6 +983,8 @@ En el Cuadro \ref{table:nested-marvellous-count} presentamos estos resultados.
 		para los valores para los fue posible generarlas de forma exhaustiva.}
 	\label{table:nested-marvellous-count}
 \end{table}
+
+\subsection{Valores para los que no existen secuencias}
 
 Un primer hecho que puede constatarse al observar las columnas correspondientes
 a $m = 1, 2, 3$ es la inexistencia de secuencias cuando el valor de $n$ crece
@@ -986,7 +1056,9 @@ de las secuencias comienzan a manifestarse antes de llegar a $n = 2m$.
 No obstante, es claro que esta conclusión podría estar sesgada debido a que
 los valores de $m$ que fue posible estudiar son muy pequeños.
 
-En respaldo de la segunda conjetura, podemos exhibir una serie de ejemplos
+\subsection{Valores para los que existen secuencias}
+
+En respaldo de nuestra segunda conjetura, podemos exhibir una serie de ejemplos
 que constatan la existencia de secuencias $(n,m)$-maravillosas anidadas para
 algunos de los valores de los parámetros. Los mismos fueron obtenidos a partir
 de dos métodos distintos.
@@ -1002,7 +1074,7 @@ de dos métodos distintos.
 
 	Mediante este método pudimos generar ejemplos para $m = 2, 4, 8$ y
 	$n = 1, \dots, m$ (recordemos que el método para generar secuencias perfectas
-	anidadas presentado en \cite{BECHER2019101403} solo está definido para valores
+	anidadas presentado en \cite{becher-nested-perfect} solo está definido para valores
 	de $m$ que sean potencias de $2$). Consideramos que este método tiene buenas
 	perspectivas de funcionar también para $m = 16, 32$, etc.
 
