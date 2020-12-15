@@ -1129,7 +1129,13 @@ valor aparece en la fila ``Tamaño estimado del espacio de búsqueda''. Luego,
 se extrapola a este espacio completo la proporción de secuencias maravillosas
 anidadas hallada en el subconjunto que se tomó al submuestrear, obteniendo
 los valores de la fila ``Cantidad estimada de secuencias maravillosas
-anidadas''.
+anidadas''\footnote{
+	Huelga aquí decir que el no haber encontrado ninguna secuencia para
+	$n = 6$ no brinda ningún tipo de evidencia de que estas secuencias no existan.
+	Si bien podría tomarse como un indicador que las mismas son relativamente
+	raras, las enormes dimensiones del espacio de búsqueda y la pequeñísima
+	porción del mismo que efectivamente fue explorada hacen posible que pueda
+	existir un enorme número de ellas, aunque no nos hayamos topado con ninguna.}.
 
 Es necesario destacar que estos resultados, de carácter meramente exploratorio,
 podrían presentar sesgos que es imposible eliminar sin un estudio más profundo.
@@ -1175,3 +1181,12 @@ visualmente estas cantidades.
 	(escala logarítmica).}
 	\label{figure:compare-marvellous-perfect}
 \end{figure}
+
+Aplicando esta misma metodología para otros valores de $m$ ($m = 4, 5, 6$),
+observamos un comportamiento similar, con la cantidad estimada de secuencias
+maravillosas anidadas aumentando muy rápidamente al incrementar $n$. En ningún
+caso pudimos llegar a valores de $n$ mayores que $m$, menos aún estudiando
+una porción lo suficientemente grande del espacio de búsqueda como para
+verificar un posible declive en la cantidad de secuencias,
+lo cual hubiera sido de interés para corroborar la validez de la primera de
+nuestras conjeturas.
