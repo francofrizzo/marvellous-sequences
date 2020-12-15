@@ -560,11 +560,14 @@ $m$ veces, al igual que en las secuencias maravillosas, pero con la restricción
 adicional de que cada una de estas apariciones se produce en una posición
 distinta módulo $m$.
 Puede verse una presentación de estas secuencias en \cite{alvarez-perfect-necklaces},
-junto a una caracterización de las mismas en términos de grafos.
+junto a una caracterización de las mismas en términos de una modificación
+de los digrafos de De Bruijn, los denominados grafos astutos, y una fórmula
+para su cantidad.
 
 En \cite{becher-nested-perfect}, Becher y Carton definen las \emph{secuencias
-perfectas anidadas}; las mismas son secuencias maravillosas que, a su vez,
-son la concatenación de secuencias maravillosas anidadas del orden inferior.
+perfectas anidadas}. Una secuencia $(n,m)$-perfecta anidada es una secuencia
+perfecta de orden $(n,m)$ que además, si $n > 1$, es la concatenación de $b$
+secuencias perfectas anidadas de orden $(n-1,m)$.
 Los autores brindan un método basado en matrices que permite ---bajo ciertas
 restricciones--- generar estas secuencias.
 
@@ -583,24 +586,33 @@ objeto de estudio de este trabajo.
 
 	Alternativamente, una secuencia es $(n,m)$-maravillosa anidada si, para todo
 	$n'$ tal que $1 \leq n' \leq n$, toda subsecuencia de longitud
-	$m b^{n'}$ que comienza en una posición congruente a $0$ módulo
+	$m b^{n'}$ que comienza en una posición congruente a $1$ módulo
 	$m b^{n'}$ es $(n',m)$-maravillosa.
 \end{definition}
 
-\pending{Hablar de átomos.}
-
-\pending{Explicar problema a resolver (ver cómo se lleva con la introducción).}
+\pending{Agregar ejemplos. Definir $m$-átomos.}
 
 \newpage
 
 \chapter{Una familia maravillosa: las secuencias maravillosas autosimilares}
 \label{chapter:autosimilar-sequences}
 
-En esta sección presentamos un método de construcción que permite generar
-secuencias $(n,m)$-maravillosas anidadas que no son perfectas anidadas, siempre
-y cuando se cumpla que $m = b^{n - 1}$.
-Este método fue motivado por el estudio de una subfamilia de las secuencias
-maravillosas anidadas, que denominamos \emph{secuencias autosimilares}.
+Esta sección tiene por objetivo brindar una demostración del siguiente teorema
+de existencia, presentando un método constructivo para una familia particular
+de secuencias maravillosas anidadas. Al igual que en la sección anterior,
+$b$ hace referencia a la cantidad de símbolos del alfabeto, y los ejemplos
+presentados son para el alfabeto $\alphabet = \lbrace 0, 1 \rbrace$.
+
+\begin{theorem}
+	\label{theorem:existence-autosimilar}
+	Sean $n, m > 0$.
+	Si $b^{n-1}$ divide a $m$, existen secuencias $(n,m)$-maravillosas anidadas
+	que no son perfectas anidadas.
+\end{theorem}
+
+El primer paso para demostrar este teorema es presentar la familia de secuencias
+para la que daremos un método constructivo; se trata de las que llamamos
+\emph{secuencias autosimilares}.
 
 \begin{definition}
 	Una secuencia $x$ es $(n,m)$-\emph{autosimilar} si consiste en $b^{n-1}$
@@ -614,37 +626,27 @@ maravillosas anidadas, que denominamos \emph{secuencias autosimilares}.
 	es $(2,6)$-maravillosa anidada.
 \end{example}
 
-\begin{proposition} \label{proposition:autosimilar-cannot-be-np}
-	Una secuencia $(n,m)$-autosimilar con $n > 1$ no puede ser $(n,m)$-perfecta.
-\end{proposition}
-
-\begin{proof}
-	Dado que la secuencia se construye repitiendo al menos dos veces una misma
-	secuencia de longitud $bm$, la palabra de longitud $n$ que aparece en la
-	posición $0$ de la secuencia aparece nuevamente en la posición $bm$.
-	Esto contradice la definición de secuencia perfecta, ya que cada aparición de
-	dicha palabra debería comenzar en una posición distinta módulo $m$.
-\end{proof}
-
 Nos interesa estudiar las secuencias $(n,m)$-maravillosas anidadas que, además,
 son autosimilares.
-Cabe señalar que las mismas están conformadas por un único $m$-átomo repetido
-$b^{n-1}$ veces.
-La proposición que enunciaremos a continuación nos permite caracterizarlas a
+Podemos notar que las mismas consisten precisamente en la concatenación
+de $b^{n-1}$ copias de un mismo $m$-átomo.
+
+La proposición que enunciaremos a continuación nos permite caracterizar a
+las secuencias $(n,m)$-maravillosas anidadas autosimilares a
 partir de una propiedad verificable los átomos que les dan origen.
-Este resultado nos permitirá determinar para qué valores de $(n,m)$ existen
+Gracias a este resultado, podemos determinar para qué valores de $(n,m)$ existen
 este tipo de secuencias, cuál es su cantidad, y presentar un método para su
 construcción.
 
-\begin{theorem}
-	\label{theorem:autosimilar-nm-characterization}
+\begin{proposition}
+	\label{proposition:autosimilar-nm-characterization}
 	Sea $x = \omega^{b^{n-1}}$ una secuencia $(n,m)$-autosimilar.
 	La secuencia $x$ es $(n,m)$-maravillosa anidada si y solo si $b^{n-1}$
 	divide a $m$ y $\omega$
 	es una secuencia $\left( n, \frac{m}{b^{n-1}} \right)$-maravillosa.
-\end{theorem}
+\end{proposition}
 
-\begin{examples} Sea $\alphabet = \lbrace 0, 1 \rbrace$.
+\begin{examples}\ %
 	\begin{itemize}
 		\item El $4$-átomo $01011100$ es $(1,4)$, $(2,2)$ y
 		      $(3,1)$-maravilloso.
@@ -667,7 +669,7 @@ construcción.
 \end{examples}
 
 El siguiente lema se presenta a modo de resultado intermedio para
-demostrar el Teorema \ref{theorem:autosimilar-nm-characterization}.
+demostrar la Proposición \ref{proposition:autosimilar-nm-characterization}.
 
 \begin{lemma} \label{lemma:marvellous-for-smaller-n}
 	Sea $x$ una secuencia $(n,m)$-mavarillosa.
@@ -676,7 +678,6 @@ demostrar el Teorema \ref{theorem:autosimilar-nm-characterization}.
 \end{lemma}
 
 \begin{example}
-	Sea $\alphabet = \lbrace 0, 1 \rbrace$.
 	La secuencia $(3,4)$-maravillosa \[ 00001111\ 00101011\ 00101101\ 11100010, \]
 	es también $(2,8)$ y $(1,16)$-maravillosa.
 \end{example}
@@ -693,9 +694,9 @@ demostrar el Teorema \ref{theorem:autosimilar-nm-characterization}.
 \end{proof}
 
 Habiendo probado este resultado, estamos en condiciones de presentar una
-demostración para el Teorema \ref{theorem:autosimilar-nm-characterization}.
+demostración para la Proposición \ref{proposition:autosimilar-nm-characterization}.
 
-\begin{proof}[Demostración del Teorema \ref{theorem:autosimilar-nm-characterization}]
+\begin{proof}[Demostración de la Proposición \ref{proposition:autosimilar-nm-characterization}]
 	Si partimos del supuesto de que $b^{n-1}$ no divide a $m$, o bien que
 	$\omega$ no es una secuencia $\left( n, \frac{m}{b^{n-1}}
 		\right)$-maravillosa,
@@ -747,8 +748,8 @@ cualesquiera valores de $n$ y $m$, podemos enunciar el siguiente corolario.
 \end{corollary}
 
 \begin{proof}
-	Se sigue de forma inmediata de la caracterización dada por el Teorema
-	\ref{theorem:autosimilar-nm-characterization} y la fórmula para la cantidad de
+	Se sigue de forma inmediata de la caracterización dada por la Proposición
+	\ref{proposition:autosimilar-nm-characterization} y la fórmula para la cantidad de
 	secuencias maravillosas presentada en la Proposición \ref{proposition:marvellous-count}.
 \end{proof}
 
@@ -797,14 +798,36 @@ de $2$ y de $3$ símbolos, respectivamente.
 	\label{table:count-autosimilar-3}
 \end{table}
 
-Puede notarse que, debido a la condición de que $b^{n-1} \vert m$ necesaria
+Puede notarse que, debido a la condición de que $b^{n-1}$ divida a $m$ necesaria
 para la existencia de este tipo de secuencias, el menor $m$ para el cual la
 cantidad de secuencias no es $0$, dado un $n$ fijo, es $m = b^{n-1}$. Este caso
 es especialmente interesante ya que los átomos que se utilizarán son secuencias
 $(n, 1)$-maravillosas, es decir, secuencias $n$-de De Bruijn, para cuya
 generación se han estudiado ya diversos métodos.
 
-\newpage
+Sabemos ya bajo qué condiciones podemos garantizar la existencia de secuencias
+$(n,m)$-maravillosas anidadas autosimilares. El sencillo resultado siguiente nos
+permite asegurar también que estas secuencias no son secuencias perfefctas.
+
+\begin{proposition} \label{proposition:autosimilar-cannot-be-np}
+	Una secuencia $(n,m)$-autosimilar con $n > 1$ no puede ser $(n,m)$-perfecta.
+\end{proposition}
+
+\begin{proof}
+	Dado que la secuencia se construye repitiendo al menos dos veces una misma
+	secuencia de longitud $bm$, la palabra de longitud $n$ que aparece en la
+	posición $0$ de la secuencia aparece nuevamente en la posición $bm$.
+	Esto contradice la definición de secuencia perfecta, ya que cada aparición de
+	dicha palabra debería comenzar en una posición distinta módulo $m$.
+\end{proof}
+
+La demostración del Teorema \ref{theorem:existence-autosimilar} para $n > 1$
+se sigue ahora de manera inmediata a partir del Corolario
+\ref{corollary:autosimilar-nm-count} y de la Proposición
+\ref{proposition:autosimilar-cannot-be-np}.
+
+\note{¿Damos demo para n = 1 o sacamos el caso del teorema? Se puede usar un
+argumento de cardinalidad.}
 
 \chapter{Existencia de secuencias maravillosas anidadas: ejemplos y conjeturas}
 \label{chapter:examples-and-conjectures}
@@ -901,12 +924,13 @@ a partir de lo ya presentado hasta ahora. En particular:
 	existen y que su cantidad es exactamente $\frac{(2m)!}{(m!)^2}$. De las
 	mismas, solo $2^m$ son perfectas anidadas, según la fórmula dada en
 	\cite{becher-nested-perfect}.
-	\item En los casos en que $m$ es un múltiplo de $2^{n-1}$, el método de
-	construcción por secuencias autosimilares nos permite afirmar que existen
+	\item En los casos en que $m$ es un múltiplo de $2^{n-1}$, el Teorema
+	\ref{theorem:existence-autosimilar} y su demostración basada en el método de
+	construcción por secuencias autosimilares nos permiten afirmar que existen
 	secuencias $(n,m)$-maravillosas anidadas que no son $(n,m)$-perfectas
 	anidadas. Lo expuesto hasta el momento no es suficiente para
 	determinar si existen secuencias $(n,m)$-maravillosas anidadas que no sean
-	perfectas anidadas ni se puedan generar a través de este método.
+	perfectas anidadas y no se puedan generar a través de este método.
 	Cabe notar que este caso corresponde a valores de $n$ relativamente pequeños
 	con respecto a $m$ ya que, en el mejor de los casos, $m = 2^{n-1}$, con 
 	lo que la relación entre ambos parámetros es a lo sumo de orden logarítmico.
@@ -983,10 +1007,10 @@ $(1,m)$-maravillosas ($m$-átomos), donde la cantidad de ceros y unos debe estar
 equilibrada.
 El resultado que presentamos a continuación formaliza este razonamiento.
 
-\begin{proposition}
+\begin{theorem}
 	No existen secuencias $(n,m)$-maravillosas anidadas para ningunos $n$, $m$
 	tales que $n > 2m$.
-\end{proposition}
+\end{theorem}
 
 \begin{proof}
 	Consideremos un valor fijo para $m$.
