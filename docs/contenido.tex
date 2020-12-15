@@ -67,7 +67,8 @@ en particular, $m \geq b^{n-1}$, por lo que $n$ debe ser a lo sumo del orden
 del logaritmo de $m$ en base $b$.
 
 En el otro extremo, se encuentran las duplas $(n,m)$ para las que $n$ es grande
-en comparación con $m$. Si $n$ es mayor que $2m$, demostramos que no es
+en comparación con $m$. Para el caso de un alfabeto binario,
+si $n$ es mayor que $2m$, demostramos que no es
 posible encontrar secuencias maravillosas anidadas; si bien conjeturamos que
 las mismas dejan de existir tan pronto como $n$ supera a $m + 1$.
 
@@ -703,7 +704,7 @@ demostración para el Teorema \ref{theorem:autosimilar-nm-characterization}.
 	Es decir, en este caso, $x$ no puede ser una secuencia $(n,m)$-maravillosa
 	anidada.
 
-	Para demostrar la implicación opuesta, supongamos que $b^{n-1} \vert m$
+	Para demostrar la implicación opuesta, supongamos que $b^{n-1}$ divide a $m$
 	y $\omega$ es una secuencia $\left(n, \frac{m}{b^{n-1}} \right)$-maravillosa.
 	Demostraremos que para todo $n'$ tal que $1 \leq n' \leq n$, la secuencia
 	$\omega^{b^{n'-1}}$ es $(n',m)$-maravillosa anidada.
@@ -736,7 +737,7 @@ cualesquiera valores de $n$ y $m$, podemos enunciar el siguiente corolario.
 
 \begin{corollary} \label{corollary:autosimilar-nm-count}
 	Sean $n, m > 0$.
-	Si $b^{n-1} \vert m$, sea $k = \frac{m}{b^{n-1}}$; existen
+	Si $b^{n-1}$ divide a $m$, sea $k = \frac{m}{b^{n-1}}$; existen
 	$\left( \frac{(bk)! }{(k!)^b} \right)^{b^{n-1}}$
 	secuencias $(n,m)$-maravillosas anidadas que son autosimilares.
 	De lo contrario, no existe ninguna tal secuencia.
@@ -948,18 +949,35 @@ En la Tabla \ref{table:nested-marvellous-count} presentamos estos resultados.
 	\label{table:nested-marvellous-count}
 \end{table}
 
-\section{Valores para los que no existen secuencias}
+Partiendo del análisis de estos datos ---llevado a cabo de la manera que
+describimos a continuación--- aventuramos las siguientes conjeturas, para las que
+no contamos con una demostración completa:
+\begin{itemize}
+	\item \textbf{Conjetura 1}. Para todo $(n,m)$ con $n > m + 1$ no existen
+		secuencias $(n,m)$-maravillosas anidadas.
+	\item \textbf{Conjetura 2}. Para todo $(n,m)$ con $n \leq m + 1$ existen
+	secuencias $(n,m)$-maravillosas anidadas. Además, la cantidad de estas
+	secuencias es considerablemente mayor que la cantidad de secuencias
+	$(n,m)$-perfectas anidadas.
+\end{itemize}
 
-Un primer hecho que puede constatarse al observar las columnas correspondientes
-a $m = 1, 2, 3$ es la inexistencia de secuencias cuando el valor de $n$ crece
+\section{Conjetura 1: Valores para los que no existen secuencias}
+
+La primera conjetura es motivada, en primer lugar, porque se cumple para todos
+los valores de $m$ que pudieron ser estudiados exhaustivamente en forma
+computacional.
+En efecto, al observar las columnas correspondientes a $m = 1, 2, 3$ puede
+constatarse la inexistencia de secuencias cuando el valor de $n$ crece
 más allá de $m + 1$. Naturalmente, surge la pregunta de si esto se puede
 generalizar para valores de $m$ más grandes.
+
 Un análisis de la situación permite concluir que existe una
 incompatibilidad entre los distintos niveles de anidación de las secuencias.
 A medida que $n$ crece con respecto a $m$, se fuerza la aparición de largas
 cadenas de ceros y de unos dentro de la misma. Sin embargo, la secuencia debe
 a su vez consistir en la concatenación de muchas pequeñas secuencias
-$(1,m)$-maravillosas, donde la cantidad de ceros y unos debe estar equilibrada.
+$(1,m)$-maravillosas ($m$-átomos), donde la cantidad de ceros y unos debe estar
+equilibrada.
 El resultado que presentamos a continuación formaliza este razonamiento.
 
 \begin{proposition}
@@ -999,28 +1017,18 @@ El resultado que presentamos a continuación formaliza este razonamiento.
 	exactamente $m$.
 \end{proof}
 
-Para los casos restantes, aventuramos las siguientes conjeturas, para las que
-no contamos con demostración:
-\begin{itemize}
-	\item \textbf{Conjetura 1}. Para todo $(n,m)$ con $n > m + 1$ no existen
-		secuencias $(n,m)$-maravillosas anidadas.
-	\item \textbf{Conjetura 2}. Para todo $(n,m)$ con $n \leq m + 1$ existen
-	secuencias $(n,m)$-maravillosas anidadas. Además, la cantidad de estas
-	secuencias es considerablemente mayor que la cantidad de secuencias
-	$(n,m)$-perfectas anidadas.
-\end{itemize}
-
-La primera conjetura es motivada, en primer lugar, porque se cumple para todos
-los valores de $m$ que pudieron ser estudiados exhaustivamente en forma
-computacional. Además, en estos casos se ve que fijando $m$ e incrementando
+No contamos con una demostración de la inexistencia de secuencias maravillosas
+anidadas para los pares $(n,m)$ con $m + 1 < n \leq 2m$. Aún así,
+al observar los casos $m = 1, 2, 3$ vemos que fijando $m$ e incrementando
 $n$, la cantidad de secuencias halladas aumenta de forma sostenida hasta que
 $n = m$; en el caso $n = m + 1$ el incremento en la cantidad es nulo o menor.
 Esto sugiere que las incompatibilidades entre los niveles extremos de anidación
 de las secuencias comienzan a manifestarse antes de llegar a $n = 2m$.
 No obstante, es claro que esta conclusión podría estar sesgada debido a que
-los valores de $m$ que fue posible estudiar son muy pequeños.
+los valores de $m$ que fue posible estudiar de manera completa son muy pequeños.
 
-\section{Valores para los que existen secuencias}
+
+\section{Conjetura 2: Valores para los que existen secuencias}
 
 En respaldo de nuestra segunda conjetura, podemos exhibir una serie de ejemplos
 que constatan la existencia de secuencias $(n,m)$-maravillosas anidadas para
