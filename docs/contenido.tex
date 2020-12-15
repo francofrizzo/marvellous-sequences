@@ -2,11 +2,12 @@
 
 \section{Antecedentes}
 
-Consideremos un alfabeto finito. Los collares --o palabras circulares-- de
+Consideremos un alfabeto finito, y sea $b$ la
+cantidad de símbolos de este alfabeto.
+Los collares ---o palabras circulares--- de
 De Bruijn de orden $n$ son aquellas en las que todas las palabras de longitud
 $n$ aparecen exactamente una vez.
-Los collares de De Bruijn de orden $n$ tienen longitud $b^n$, siendo $b$ la
-cantidad de símbolos del alfabeto.
+Los collares de De Bruijn de orden $n$ tienen longitud $b^n$.
 Nicolaas~Govert de~Bruijn \cite{de-bruijn-combinatorial-problem}
 dio esta definición al mismo tiempo que los caracterizó como circuitos eulerianos
 en los llamados grafos de De Bruijn, y contó cuántos hay.
@@ -17,15 +18,15 @@ que se llaman \emph{collares perfectos}.
 Una collar es \emph{perfecto} de orden $(n,m)$ si todas las palabras 
 de longitud $n$ ocurren exactamente $m$ veces, y todas ellas en distintas
 posiciones módulo~$m$.
-Los collares perfectas de orden $(n,m)$ tienen longitud  $mb^n$.
+Los collares perfectos de orden $(n,m)$ tienen longitud $mb^n$.
 En \cite{alvarez-perfect-necklaces} los collares perfectos están
 caracterizados como circuitos eulerianos en los llamados grafos astutos,
-dándose una fórmula para la cantidad de cpllares perfectas de orden $(n,m)$.
+dándose una fórmula para la cantidad de collares perfectos de orden $(n,m)$.
 
 Becher y Carton \cite{becher-nested-perfect} definieron las
-\emph{secuencias perfectas anidadas}; las mismas son palabras lineales --no
-circulares-- que, miradas circularmente, son collares perfectos de orden $(n,m)$
-y, además, cuando $n>1$, son la concatenación de dos secuencias perfectas
+\emph{secuencias perfectas anidadas}; las mismas son palabras lineales ---no
+circulares--- que, miradas circularmente, son collares perfectos de orden $(n,m)$
+y, además, cuando $n>1$, son la concatenación de $b$ secuencias perfectas
 anidadas de orden $(n-1, m)$.
 En \cite{becher-nested-perfect} las secuencias perfectas anidadas son
 caracterizadas como el resultado de una transformación lineal que puede
@@ -54,15 +55,16 @@ secuencias maravillosas anidadas que llamamos \emph{autosimilares}. Cabe señala
 aquí que, dada su definición recursiva, toda secuencia maravillosa anidada
 de orden $(n,m)$ es la concatenación de muchas secuencias maravillosas anidadas
 de orden $(1,m)$. Una secuencia \emph{autosimilar} es aquella en la que todas
-estas secuencias de orden mínimo son iguales. Bajo las condiciones recién
+estas secuencias de orden mínimo ---a las que llamamos \emph{átomos}---
+son iguales. Bajo las condiciones recién
 mencionadas, demostramos que las secuencias maravillosas anidadas autosimilares
-existen, que no son perfectas anidadas, y presentamos una fórmula cerrada para
-su cantidad.
+existen, que ninguna de ellas es perfecta anidada, y presentamos una fórmula
+cerrada para su cantidad.
 
 Podemos notar aquí que, para entrar dentro del caso recién presentado,
 el valor de $n$ debe ser relativamente pequeño comparado con el de $m$;
-en particular, $n$ debe ser a lo sumo del orden del logaritmo de $m$
-en base $b$.
+en particular, $m \geq b^{n-1}$, por lo que $n$ debe ser a lo sumo del orden
+del logaritmo de $m$ en base $b$.
 
 En el otro extremo, se encuentran las duplas $(n,m)$ para las que $n$ es grande
 en comparación con $m$. Si $n$ es mayor que $2m$, demostramos que no es
@@ -81,12 +83,12 @@ conjeturar que la cantidad de las primeras es considerablemente superior a la
 de las últimas.
 
 El resto de este documento se estructura de la siguiente manera. El Capítulo
-\ref{chapter:preliminaries} hace una presentación rigurosa de las definiciones
+\ref{chapter:preliminaries} hace una introducción más rigurosa de las definiciones
 involucradas en este trabajo, la notación empleada, y los resultados previos
 que resultan relevantes. En el Capítulo \ref{chapter:autosimilar-sequences}
 se presentan las secuencias autosimilares y se demuestra su existencia para
 los valores de $n$ y $m$ antes mencionados, presentando una fórmula para su
-cantidad. El Capítulo \ref{chapter:examples-and-conjectures} presenta un
+cantidad. El Capítulo \ref{chapter:examples-and-conjectures} brinda un
 análisis de la existencia de secuencias maravillosas anidadas para distintas
 combinaciones de $n$ y $m$, integrando los resultados del capítulo anterior
 con los datos obtenidos a partir del estudio computacional de las mismas.
@@ -134,15 +136,14 @@ Además, es igual a la cantidad de cortes distintos que posee el collar al que
 pertenece la palabra.
 
 Una \emph{subcadena} es una secuencia de caracteres consecutivos dentro de una
-palabra. Usamos la notación $w\substr{i}{j}$ para hacer referencia a la
-subcadena de $w$ que comprende las posiciones que van desde $i$ hasta $j$,
-inclusive. En ocasiones, decimos que una palabra \emph{aparece} en otra palabra
+palabra. 
+En ocasiones, decimos que una palabra \emph{aparece} en otra palabra
 para referirnos a que es una subcadena. Por ejemplo, $101$ y $1001$ aparecen en
 (o son subcadenas de) la palabra $01010011$. Decimos que una palabra
 \emph{aparece circularmente} en otra si aparece en alguna palabra del collar
 correspondiente. Por ejemplo, $110$ no aparece en la palabra anterior, pero sí
 aparece circularmente. En este caso, también podemos decir directamente que
-la palabra \emph{aparece} en el collar.
+la palabra aparece en el collar.
 
 \section{Collares y secuencias de De Bruijn}
 
@@ -150,16 +151,15 @@ En \cite{de-bruijn-combinatorial-problem}, Nicolaas G. de Bruijn realizó un det
 de collares que han pasado a ser conocidos con su nombre.
 
 \begin{definition}[Collar de De Bruijn]
-	Un \emph{collar de De Bruijn} de orden $n$ (o $n$-de De Bruijn) es un collar
+	Un \emph{collar de De Bruijn} de orden $n$ (o collar $n$-de De Bruijn) es un collar
 	de longitud $b^n$ en el que cada una de las posibles palabras de longitud $n$ 
 	aparece exactamente una vez.
 \end{definition}
 
-\begin{examples}\ \\
-	\begin{itemize}
-		\item El collar $\neck{11000101}$ es un collar de De Bruijn de orden $3$.
-		\item El collar $\neck{0101100111101000}$ es un collar de De Bruijn de orden $4$.
-	\end{itemize}
+\begin{examples}
+	El collar $\neck{11000101}$ es un collar de De Bruijn de orden $3$.
+
+	El collar $\neck{0101100111101000}$ es un collar de De Bruijn de orden $4$.
 \end{examples}
 
 De Bruijn presenta una bonita caracterización de estos collares como circuitos
@@ -247,7 +247,7 @@ de orden $n$.
 		para $\alphabet = \lbrace 0, 1 \rbrace$.}
 \end{figure}
 
-Cada collar de $n$-de De Bruijn se corresponde unívocamente con un circuito
+Cada collar de De Bruijn de orden $n$ se corresponde unívocamente con un circuito
 hamiltoniano en el digrafo $G_n$, es decir, un camino cerrado que visita cada
 vértice exactamente una vez. El collar se conforma concatenando en orden
 el primer carácter de cada uno de los vértices visitados por el circuito.
@@ -269,8 +269,8 @@ donde la cantidad de collares es $\frac{(b!)^{b^{n-1}}}{b^n}$.
 
 Cabe señalar que, debido a sus características, la forma más natural de
 presentar la definición de los collares de De Bruijn es justamente en términos
-de collares, o palabras circulares. No obstante --y esta situación se repite
-para otras definiciones similares que aparecen más adelante en este trabajo--,
+de collares, o palabras circulares. No obstante ---y esta situación se repite
+para otras definiciones similares que aparecen más adelante en este trabajo---,
 en ocasiones interesa tener en cuenta cada corte particular de un collar como
 un elemento distinto. Por eso, en adelante, utilizaremos el término
 \emph{secuencia de De Bruijn} para referirnos a un corte de un collar de De
@@ -278,9 +278,12 @@ Bruijn\footnote{Queremos hacer énfasis en este punto, ya que el término
 \emph{secuencia de De Bruijn} es utilizado de forma ambigua en la literatura.
 Para algunos autores, una secuencia de De Bruijn de orden $n$ es una secuencia
 de longitud $b^n + n - 1$, donde cada palabra posible de longitud $n$ aparece
-exactamente una vez, sin considerar apariciones circulares.}.
+exactamente una vez, sin considerar apariciones circulares. Notar, sin embargo,
+que las secuencias de De Bruijn así entendidas están en correspondencia uno a
+uno con las que definimos aquí, con la única diferencia de que en ellas los
+primeros $n-1$ caracteres aparecen repetidos al final.}.
 
-¿Cuántas secuencias $n$-de De Bruijn existen para cada $n$? Se puede notar que
+¿Cuántas secuencias de De Bruijn de orden $n$ existen para cada $n$? Se puede notar que
 el período de una secuencia $n$-de De Bruijn es necesariamente igual a su
 longitud, $b^n$; de lo contrario, la palabra de longitud $n$ con la que comienza
 volvería a aparecer más adelante. Luego, cada collar $n$-de De Bruijn tiene
@@ -291,13 +294,13 @@ es exactamente $(b!)^{b^{n-1}}$.
 
 El teorema \BEST{} es un resultado en teoría de grafos que permite determinar la
 cantidad de circuitos eulerianos en un multidigrafo. Recibe su nombre por las
-iniciales de sus descubridores, de Bruijn, van Aardenne-Ehrenfest, Smith y
+iniciales de sus descubridores, De Bruijn, Van Aardenne-Ehrenfest, Smith y
 Tutte.
 
 \begin{theorem*}[\BEST{}, \pending{[cita]}]
 	Sea $G$ un multidigrafo euleriano con vértices $v_1, \dots, v_n$.
 	La cantidad de circuitos eulerianos en $G$ está dada por
-	\[ \operatorname{ec}(G) = t_k \cdot \prod_{i=1}^n (d_i - 1)!, \]
+	\[ \operatorname{ec}(G) = t_k \prod_{i=1}^n (d_i - 1)!, \]
 	donde $d_i$ es el grado de salida de $v_i$ y $t_k$ es la cantidad de árboles
 	generadores de $G$ orientados hacia un vértice $v_k$ arbitrario.
 \end{theorem*}
@@ -313,7 +316,7 @@ donde $d_i$ es el grado de salida de $v_i$ y $d_{ij}$ es la cantidad de
 aristas que van de $i$ a $j$.
 
 \begin{theorem*}[Kirchoff, \pending{[cita]}]
-	Sea $G$ un multidigrafo con vértices $v_1, \dots, v_n$. La cantidad
+	Sea $G$ un multidigrafo con vértices $v_1, \dots, v_n$. La cantidad $t_i$
 	de árboles generadores orientados hacia un vértice $v_i$ es el $i$-ésimo
 	cofactor de la matriz $\laplacian(G)$, es decir,
 	\[ t_i = \operatorname{det}(\laplacian_i(G)), \]
@@ -331,8 +334,8 @@ lo cual, junto al hecho de que posee exactamente $b^n$ vértices y el grado de
 salida de todos ellos es exactamente $b$, permite utilizar el teorema \BEST{} para
 contabilizar la cantidad de circuitos eulerianos:
 \begin{align*}
-	\operatorname{ec}(G_n) &= t_k \cdot \prod_{i=1}^{b^n} (d_i - 1)! \\
-		&= \frac{b^{b^{n}}}{b^{n+1}} \cdot \left((b - 1)!\right)^{b^n} \\
+	\operatorname{ec}(G_n) &= t_k \prod_{i=1}^{b^n} (d_i - 1)! \\
+		&= \frac{b^{b^{n}}}{b^{n+1}} \left((b - 1)!\right)^{b^n} \\
 		&= \frac{(b!)^{b^{n}}}{b^{n+1}}.
 \end{align*}
 
@@ -345,7 +348,7 @@ A continuación presentaremos una generalización de las secuencias de De Bruijn
 que denominaremos \emph{secuencias maravillosas}.
 
 \begin{definition}[Secuencia maravillosa]
-Un \emph{collar $(n,m)$-maravilloso} es un collar de longitud $m \cdot b^n$
+Un \emph{collar $(n,m)$-maravilloso} es un collar de longitud $mb^n$
 en el que cada una de las posibles palabras de longitud $n$ aparece
 exactamente $m$ veces.
 
@@ -428,20 +431,21 @@ collar son indistinguibles, por lo que las $m$ aristas respectivas pueden ser
 permutadas, obteniendo un nuevo ciclo euleriano que se corresponde con el mismo
 collar.
 Concretamente, como existen $m! $ maneras de permutar cada conjunto de $m$
-aristas, se tiene un total de $b^{n+1} \cdot m!$ maneras distintas de
+aristas, se tiene un total de $b^{n+1} m!$ maneras distintas de
 representar un collar $(n+1,m)$-maravilloso con un circuito euleriano.
 
 Si se tiene este hecho en consideración, es posible aplicar el teorema \BEST{}
 para contabilizar la cantidad de circuitos eulerianos en los multidigrafos de
 De Bruijn y así obtener una fórmula cerrada para la cantidad de collares
 maravillosos.
-Sin embargo, si lo que se desea contar son las secuencias maravillosas --en
-lugar de los collares--, surge una nueva dificultad, ya que a diferencia de los
+Sin embargo, si lo que se desea contar son las secuencias maravillosas ---en
+lugar de los collares---, surge una nueva dificultad, ya que a diferencia de los
 collares de De Bruijn, el período de un collar maravilloso no es invariante, es
 decir, la cantidad de secuencias distintas que pueden obtenerse realizando
 cortes a un collar maravilloso es diferente para cada collar.
 
-Para salvar este obstáculo, decidimos buscar un enfoque alternativo que
+Si bien existen formas de incorporar este nuevo elemento en los cálculos,
+por simplicidad, decidimos buscar un enfoque alternativo que
 permitiera caracterizar directamente las secuencias maravillosas, utilizando la
 noción de \emph{circuito $\pi$-euleriano} presentada por Farrell y Levine en
 \cite{farrell-multi-eulerian-tours}.
@@ -467,7 +471,7 @@ teorema \BEST{}.
 	\[ \laplacian(G) \cdot \pi = 0, \]
 	en cuyo caso la cantidad de estos circuitos que comienzan con una arista $e$
 	determinada es
-	\[ \operatorname{ec}_\pi(G, e) = t_e \cdot
+	\[ \operatorname{ec}_\pi(G, e) = t_e
 		\prod_{i=1}^n \frac{(d_i\pi_i - 1)! }{(\pi_i!)^{d_i-1}(\pi_i-1)!}, \]
 	donde $d_i$ es el grado de salida de $v_i$, y $t_e$ es la cantidad de árboles
 	generadores de $G$ orientados hacia la cola de $e$.
@@ -495,16 +499,17 @@ Esto nos permite enunciar y demostrar el siguiente resultado.
 	de un digrafo euleriano, por lo que basta con tomar un circuito euleriano y
 	repetirlo $m$ veces para obtener un ejemplo.
 	Es decir que, en virtud del teorema \BEST{} generalizado, la cantidad de
-	secuencias maravillosas será igual a \[ \sum_e \epsilon_\pi(G_{n-1}, e) =
-		\sum_e t_e \cdot \prod_{i=1}^{b^{n-1}} \frac{(d_i\pi_i - 1)!
+	secuencias maravillosas será igual a \[ \sum_e \operatorname{ec}_\pi(G_{n-1}, e) =
+		\sum_e t_e \prod_{i=1}^{b^{n-1}} \frac{(d_i\pi_i - 1)!
 		}{(\pi_i!)^{d_i-1}(\pi_i-1)!}, \] donde la suma se realiza sobre todas las
 	aristas del digrafo $G_{n-1}$.
 
-	Se sabe que la cantidad de aristas de $G_{n-1}$ es $b^n$; por otro lado, la
+	Se sabe que la cantidad de aristas de $G_{n-1}$ es $b^n$; por otro lado,
+	como ya se mencionó anteriormente, la
 	cantidad de árboles generadores orientados hacia cualquiera de los vértices
-	de $G_{n-1}$ es $\frac{b^{b^{n-1}}}{b^n}$ [¿cita?], de donde se sigue que
+	de $G_{n-1}$ es $\frac{b^{b^{n-1}}}{b^n}$, de donde se sigue que
 	$\sum_{e} t_e = b^{b^{n-1}}$.
-	Reemplazando en la expresión anterior, se obtiene \[ b^{b^{n-1}} \cdot
+	Reemplazando en la expresión anterior, se obtiene \[ b^{b^{n-1}}
 		\prod_{i=1}^{b^{n-1}} \frac{(d_i\pi_i - 1)! }{(\pi_i!)^{d_i-1}(\pi_i-1)!}.
 	\]
 
@@ -512,7 +517,7 @@ Esto nos permite enunciar y demostrar el siguiente resultado.
 	salida $b$, y dado que $\pi_i = m$ para todo $i = 1, \dots, b^{n-1}$, la
 	expresión anterior equivale a
 	\begin{align*}
-		b^{b^{n-1}} \cdot \left( \frac{(bm - 1)! }{(m!)^{b-1}(m-1)!} \right)^{b^{n-1}}
+		b^{b^{n-1}} \left( \frac{(bm - 1)! }{(m!)^{b-1}(m-1)!} \right)^{b^{n-1}}
 			&= \left( \frac{b (bm - 1)! }{(m!)^{b-1}(m-1)!} \right)^{b^{n-1}} \\
 			&= \left( \frac{bm (bm - 1)! }{(m!)^{b-1}m(m-1)!} \right)^{b^{n-1}} \\
 			&= \left( \frac{(bm)! }{(m!)^b} \right)^{b^{n-1}}.
@@ -545,7 +550,7 @@ Esto nos permite enunciar y demostrar el siguiente resultado.
 
 Las secuencias maravillosas que acabamos de presentar son primas cercanas de
 las \emph{secuencias perfectas}.
-Una secuencia $(n,m)$-perfecta es una secuencia de longitud $m \cdot b^n$ en la
+Una secuencia $(n,m)$-perfecta es una secuencia de longitud $m b^n$ en la
 que cada posible palabra de longitud $n$ aparece circularmente exactamente
 $m$ veces, al igual que en las secuencias maravillosas, pero con la restricción
 adicional de que cada una de estas apariciones se produce en una posición
@@ -556,8 +561,8 @@ junto a una caracterización de las mismas en términos de grafos.
 En \cite{becher-nested-perfect}, Becher y Carton definen las \emph{secuencias
 perfectas anidadas}; las mismas son secuencias maravillosas que, a su vez,
 son la concatenación de secuencias maravillosas anidadas del orden inferior.
-Los autores brindan un método basado en matrices que permite --bajo ciertas
-restricciones-- generar estas secuencias.
+Los autores brindan un método basado en matrices que permite ---bajo ciertas
+restricciones--- generar estas secuencias.
 
 Esto motiva una definición análoga, pero considerando secuencias maravillosas en
 lugar de perfectas: las \emph{secuencias maravillosas anidadas}, el principal
@@ -565,7 +570,7 @@ objeto de estudio de este trabajo.
 
 \begin{definition}
 	Una \emph{secuencia $(n,m)$-maravillosa anidada} es una secuencia de
-	longitud $m \cdot b^n$ para la que se cumple simultáneamente que
+	longitud $m b^n$ para la que se cumple simultáneamente que
 	\begin{enumerate}
 		\item es una secuencia $(n,m)$-maravillosa; y
 		\item si $n > 1$, es la concatenación de $b$ secuencias
@@ -574,8 +579,8 @@ objeto de estudio de este trabajo.
 
 	Alternativamente, una secuencia es $(n,m)$-maravillosa anidada si, para todo
 	$n'$ tal que $1 \leq n' \leq n$, toda subsecuencia de longitud
-	$m \cdot b^{n'}$ que comienza en una posición congruente a $0$ módulo
-	$m \cdot b^{n'}$ es $(n',m)$-maravillosa.
+	$m b^{n'}$ que comienza en una posición congruente a $0$ módulo
+	$m b^{n'}$ es $(n',m)$-maravillosa.
 \end{definition}
 
 \pending{Hablar de átomos.}
@@ -742,12 +747,14 @@ cualesquiera valores de $n$ y $m$, podemos enunciar el siguiente corolario.
 	secuencias maravillosas presentada en el Teorema \ref{theorem:marvellous-count}.
 \end{proof}
 
-La siguientes tabla muestra las cantidades de secuencias maravillosas anidadas
+Las Tablas \ref{table:count-autosimilar-2} y \ref{table:count-autosimilar-3}
+muestran las cantidades de secuencias maravillosas anidadas
 autosimilares para los primeros valores de $n$ y $m$, considerando alfabetos
-de $2$ y de $3$ símbolos.
+de $2$ y de $3$ símbolos, respectivamente.
 
 \begin{table}[H]
 	\centering
+	\small
 	\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
 		\hline
 		\diagbox[width=3em]{$n$}{$m$}	& 1 & 2 & 3  & 4  & 5   & 6   & 7    & 8     & 9     \\
@@ -765,10 +772,12 @@ de $2$ y de $3$ símbolos.
 	\end{tabular}
 	\caption{Cantidad de secuencias $(n,m)$-maravillosas anidadas autosimilares
 		considerando un alfabeto de $2$ símbolos.}
+	\label{table:count-autosimilar-2}
 \end{table}
 
 \begin{table}[H]
 	\centering
+	\small
 	\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
 		\hline
 		\diagbox[width=3em]{$n$}{$m$} & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 \\ \hline
@@ -780,6 +789,7 @@ de $2$ y de $3$ símbolos.
 	\end{tabular}
 	\caption{Cantidad de secuencias $(n,m)$-maravillosas anidadas autosimilares
 		considerando un alfabeto de $3$ símbolos.}
+	\label{table:count-autosimilar-3}
 \end{table}
 
 Puede notarse que, debido a la condición de que $b^{n-1} \vert m$ necesaria
@@ -807,49 +817,53 @@ resultados.
 \begin{table}[h]
 	\centering
 	\small
-	\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
-		\hline
-		\diagbox[width=3em]{$n$}{$m$} & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16  \\
-		\hline
-		1 & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A/R & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A/R & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A/R & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A/R \\
-		\hline
-		2 & \cellcolor{e-count-emp} & \cellcolor{e-count-emp} A/R & \cellcolor{e-count-emp} & \cellcolor{e-count-emp} A/R & \cellcolor{e-count-emp} & \cellcolor{e-count-emp} A & \cellcolor{e-count-emp} & \cellcolor{e-count-emp} A/R & & A & & A & & A & & A \\
-		\hline
-		3 & \cellcolor{ne-proof} & \cellcolor{e-count-emp} & \cellcolor{e-count-emp} & \cellcolor{e-count-emp} A/R & \cellcolor{e-count-emp} & \cellcolor{e-examples} & \cellcolor{e-examples} & \cellcolor{e-examples} A/R & & & & A & & & & A \\
-		\hline
-		4 & \cellcolor{ne-proof} & \cellcolor{ne-empir} & \cellcolor{e-count-emp} & \cellcolor{e-examples} R & \cellcolor{e-examples} & \cellcolor{e-examples} & \cellcolor{e-examples} & \cellcolor{e-examples} A/R & & & & & & & & A \\
-		\hline
-		5 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-empir} & \cellcolor{e-examples} & & & & \cellcolor{e-examples} R & & & & & & & & A \\
-		\hline
-		6 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-empir} & \cellcolor{ne-conjc} & & & & \cellcolor{e-examples} R & & & & & & & & \\
-		\hline
-		7 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & & & \cellcolor{e-examples} R & & & & & & & & \\
-		\hline
-		8 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & & \cellcolor{e-examples} R & & & & & & & & \\
-		\hline
-		9 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & & & & & & & & & \\
-		\hline
-		10 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & & & & & & & & \\
-		\hline
-		11 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & & & & & & & \\
-		\hline
-		12 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & & & & & & \\
-		\hline
-		13 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & & & & & \\
-		\hline
-		14 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & & & & \\
-		\hline
-		15 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & & & \\
-		\hline
-		16 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & & \\
-		\hline
-	\end{tabular} \vspace{1em} \\
+	{
+		\setlength{\tabcolsep}{.5em}
+		\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+			\hline
+			\diagbox[width=3em]{$n$}{$m$} & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16  \\
+			\hline
+			1 & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A/R & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A/R & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A/R & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A/R \\
+			\hline
+			2 & \cellcolor{e-count-emp} & \cellcolor{e-count-emp} A/R & \cellcolor{e-count-emp} & \cellcolor{e-count-emp} A/R & \cellcolor{e-count-emp} & \cellcolor{e-count-emp} A & \cellcolor{e-count-emp} & \cellcolor{e-count-emp} A/R & & A & & A & & A & & A \\
+			\hline
+			3 & \cellcolor{ne-proof} & \cellcolor{e-count-emp} & \cellcolor{e-count-emp} & \cellcolor{e-count-emp} A/R & \cellcolor{e-count-emp} & \cellcolor{e-examples} & \cellcolor{e-examples} & \cellcolor{e-examples} A/R & & & & A & & & & A \\
+			\hline
+			4 & \cellcolor{ne-proof} & \cellcolor{ne-empir} & \cellcolor{e-count-emp} & \cellcolor{e-examples} R & \cellcolor{e-examples} & \cellcolor{e-examples} & \cellcolor{e-examples} & \cellcolor{e-examples} A/R & & & & & & & & A \\
+			\hline
+			5 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-empir} & \cellcolor{e-examples} & & & & \cellcolor{e-examples} R & & & & & & & & A \\
+			\hline
+			6 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-empir} & \cellcolor{ne-conjc} & & & & \cellcolor{e-examples} R & & & & & & & & \\
+			\hline
+			7 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & & & \cellcolor{e-examples} R & & & & & & & & \\
+			\hline
+			8 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & & \cellcolor{e-examples} R & & & & & & & & \\
+			\hline
+			9 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & & & & & & & & & \\
+			\hline
+			10 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & & & & & & & & \\
+			\hline
+			11 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & & & & & & & \\
+			\hline
+			12 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & & & & & & \\
+			\hline
+			13 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & & & & & \\
+			\hline
+			14 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & & & & \\
+			\hline
+			15 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & & & \\
+			\hline
+			16 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & & \\
+			\hline
+		\end{tabular} \vspace{1em} \\
+	}
 	
 	{
+		\setlength{\tabcolsep}{.3em}
 		\setlength{\fboxsep}{.3em}
 		\fbox{
 			\footnotesize
-			\begin{tabular}{cl cl}
+			\begin{tabular}{cp{62mm} cp{66mm}}
 			\multicolumn{4}{c}{\textbf{\normalsize Referencia}} \vspace{.4em} \\
 			\multicolumn{2}{c}{\textit{Valores para los que existen secuencias}}
 				& \multicolumn{2}{c}{\textit{Valores para los que no existen secuencias}} \vspace{.25em} \\
@@ -1027,7 +1041,7 @@ de dos métodos distintos.
 	de $m$ que sean potencias de $2$). Consideramos que este método tiene buenas
 	perspectivas de funcionar también para $m = 16, 32$, etc.
 
-	\note{¿Dar ejemplos concretos? ¿Para qué valores?}
+	\pending{Dar ejemplos concretos.}
 
 	\item \textbf{\emph{Generate and test} submuestreando el espacio de búsqueda}.
 	Consiste en adaptar el método de generación exhaustivo antes descripto, de
@@ -1046,7 +1060,7 @@ de dos métodos distintos.
 		\item $m = 7$; $n = 3, 4, 5$.
 	\end{itemize}
 
-	\note{¿Dar ejemplos concretos? ¿Para qué valores?}
+	\pending{Dar ejemplos concretos.}
 \end{itemize}
 
 Estos ejemplos dan cuenta de la existencia de secuencias maravillosas anidadas
@@ -1068,37 +1082,33 @@ obtenerse una estimación muy razonable de esta proporción. Realizando diez
 corridas independientes, encontramos una media de 263.734 secuencias,
 un $26.37\%$ de las secuencias inspeccionadas.
 
-\note{Acá se puede hablar de cuál sería el error en la estimación y cosas así,
-	pero me pareció que no venía al caso.}
-
 Gracias a este enfoque podemos hacernos una idea aproximada de la cantidad
 de secuencias maravillosas anidadas en casos en que la generación exhaustiva
 se vuelve computacionalmente prohibitiva. Continuando con el caso $m = 8$,
 en la Tabla \ref{table:estimation} se exhibe la cantidad de secuencias halladas para distintos
 valores de $n$ limitando el espacio de búsqueda de cada iteración a un máximo
-de 1.000.000.000 de secuencias. \note{Este umbral se puede subir y buscar
-resultados más precisos, solo va a tardar un poco más.}
+de 1.000.000.000 de secuencias.
 
 \begin{table}[H]
 	\centering
 	\small
-	\begin{tabular}{|p{32mm}|c|c|c|c|c|c|}
+	\begin{tabularx}{\textwidth}{|c|C|C|C|C|C|C|}
 		\hline
-		$n$ & 1 & 2 & 3 & 4 & 5 & 6 \\
+		$n$ & Tamaño estimado del espacio de búsqueda & Pares examinados & Secuencias maravillosas anidadas halladas & Proporción & Cant. estimada de sec. marav. anidadas & Cant. de secuencias perfectas anidadas \\
 		\hline
-		Tamaño estimado del espacio de búsqueda & - & 165.636.900 & $1.91 \times 10^{15}$ & $7.79 \times 10^{27}$ & $1.78 \times 10^{50}$ & $1.35 \times 10^{89}$ \\
+		1 & - & - & 12.870 & - & 12.870 & 256 \\
 		\hline
-		Pares examinados & - & 165.636.900 & 1.000.000.000 & 1.000.000.000 & 1.000.000.000 & 4.293.184 \\
+		2 & 165.636.900 & 165.636.900 & 43.705.512 & $26.39\%$ & 43.705.512 & 512 \\
 		\hline
-		Secuencias maravillosas anidadas halladas & 12.870 & 43.705.512 & 46.201.550 & 1.710.968 & 2.072 & 0 \\
+		3 & $1.91 \times 10^{15}$ & 1.000.000.000 & 46.201.550 & $4.620\%$ & $8.83 \times 10^{13}$ & 1.024 \\
 		\hline
-		Proporción & - & $26.39\%$ & $4.620\%$ & $0.1711\%$ & $0.00000207\%$ & $0\%$ \\
+		4 & $7.79 \times 10^{27}$ & 1.000.000.000 & 1.710.968 & $0.1711\%$ & $1.33 \times 10^{25}$ & 2.048 \\
 		\hline
-		Cant. estimada de sec. marav. anidadas & 12.870 & 43.705.512 & $8.83 \times 10^{13}$ & $1.33 \times 10^{25}$ & $3.68 \times 10^{44}$ & - \\
+		5 & $1.78 \times 10^{50}$ & 1.000.000.000 & 2.072 & $0.00000207\%$ & $3.68 \times 10^{44}$ & 4.096 \\
 		\hline
-		Cant. de secuencias perfectas anidadas & 256 & 512 & 1.024 & 2.048 & 4.096 & 8.192 \\
+		6 & $1.35 \times 10^{89}$ & 4.293.184 & 0 & $0\%$ & - & 8.192 \\
 		\hline
-	\end{tabular}
+	\end{tabularx}
 	\caption{Resultados de estimar la cantidad de secuencias maravillosas anidadas
 	para $m = 8$ submuestreando el espacio de búsqueda.}
 	\label{table:estimation}
