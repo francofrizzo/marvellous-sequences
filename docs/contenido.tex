@@ -144,7 +144,8 @@ para referirnos a que es una subcadena. Por ejemplo, $101$ y $1001$ aparecen en
 \emph{aparece circularmente} en otra si aparece en alguna palabra del collar
 correspondiente. Por ejemplo, $110$ no aparece en la palabra anterior, pero sí
 aparece circularmente. En este caso, también podemos decir directamente que
-la palabra aparece en el collar.
+la palabra aparece en el collar; en el ejemplo anterior, diríamos que $110$
+aparece en $\neck{01010011}$.
 
 \section{Collares y secuencias de De Bruijn}
 
@@ -157,10 +158,11 @@ de collares que han pasado a ser conocidos con su nombre.
 	aparece exactamente una vez.
 \end{definition}
 
-\begin{examples}
-	El collar $\neck{11000101}$ es un collar de De Bruijn de orden $3$.
-
-	El collar $\neck{0101100111101000}$ es un collar de De Bruijn de orden $4$.
+\begin{examples}\ %
+	\begin{itemize}
+		\item El collar $\neck{11000101}$ es un collar de De Bruijn de orden $3$.
+		\item El collar $\neck{0101100111101000}$ es un collar de De Bruijn de orden $4$.
+	\end{itemize}
 \end{examples}
 
 De Bruijn presenta una bonita caracterización de estos collares como circuitos
@@ -357,12 +359,13 @@ Una \emph{secuencia $(n,m)$-maravillosa} es un corte de un collar
 $(n,m)$-maravilloso.
 \end{definition}
 
-\begin{examples}
-	Las siguientes secuencias son $(2,4)$ y $(3,3)$-maravillosas, respectivamente:
-	\[ 1110000111010010; \qquad 000111110110110100100100. \]
-
-	Todas las secuencias $n$-de De Bruijn son ejemplos de secuencias
-	$(n,1)$-maravillosas.
+\begin{examples}\ %
+	\begin{itemize}
+		\item Las siguientes secuencias son $(2,4)$ y $(3,3)$-maravillosas, respectivamente:
+		\[ 1110000111010010; \qquad 000111110110110100100100. \]
+		\item Todas las secuencias de De Bruijn de orden $n$ son ejemplos de secuencias
+		$(n,1)$-maravillosas.
+	\end{itemize}
 \end{examples}
 
 Una pregunta inmediata que surge de esta definición es cómo puede extenderse a
@@ -432,7 +435,7 @@ collar son indistinguibles, por lo que las $m$ aristas respectivas pueden ser
 permutadas, obteniendo un nuevo ciclo euleriano que se corresponde con el mismo
 collar.
 Concretamente, como existen $m! $ maneras de permutar cada conjunto de $m$
-aristas, se tiene un total de $b^{n+1} m!$ maneras distintas de
+aristas, se tiene un total de $m!b^{n+1}$ maneras distintas de
 representar un collar $(n+1,m)$-maravilloso con un circuito euleriano.
 
 Si se tiene este hecho en consideración, es posible aplicar el teorema \BEST{}
@@ -464,7 +467,7 @@ $\pi$-eulerianos con $\pi = (1, \dots, 1)$.
 Partiendo de aquí, los autores presentan la siguiente generalización del
 teorema \BEST{}.
 
-\begin{lemma*}[\BEST{} generalizado, \cite{farrell-multi-eulerian-tours}]
+\begin{theorem*}[\BEST{} generalizado, \cite{farrell-multi-eulerian-tours}]
 	\label{prop:BEST-generalized}
 	Sea $G$ un multidigrafo fuertemente conexo con vértices $v_1, \dots, v_n$, y
 	sea $\pi \in \mathbb{N}^n$.
@@ -476,7 +479,7 @@ teorema \BEST{}.
 		\prod_{i=1}^n \frac{(d_i\pi_i - 1)! }{(\pi_i!)^{d_i-1}(\pi_i-1)!}, \]
 	donde $d_i$ es el grado de salida de $v_i$, y $t_e$ es la cantidad de árboles
 	generadores de $G$ orientados hacia la cola de $e$.
-\end{lemma*}
+\end{theorem*}
 
 El interés de esta generalización para nuestro problema particular radica en que
 una secuencia $(n+1,m)$-maravillosa puede identificarse de forma unívoca con un
@@ -484,12 +487,12 @@ circuito $\pi$-euleriano en $G_n$ tomando $\pi = (m,\dots,m)$ y fijando cuál
 será su arista inicial.
 Esto nos permite enunciar y demostrar el siguiente resultado.
 
-\begin{theorem}
-	\label{theorem:marvellous-count}
+\begin{proposition}
+	\label{proposition:marvellous-count}
 	Sean $n, m > 0$.
 	La cantidad de secuencias $(n,m)$-maravillosas es exactamente
 	\[ \left( \frac{(bm)! }{(m!)^b} \right)^{b^{n-1}}. \]
-\end{theorem}
+\end{proposition}
 
 \begin{proof}
 	Consideraremos primero el caso en que $n > 1$.
@@ -746,7 +749,7 @@ cualesquiera valores de $n$ y $m$, podemos enunciar el siguiente corolario.
 \begin{proof}
 	Se sigue de forma inmediata de la caracterización dada por el Teorema
 	\ref{theorem:autosimilar-nm-characterization} y la fórmula para la cantidad de
-	secuencias maravillosas presentada en el Teorema \ref{theorem:marvellous-count}.
+	secuencias maravillosas presentada en la Proposición \ref{proposition:marvellous-count}.
 \end{proof}
 
 Las Tablas \ref{table:count-autosimilar-2} y \ref{table:count-autosimilar-3}
@@ -894,7 +897,7 @@ a partir de lo ya presentado hasta ahora. En particular:
 \begin{itemize}
 	\item En el caso $n = 1$, las secuencias $(1,m)$-maravillosas anidadas se
 	corresponden exactamente con las secuencias $(1,m)$-maravillosas. 
-	Gracias al Teorema \ref{theorem:marvellous-count}, sabemos que estas
+	Gracias a la Proposición \ref{proposition:marvellous-count}, sabemos que estas
 	existen y que su cantidad es exactamente $\frac{(2m)!}{(m!)^2}$. De las
 	mismas, solo $2^m$ son perfectas anidadas, según la fórmula dada en
 	\cite{becher-nested-perfect}.
