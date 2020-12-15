@@ -309,7 +309,8 @@ Tutte.
 \end{theorem*}
 
 Para obtener la cantidad de árboles generadores en un multidigrafo euleriano,
-puede usarse a su vez el teorema de Kirchoff, que permite calcularla
+puede usarse a su vez el teorema de Kirchoff (también conocido como teorema
+Matrix-Tree), que permite calcularla
 a partir de su \emph{matriz laplaciana}, definida como
 \[ \laplacian(G) = \left\lbrace \begin{array}{ll}
 	d_i - d_{ii} & \text{si $i = j$} \\
@@ -347,7 +348,7 @@ anterior para la cantidad de collares de De Bruijn de orden $n + 1$.
 
 \section{Secuencias maravillosas}
 
-A continuación presentaremos una generalización de las secuencias de De Bruijn,
+A continuación presentamos una generalización de las secuencias de De Bruijn,
 que denominaremos \emph{secuencias maravillosas}.
 
 \begin{definition}[Secuencia maravillosa]
@@ -495,7 +496,7 @@ Esto nos permite enunciar y demostrar el siguiente resultado.
 \end{proposition}
 
 \begin{proof}
-	Consideraremos primero el caso en que $n > 1$.
+	Consideramos primero el caso en que $n > 1$.
 	En este caso, como se mencionó anteriormente, fijando $\pi = (m, \dots, m)$,
 	basta con determinar la cantidad de circuitos $\pi$-eulerianos en $G_{n-1}$
 	para cada una de las posibles elecciones de arista inicial.
@@ -558,7 +559,9 @@ Una secuencia $(n,m)$-perfecta es una secuencia de longitud $m b^n$ en la
 que cada posible palabra de longitud $n$ aparece circularmente exactamente
 $m$ veces, al igual que en las secuencias maravillosas, pero con la restricción
 adicional de que cada una de estas apariciones se produce en una posición
-distinta módulo $m$.
+distinta módulo $m$. Por ejemplo, la siguiente es una secuencia $(2,4)$-perfecta:
+\[ 0000111001011011. \]
+
 Puede verse una presentación de estas secuencias en \cite{alvarez-perfect-necklaces},
 junto a una caracterización de las mismas en términos de una modificación
 de los digrafos de De Bruijn, los denominados grafos astutos, y una fórmula
@@ -567,13 +570,24 @@ para su cantidad.
 En \cite{becher-nested-perfect}, Becher y Carton definen las \emph{secuencias
 perfectas anidadas}. Una secuencia $(n,m)$-perfecta anidada es una secuencia
 perfecta de orden $(n,m)$ que además, si $n > 1$, es la concatenación de $b$
-secuencias perfectas anidadas de orden $(n-1,m)$.
-Los autores brindan un método basado en matrices que permite ---bajo ciertas
-restricciones--- generar estas secuencias.
+secuencias perfectas anidadas de orden $(n-1,m)$. Por ejemplo, la secuencia
+recién mostrada no es $(2,4)$-perfecta anidada, ya que sus dos mitades no son secuencias
+$(1,4)$-perfectas; notar que en $00001110$, la palabra $0$ aparece cinco veces,
+mientras que la palabra $1$ aparece solo tres veces. Sin embargo, al rotarla
+una posición, se obtiene el siguiente ejemplo de secuencia $(2,4)$-perfecta
+anidada:
+\[ 10000111\;00101101. \]
 
-Esto motiva una definición análoga, pero considerando secuencias maravillosas en
-lugar de perfectas: las \emph{secuencias maravillosas anidadas}, el principal
-objeto de estudio de este trabajo.
+Los autores de \cite{becher-nested-perfect} brindan un método que permite
+generar estas secuencias a partir de una transformación lineal, basada en la
+matriz de Pascal, siempre y cuando se cumplan ciertas restricciones,
+en particular que $b$ sea un número primo, $m$ una potencia de $2$ y $n \leq m$.
+También brindan una fórmula cerrada para la cantidad de secuencias
+$(n,m)$-perfectas anidadas en estos casos.
+
+Todo esto motiva una definición análoga, pero considerando secuencias
+maravillosas en lugar de perfectas: las \emph{secuencias maravillosas anidadas},
+el principal objeto de estudio de este trabajo.
 
 \begin{definition}
 	Una \emph{secuencia $(n,m)$-maravillosa anidada} es una secuencia de
@@ -590,7 +604,48 @@ objeto de estudio de este trabajo.
 	$m b^{n'}$ es $(n',m)$-maravillosa.
 \end{definition}
 
-\pending{Agregar ejemplos. Definir $m$-átomos.}
+\begin{examples}
+	Las siguientes secuencias son $(3,3)$, $(2,4)$ y $(1,5)$-maravillosas anidadas,
+	respectivamente:
+	\[ 000111\;011001\;000111\;101010; \]
+	\[ 00010111\;10100110; \]
+	\[ 0011101010. \]
+\end{examples}
+
+Una observación que podemos hacer a partir de esta definición es que, si miramos
+el más profundo de sus los niveles de anidación, cada secuencia $(n,m)$-maravillosa
+anidada está conformada por la concatenación de $b^{n-1}$ secuencias
+$(1,m)$-maravillosas anidadas, cada una de ellas de longitud $bm$. En otras
+palabras, si fijamos un valor de $m$, todas las secuencias $(n,m)$-maravillosas
+anidadas ---para cualquier valor de $n$--- están formadas por los mismos
+``ladrillos'' básicos, las secuencias $(1,m)$-maravillosas anidadas. Para estas
+secuencias utilizamos en adelante el nombre de $m$-átomos. Dado que cuando
+$n = 1$ las definiciones de secuencia maravillosa y maravillosa anidada
+conciden, los $m$-átomos son exactamente las secuencias $(1,m)$-maravillosas;
+esto implica (según la Proposición \ref{proposition:marvellous-count})
+que la cantidad de $m$-átomos es exactamente $\frac{(bm)!}{(m!)^b}$.
+
+A modo ilustrativo, estos son los $20$ átomos de orden $3$ que existen para
+$\alphabet = \lbrace 0, 1 \rbrace$:
+\[
+	\begin{array}{ccccc}
+		\text{1. }000111 & \text{2. }001011 & \text{3. }001101 & \text{4. }001110 & \text{5. }010011 \\
+		\text{6. }010101 & \text{7. }010110 & \text{8. }011001 & \text{9. }011010 & \text{10. }011100 \\
+		\text{11. }100011 & \text{12. }100101 & \text{13. }100110 & \text{14. }101001 & \text{15. }101010 \\
+		\text{16. }101100 & \text{17. }110001 & \text{18. }110010 & \text{19. }110100 & \text{20. }111000 \\
+	\end{array}
+\]
+El ejemplo de secuencia $(3,3)$-maravillosa anidada presentado más arriba puede
+pensarse, entonces, como la concatenación de los átomos 1, 8, 1 y 15, en ese
+orden.
+
+De las definiciones presentadas se desprende fácilmente que todas las secuencias
+perfectas anidadas son maravillosas anidadas. Por lo tanto, la existencia de
+secuencias maravillosas anidadas de orden $(n,m)$ está fuera de cuestión
+siempre que existen secuencias $(n,m)$-perfectas anidadas. Ahora bien, en estos
+casos, ¿existen secuencias maravillosas anidadas \emph{que no sean} perfectas
+anidadas? Esta es la pregunta central que buscamos responder en lo que resta
+de este trabajo.
 
 \newpage
 
@@ -631,7 +686,7 @@ son autosimilares.
 Podemos notar que las mismas consisten precisamente en la concatenación
 de $b^{n-1}$ copias de un mismo $m$-átomo.
 
-La proposición que enunciaremos a continuación nos permite caracterizar a
+La proposición que enunciamos a continuación nos permite caracterizar a
 las secuencias $(n,m)$-maravillosas anidadas autosimilares a
 partir de una propiedad verificable los átomos que les dan origen.
 Gracias a este resultado, podemos determinar para qué valores de $(n,m)$ existen
@@ -1077,7 +1132,29 @@ de dos métodos distintos.
 	de $m$ que sean potencias de $2$). Consideramos que este método tiene buenas
 	perspectivas de funcionar también para $m = 16, 32$, etc.
 
-	\pending{Dar ejemplos concretos.}
+	Los siguientes ejemplos se consiguen rotando la mitad derecha
+	de las secuencias exactamente una posición. En ambos casos la primera
+	secuencia es perfecta anidada, mientras que la segunda es maravillosa anidada
+	pero no perfecta anidada.
+
+	\begin{itemize}
+		\item $m = 2$, $n = 2$:
+		\[
+			\begin{array}{c}
+				1001\; 0011 \\
+				\downarrow \\
+				1001\; 1001
+			\end{array}
+		\]
+		\item $m = 4$, $n = 4$:
+		\[
+			\begin{array}{c}
+				10100101\;00001111\;01101001\;11000011\;0010110\;11000011\;11110000\;101001011 \\
+				\downarrow \\
+				10100101\;00001111\;01101001\;11000011\;1001011\;01100001\;11111000\;010100101
+			\end{array}
+		\]
+	\end{itemize}
 
 	\item \textbf{\emph{Generate and test} submuestreando el espacio de búsqueda}.
 	Consiste en adaptar el método de generación exhaustivo antes descripto, de
