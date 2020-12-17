@@ -1,7 +1,5 @@
 \chapter{Introducción}
 
-\section{Antecedentes}
-
 Consideremos un alfabeto finito, y sea $b$ la
 cantidad de símbolos de este alfabeto.
 Los collares ---o palabras circulares--- de
@@ -39,7 +37,6 @@ de orden $(n,m)$ soltando la restricción de que las $m$ ocurrencias debieran
 ocurrir en posiciones distintas módulo $m$, y dejaron abierta la pregunta de si
 existen o no las secuencias maravillosas anidadas que no son perfectas anidadas.
 
-\section{Objetivo y resultados}
 Emprendimos este trabajo con el objetivo de responder la pregunta formulada por
 Becher y Carton de si existen secuencias maravillosas anidadas que no son
 perfectas anidadas.
@@ -83,6 +80,13 @@ anidadas que no son perfectas anidadas para varios valores de $n$ y $m$, y
 conjeturar que la cantidad de las primeras es considerablemente superior a la
 de las últimas.
 
+Un interés de las secuencias maravillosas anidadas es que se pueden usar
+para construir secuencias normales en el sentido de Borel, que posiblemente
+tienen la propiedad de converger a la normalidad muy rápidamente.
+Suponemos que la velocidad de convergencia es la misma que la de la secuencia
+de Levin \cite[Teorema 2]{levin-discrepancy-estimate}, la máxima conocida por
+el momento.
+
 El resto de este documento se estructura de la siguiente manera. El Capítulo
 \ref{chapter:preliminaries} hace una introducción más rigurosa de las definiciones
 involucradas en este trabajo, la notación empleada, y los resultados previos
@@ -96,7 +100,7 @@ con los datos obtenidos a partir del estudio computacional de las mismas.
 
 \newpage
 
-\chapter{Preliminares}
+\chapter{Secuencias maravillosas anidadas}
 \label{chapter:preliminaries}
 
 Para comenzar, presentamos algunas definiciones sobre secuencias que son
@@ -300,7 +304,7 @@ cantidad de circuitos eulerianos en un multidigrafo. Recibe su nombre por las
 iniciales de sus descubridores, De Bruijn, Van Aardenne-Ehrenfest, Smith y
 Tutte.
 
-\begin{theorem*}[\BEST{}, \pending{[cita]}]
+\begin{theorem*}[\BEST{}, \cite{van-aardenne-ehrenfest-circuits-and-trees}]
 	Sea $G$ un multidigrafo euleriano con vértices $v_1, \dots, v_n$.
 	La cantidad de circuitos eulerianos en $G$ está dada por
 	\[ \operatorname{ec}(G) = t_k \prod_{i=1}^n (d_i - 1)!, \]
@@ -319,7 +323,7 @@ a partir de su \emph{matriz laplaciana}, definida como
 donde $d_i$ es el grado de salida de $v_i$ y $d_{ij}$ es la cantidad de
 aristas que van de $i$ a $j$.
 
-\begin{theorem*}[Kirchoff, \pending{[cita]}]
+\begin{theorem*}[Kirchoff, ver \cite{farrell-multi-eulerian-tours}]
 	Sea $G$ un multidigrafo con vértices $v_1, \dots, v_n$. La cantidad $t_i$
 	de árboles generadores orientados hacia un vértice $v_i$ es el $i$-ésimo
 	cofactor de la matriz $\laplacian(G)$, es decir,
@@ -331,8 +335,9 @@ aristas que van de $i$ a $j$.
 En multidigrafos eulerianos, el vértice que se elija resulta irrelevante, ya
 que la cantidad de árboles generadores hacia cualquiera de ellos es invariante;
 en otras palabras, todos los cofactores de $\laplacian(G)$ son iguales. En
-el caso concreto del digrafo de De Bruijn de orden $n$, es posible demostrar
-\pending{[cita]} que
+el caso concreto del digrafo de De Bruijn de orden $n$, tenemos que
+\cite{van-aardenne-ehrenfest-circuits-and-trees} para cualquier
+$k = 1, \dots, 2^n$,
 \[ t_k = \frac{b^{b^{n}}}{b^{n+1}}, \]
 lo cual, junto al hecho de que posee exactamente $b^n$ vértices y el grado de
 salida de todos ellos es exactamente $b$, permite utilizar el teorema \BEST{} para
@@ -352,6 +357,7 @@ A continuación presentamos una generalización de las secuencias de De Bruijn,
 que denominaremos \emph{secuencias maravillosas}.
 
 \begin{definition}[Secuencia maravillosa]
+Sea un alfabeto de $b$ símbolos.
 Un \emph{collar $(n,m)$-maravilloso} es un collar de longitud $mb^n$
 en el que cada una de las posibles palabras de longitud $n$ aparece
 exactamente $m$ veces.
@@ -578,9 +584,9 @@ una posición, se obtiene el siguiente ejemplo de secuencia $(2,4)$-perfecta
 anidada:
 \[ 10000111\;00101101. \]
 
-Los autores de \cite{becher-nested-perfect} brindan un método que permite
-generar estas secuencias a partir de una transformación lineal, basada en la
-matriz de Pascal, siempre y cuando se cumplan ciertas restricciones,
+Los autores de \cite{becher-nested-perfect} brindan un método matricial que
+permite generar todas estas secuencias basado en el triángulo
+de Pascal, siempre y cuando se cumplan ciertas restricciones,
 en particular que $b$ sea un número primo, $m$ una potencia de $2$ y $n \leq m$.
 También brindan una fórmula cerrada para la cantidad de secuencias
 $(n,m)$-perfectas anidadas en estos casos.
@@ -590,6 +596,7 @@ maravillosas en lugar de perfectas: las \emph{secuencias maravillosas anidadas},
 el principal objeto de estudio de este trabajo.
 
 \begin{definition}
+	Sea un alfabeto de $b$ símbolos.
 	Una \emph{secuencia $(n,m)$-maravillosa anidada} es una secuencia de
 	longitud $m b^n$ para la que se cumple simultáneamente que
 	\begin{enumerate}
@@ -613,7 +620,7 @@ el principal objeto de estudio de este trabajo.
 \end{examples}
 
 Una observación que podemos hacer a partir de esta definición es que, si miramos
-el más profundo de sus los niveles de anidación, cada secuencia $(n,m)$-maravillosa
+el más profundo de sus niveles de anidación, cada secuencia $(n,m)$-maravillosa
 anidada está conformada por la concatenación de $b^{n-1}$ secuencias
 $(1,m)$-maravillosas anidadas, cada una de ellas de longitud $bm$. En otras
 palabras, si fijamos un valor de $m$, todas las secuencias $(n,m)$-maravillosas
@@ -649,7 +656,7 @@ de este trabajo.
 
 \newpage
 
-\chapter{Una familia maravillosa: las secuencias maravillosas autosimilares}
+\chapter{Una familia maravillosa}
 \label{chapter:autosimilar-sequences}
 
 Esta sección tiene por objetivo brindar una demostración del siguiente teorema
@@ -660,7 +667,6 @@ presentados son para el alfabeto $\alphabet = \lbrace 0, 1 \rbrace$.
 
 \begin{theorem}
 	\label{theorem:existence-autosimilar}
-	Sean $n, m > 0$.
 	Si $b^{n-1}$ divide a $m$, existen secuencias $(n,m)$-maravillosas anidadas
 	que no son perfectas anidadas.
 \end{theorem}
@@ -778,7 +784,7 @@ demostración para la Proposición \ref{proposition:autosimilar-nm-characterizat
 	$n'-1$.
 	Esto quiere decir que, siendo $y = \omega^{b^{n' - 2}}$, $y$ es una secuencia
 	$(n'-1, m)$-maravillosa anidada.
-	Para probar que $\omega^{b^{n' - 1}} = yy$ es $(n',m)$-maravillosa anidada,
+	Para probar que $\omega^{b^{n' - 1}} = y^b$ es $(n',m)$-maravillosa anidada,
 	solo resta ver que es $(n',m)$-maravillosa, ya que es la concatenación de dos
 	secuencias $(n'-1, m)$-maravillosas anidadas.
 
@@ -881,10 +887,13 @@ se sigue ahora de manera inmediata a partir del Corolario
 \ref{corollary:autosimilar-nm-count} y de la Proposición
 \ref{proposition:autosimilar-cannot-be-np}.
 
-\note{¿Damos demo para n = 1 o sacamos el caso del teorema? Se puede usar un
-argumento de cardinalidad.}
+Para n = 1, basta con exhibir un ejemplo. Sea $w = 01\dots(b-1)$.
+La secuencia $w^m$ es $(1,m)$-maravillosa anidada, ya que cada una de las $b$
+palabras de longitud $1$ aparece exactamente $m$ veces. Sin embargo, cada
+palabra aparece todas las veces en posiciones con la misma congruencia módulo $m$.
+Por lo tanto $w^m$ no es una secuencia perfecta.
 
-\chapter{Existencia de secuencias maravillosas anidadas: ejemplos y conjeturas}
+\chapter{Conjeturas sobre la existencia de secuencias maravillosas anidadas}
 \label{chapter:examples-and-conjectures}
 
 ¿Cuáles son los valores de $n$ y $m$ para los cuáles existen secuencias
@@ -946,26 +955,22 @@ resultados.
 		\setlength{\fboxsep}{.3em}
 		\fbox{
 			\footnotesize
-			\begin{tabular}{cp{62mm} cp{66mm}}
-			\multicolumn{4}{c}{\textbf{\normalsize Referencia}} \vspace{.4em} \\
-			\multicolumn{2}{c}{\textit{Valores para los que existen secuencias}}
-				& \multicolumn{2}{c}{\textit{Valores para los que no existen secuencias}} \vspace{.25em} \\
-			\color{e-count-for}{$\blacksquare$} & Cantidad expresada como fórmula cerrada
-				& \color{ne-proof}{$\blacksquare$} & No existencia demostrada \\
-			\color{e-count-emp}{$\blacksquare$} & Cantidad determinada experimentalmente
-				& \color{ne-empir}{$\blacksquare$} & No existencia determinada experimentalmente \\
-			\color{e-examples}{$\blacksquare$}  & Ejemplos hallados \\
-			R & Ejemplos hallados rotando secuencias perfectas \\
+			\begin{tabular}{cl}
+			\multicolumn{2}{c}{\textbf{\normalsize Secuencias $(n,m)$-maravillosas anidadas}} \vspace{.4em} \\
+			\color{e-count-for}{$\blacksquare$} & Cantidad expresada como fórmula cerrada \\
+			\color{e-count-emp}{$\blacksquare$} & Cantidad determinada experimentalmente \\
+			\color{e-examples}{$\blacksquare$}  & Ejemplos no perfectos hallados \\
+			R & Ejemplos no perfectos hallados rotando secuencias perfectas \\
 			A & Método de secuencias autosimilares \\
-			\multicolumn{4}{c}{\textit{Conjeturas}} \\
-			$\square$  & Se conjetura que existen secuencias
-				& \color{ne-conjc}{$\blacksquare$}  & Se conjetura que no existen secuencias \\
+			$\square$  & Se conjetura que existen secuencias \\
+			\color{ne-conjc}{$\blacksquare$}  & Se conjetura que no existen secuencias \\
+			\color{ne-empir}{$\blacksquare$} & No existencia determinada experimentalmente \\
+			\color{ne-proof}{$\blacksquare$} & No existencia demostrada \\
 			\end{tabular}
 		}
 	}
 
-	\caption{Existencia de secuencias $(n,m)$-maravillosas anidadas para los
-	primeros valores de $n$ y $m$.}
+	\caption{Síntesis de los resultados de este trabajo.}
 	\label{table:nested-marvellous-existence}
 \end{table}
 
@@ -1063,6 +1068,7 @@ equilibrada.
 El resultado que presentamos a continuación formaliza este razonamiento.
 
 \begin{theorem}
+	Sea un alfabeto de dos símbolos.
 	No existen secuencias $(n,m)$-maravillosas anidadas para ningunos $n$, $m$
 	tales que $n > 2m$.
 \end{theorem}
@@ -1172,8 +1178,6 @@ de dos métodos distintos.
 		\item $m = 6$; $n = 3, 4, 5$.
 		\item $m = 7$; $n = 3, 4, 5$.
 	\end{itemize}
-
-	\pending{Dar ejemplos concretos.}
 \end{itemize}
 
 Estos ejemplos dan cuenta de la existencia de secuencias maravillosas anidadas
