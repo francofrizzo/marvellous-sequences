@@ -1426,25 +1426,26 @@ Por lo tanto,
 	\label{lemma:discrepancy-2}
 	Sea $\gamma \in [0, 1)$. Tenemos que
 	\[ \mathbb{A}_{ki}(S;\gamma) =
-		A\left(\gamma, S \varphi(b^k) b^i, \varphi(b^k) b^i, \lbrace \alpha b^{s_k + n} \rbrace_{n\geq0} \right) = \gamma\varphi(b^k)b^i + (\varphi(b^k) + i - 1)\varepsilon, \qquad \vert\varepsilon\vert \leq 1. \]
+		A\left(\gamma, S \varphi(b^k) b^i, \varphi(b^k) b^i, \lbrace \alpha b^{s_k + n} \rbrace_{n\geq0} \right) = \gamma\varphi(b^k)b^i + (2\varphi(b^k) + i - 1)\varepsilon, \qquad \vert\varepsilon\vert \leq 1. \]
 \end{lemma}
 
 \begin{proof}
 Sea $f = [\gamma b^i]$, de modo que $f = \gamma b^i - \varepsilon_1$, con
 $\varepsilon_1 \in [0, 1)$. Notar que
-\begin{align*}
-	\tilde{\mathbb{A}}_{ki}(S;f) \leq \mathbb{A}_{ki}(S;\gamma) &\leq \tilde{\mathbb{A}}_{ki}(S;f+1).
-\end{align*}
+\[
+	\tilde{\mathbb{A}}_{ki}(S;f-1) \leq \mathbb{A}_{ki}(S;\gamma) \tilde{\mathbb{A}}_{ki}(S;f+1).
+\]
 Reemplazando, según el Lema \ref{lemma:discrepancy-1}, tenemos que
-\begin{align*}
-	\varphi(b^k)f + (i - 1)\varepsilon_2 \leq \mathbb{A}_{ki}(S;\gamma) &\leq \varphi(b^k)f + \varphi(b^k) + (i - 1)\varepsilon_2.
-\end{align*}
+\[
+	\varphi(b^k)f - \varphi(b^k) + (i - 1)\varepsilon_2 \leq \mathbb{A}_{ki}(S;\gamma) \leq \varphi(b^k)f + \varphi(b^k) + (i - 1)\varepsilon_2,
+	\qquad \vert \varepsilon_2 \vert \leq 1.
+\]
 Por lo tanto,
 \begin{align*}
-	\mathbb{A}_{ki}(S;\gamma) &= \varphi(b^k)f + \varphi(b^k)\varepsilon_3 + (i - 1)\varepsilon_2, & \varepsilon_3 & \in [0, 1] \\
+	\mathbb{A}_{ki}(S;\gamma) &= \varphi(b^k)f + \varphi(b^k)\varepsilon_3 + (i - 1)\varepsilon_2, & \vert \varepsilon_3 \vert &\leq 1 \\
 		&= \varphi(b^k)(\gamma b^i - \varepsilon_1) + \varphi(b^k)\varepsilon_3 + (i - 1)\varepsilon_2 \\
 		&= \gamma\varphi(b^k)b^i + \varphi(b^k)(\varepsilon_3 - \varepsilon_1) + (i - 1)\varepsilon_2 \\
-		&= \gamma\varphi(b^k)b^i + (\varphi(b^k) + i - 1)\varepsilon, & \vert\varepsilon\vert & \leq 1
+		&= \gamma\varphi(b^k)b^i + (2\varphi(b^k) + i - 1)\varepsilon, & \vert\varepsilon\vert & \leq 1
 \end{align*}
 como queríamos demostrar.
 \end{proof}
@@ -1502,12 +1503,12 @@ obtenemos
 
 Finalmente, aplicando el Lema \ref{lemma:discrepancy-2},
 \begin{align*}
-&= \sum_{i=1}^{b^k-1} \sum_{j=0}^{\nu_{b^k-i-1}-1} \left( \gamma\varphi(b^k)b^{b^k-i} + (\varphi(b^k) + b^k - i - 1)\varepsilon_i \right) + N''\varepsilon'',
+&= \sum_{i=1}^{b^k-1} \sum_{j=0}^{\nu_{b^k-i-1}-1} \left( \gamma\varphi(b^k)b^{b^k-i} + (2\varphi(b^k) + b^k - i - 1)\varepsilon_i \right) + N''\varepsilon'',
 & \vert \varepsilon_i \vert & \leq 1 \\
-&= \gamma\varphi(b^k) \sum_{i=1}^{b^k-1} \nu_{b^k-i-1}b^{b^k-i} + \sum_{i=1}^{b^k-1} (\varphi(b^k) + b^k - i - 1)b\varepsilon_i + N''\varepsilon'' \\
-&= \gamma\varphi(b^k)b N' + \frac{1}{2}\left(b^{2k} - b^k + 2(b^k-1)\varphi(b^k) \right)b\varepsilon' + N''\varepsilon'',
+&= \gamma\varphi(b^k) \sum_{i=1}^{b^k-1} \nu_{b^k-i-1}b^{b^k-i} + \sum_{i=1}^{b^k-1} (2\varphi(b^k) + b^k - i - 1)b\varepsilon_i + N''\varepsilon'' \\
+&= \gamma\varphi(b^k)b N' + \frac{1}{2}\left(b^{2k} - b^k + 4(b^k-1)\varphi(b^k) \right)b\varepsilon' + N''\varepsilon'',
 & \vert \varepsilon' \vert & \leq 1 \\
-&= \gamma N + \frac{1}{2}\left(b^{2k} - b^k + 2(b^k+1)\varphi(b^k) \right)b\varepsilon,
+&= \gamma N + \frac{1}{2}\left(b^{2k} - b^k + 4(b^k+1)\varphi(b^k) \right)b\varepsilon,
 & \vert \varepsilon \vert & \leq 1. \\
 &= \gamma N + \ord \left(b^{2k} + b^{k} \varphi(b^k) \right). && \qedhere
 \end{align*}
