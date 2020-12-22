@@ -1374,21 +1374,36 @@ $\varphi(b^k)b^{b^k}$.
 Definimos para cada $k = 0, 1, \dots$ la posición en que comienza el bloque
 $w_k$, $s_k = \sum_{i=0}^k \varphi(i) b^i$.
 
+A lo largo de la demostración hacemos referencia a la siguiente función contadora
+\[ A\left(\gamma, S, N, \left(x_n\right)_{n\geq0} \right)
+	= \# \lbrace S \leq n < S + N \;\vert\; \lbrace x_n \rbrace < \gamma \rbrace, \]
+que determina cuántos de los términos de la sucesión $\left(x_n\right)_{n\geq0}$
+con índices comprendidos entre $S$ y $S+N$ son menores que $\gamma$, donde
+$\gamma \in (0, 1]$, $S \geq 0$ y $N \geq 1$. En ocasiones escribimos
+\[ A\left(\gamma, N, \left(x_n\right)_{n\geq0} \right)
+	= A\left(\gamma, 0, N, \left(x_n\right)_{n\geq0} \right). \]
+Cabe señalar que la discrepancia de una sucesión puede escribirse en función de
+$A$, ya que $\discrepancy{N}\left( (x_n)_{n \geq 0}\right)
+= \sup_{\gamma \in (0,1]} \left\vert N^{-1} A(\gamma, N,
+(x_n)_{n \geq 0}) - \gamma \right\vert$.
+
 \begin{lemma}
 	\label{lemma:discrepancy-1}
 	Sea $k$ un entero no negativo y sea $i$ tal que $1 \leq i \leq b^k$. Definimos
 	\[ \alpha_{ki}(n) = \frac{[\lbrace \alpha b^{s_k + n} \rbrace b^i]}{b^i}, \]
-	el número real que resulta de considerar $i$ dígitos de la expansión de
-	$\alpha$ en base $b$, comenzando en la posición $s_k + n$.
+	el número real cuya expansión en base $b$ consiste en $i$ dígitos de la
+	expansión de $\alpha$ en base $b$ a partir de la posición $s_k + n$,
+	seguidos de ceros.
 
-	Sea $0 \leq S \leq \varphi(b^k)b^{k-i}$;
-	para todo $f = 0, \dots, b^i$ tenemos que
-	\[
+	Para todo $S$ tal que $0 \leq S \leq \varphi(b^k)b^{k-i}$ y
+	$f = 0, \dots, b^i$ tenemos que
+	\begin{align*}
 		\tilde{\mathbb{A}}_{ki}(S;f)
-		= A\left(\frac{f}{b^i}, S \varphi(b^k) b^i, \varphi(b^k) b^i,
-			\left(\alpha_{ki}(n)\right)_{n\geq0} \right)
-		= \varphi(b^k)f + (i - 1)\varepsilon, \qquad \vert\varepsilon\vert \leq 1.
-	\]
+		&= A\left(\frac{f}{b^i}, S \varphi(b^k) b^i, \varphi(b^k) b^i,
+			\left(\alpha_{ki}(n)\right)_{n\geq0} \right) \\
+		&= \varphi(b^k)f + (i - 1)\varepsilon,
+			&\qquad \vert\varepsilon\vert &\leq 1.
+	\end{align*}
 \end{lemma}
 
 \begin{proof}
@@ -1448,14 +1463,16 @@ Por lo tanto,
 
 \begin{lemma}
 	\label{lemma:discrepancy-2}
-	Sea $\gamma \in [0, 1)$. Tenemos que
-	\[
-		\mathbb{A}_{ki}(S;\gamma) =
-		A\left(\gamma, S \varphi(b^k) b^i, \varphi(b^k) b^i,
-			\lbrace \alpha b^{s_k + n} \rbrace_{n\geq0} \right)
-		= \gamma\varphi(b^k)b^i + (2\varphi(b^k) + i - 1)\varepsilon,
-		\qquad \vert\varepsilon\vert \leq 1.
-	\]
+	Sea $k$ un entero no negativo y sea $i$ tal que $1 \leq i \leq b^k$.
+	Para todo $S$ tal que $0 \leq S \leq \varphi(b^k)b^{k-i}$ y
+	$\gamma \in [0, 1)$ tenemos que
+	\begin{align*}
+		\mathbb{A}_{ki}(S;\gamma)
+		&= A\left(\gamma, S \varphi(b^k) b^i, \varphi(b^k) b^i,
+			\lbrace \alpha b^{s_k + n} \rbrace_{n\geq0} \right) \\
+		& = \gamma\varphi(b^k)b^i + (2\varphi(b^k) + i - 1)\varepsilon,
+			& \vert\varepsilon\vert &\leq 1.
+	\end{align*}
 \end{lemma}
 
 \begin{proof}
@@ -1489,7 +1506,8 @@ como queríamos demostrar.
 
 \begin{lemma}
 	\label{lemma:discrepancy-3}
-	Sea $\gamma \in [0, 1)$, y sea $1 \leq N \leq \varphi(b^k)b^{b^k}$.
+	Sea $k$ un entero no negativo, $\gamma \in [0, 1)$,
+	y $1 \leq N \leq \varphi(b^k)b^{b^k}$.
 	Tenemos que
 	\begin{enumerate}
 		\item $ A\left(\gamma, s_k, N, \lbrace \alpha b^{n} \rbrace_{n\geq0} \right) =
@@ -1610,15 +1628,15 @@ A(\gamma, N, \lbrace \alpha b^n \rbrace_{n \geq 0})
 	&= \gamma N + \ord \left(\varphi(\log(N))\log(N) + \log^2(N) \right).
 \end{align*}
 
-Dado que $\discrepancy{N}(\lbrace \alpha b^n \rbrace)_{n \geq 0}
+Dado que $\discrepancy{N}\left(\lbrace \alpha b^n \rbrace_{n \geq 0}\right)
 = \sup_{\gamma \in (0,1]} \left\vert N^{-1} A(\gamma, N,
-(\lbrace \alpha b^n \rbrace)_{n \geq 0}) - \gamma \right\vert$, resulta que
+\left(\lbrace \alpha b^n \rbrace_{n \geq 0}\right)) - \gamma \right\vert$, resulta que
 
-\[ \discrepancy{N}(\lbrace \alpha b^n \rbrace)_{n \geq 0} =
+\[ \discrepancy{N}\left(\lbrace \alpha b^n \rbrace_{n \geq 0}\right) =
 	\ord \left(\frac{\varphi(\log(N)) \log(N) + \log^2(N)}{N} \right). \]
 
 Concretamente, si $\varphi = \ord(N)$, tenemos que $\varphi(\log(N))
 = \ord(\log(N))$, y por lo tanto,
-\[ \discrepancy{N}(\lbrace \alpha b^n \rbrace)
+\[ \discrepancy{N}\left(\lbrace \alpha b^n \rbrace_{n \geq 0}\right)
 	= \ord \left( \frac{\log^2(N)}{N} \right). \qedhere \]
 \end{proof}
