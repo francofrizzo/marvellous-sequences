@@ -84,7 +84,7 @@ Un interés de las secuencias maravillosas anidadas es que se pueden usar
 para construir secuencias normales en el sentido de Borel, que posiblemente
 tienen la propiedad de converger a la normalidad muy rápidamente.
 Suponemos que la velocidad de convergencia es la misma que la de la secuencia
-de Levin \cite[Teorema 2]{levin-discrepancy-estimate}, la máxima conocida por
+de Levin \cite[Theorem 2]{levin-discrepancy-estimate}, la máxima conocida por
 el momento.
 
 El resto de este documento se estructura de la siguiente manera. El Capítulo
@@ -1301,6 +1301,34 @@ nuestras conjeturas.
 
 \chapter{Secuencias maravillosas anidadas, discrepancia y normalidad}
 
+Consideremos una base entera $b > 2$. Un número real es \emph{normal} en base
+$b$ si, al escribir en esta base el desarrollo de su parte fraccional,
+la distribución de los posibles bloques de dígitos de longitud $i$ tiende
+a ser uniforme, para todo $i \geq 1$; en otras palabras, si la frecuencia
+relativa de cada uno de estos bloques converge a $b^{-i}$. La noción de
+normalidad fue presentada por Émile Borel \cite{borel-normality} en 1909 y ha
+sido ampliamente estudiada desde entonces.
+
+Un concepto estrechamente vinculado al de normalidad es el de
+\emph{discrepancia}. Definimos la discrepancia de una sucesión de números
+reales $(x_n)_{n \geq 1}$ como
+\[ \discrepancy{N}((x_n)_{n \geq 1}) = \sup_{\gamma \in (0,1]} \left\vert \frac{\# \lbrace 0 < n \leq N \;\vert\; \lbrace x_n \rbrace < \gamma \rbrace}{N} - \gamma \right\vert, \]
+siendo $\lbrace x \rbrace = x - [x]$ la parte fraccional de $x$. Se sabe que
+un número $\alpha$ es normal en base $b$ si y solo si $\lim_{N \to \infty} \discrepancy{N}(\lbrace \alpha b^n \rbrace_{n \geq 0}) = 0.$ Además, la
+discrepancia puede utilizarse como una métrica de la rapidez con la que un
+número converge a la normalidad.
+
+En \cite{levin-discrepancy-estimate}, Mordechay Levin introduce dos
+métodos para construir números normales con discrepancia mínima, del orden de
+$\ord(N^{-1}\log^2(N))$. Una de estas construcciones
+\cite[Theorem 2]{levin-discrepancy-estimate}, basada en el triángulo de Pascal,
+es generalizada por Becher y
+Carton en \cite{becher-nested-perfect}, permitiendo construir números normales
+a partir de secuencias perfectas anidadas.
+El resultado que presentamos a continuación muestra que es posible generalizar
+aún más esta construcción, reemplazando las secuencias perfectas anidadas
+por secuencias maravillosas anidadas.
+
 \begin{theorem}
 \label{theorem:discrepancy-bound}
 Sea $b > 0$, $\varphi$ una función creciente, y sea $\alpha \in [0, 1)$ un número real
@@ -1314,15 +1342,25 @@ además,
 \[ \discrepancy{N}(\lbrace \alpha b^n \rbrace)_{n\geq0} = \ord\left( \frac{\log^2(N)}{N} \right). \]
 \end{theorem}
 
-\begin{remark}
-	Alternativamente, si se pide que los $w_k$ sean secuencias
-	$(k, \varphi(k))$-maravillosas anidadas (con $k = 1, 2, \dots$),
-	se tiene un resultado análogo pero
-	con $\log^3(N)$ en lugar de $\log^2(N)$ en la expresión de la discrepancia
-	(ver \cite{levin-discrepancy-estimate}).
-\end{remark}
+Alternativamente, si se pide que los $w_k$ sean secuencias
+$(k, \varphi(k))$-maravillosas anidadas (con $k = 1, 2, \dots$),
+se tiene un resultado análogo pero
+con $\log^3(N)$ en lugar de $\log^2(N)$ en la expresión de la discrepancia
+(ver \cite{levin-discrepancy-estimate}).
 
-Notar que cada bloque $w_k$ tiene tamaño $\varphi(b^k)b^k$.
+Nuestra demostración sigue, en líneas muy generales, la estructura utilizada
+por Levin. Los tres lemas que presentamos
+a continuación dan una cadena de estimaciones que permite ir acotando
+parcialmente la discrepancia del número $\alpha$, y se corresponden de
+manera aproximada con \cite[Lemma 5]{levin-discrepancy-estimate},
+\cite[Corollary 1]{levin-discrepancy-estimate}
+y \cite[Corollary 2]{levin-discrepancy-estimate}, respectivamente.
+La demostración del Teorema \ref{theorem:discrepancy-bound} queda completa
+al final de la sección.
+
+Comenzamos por notar que, por ser una secuencia
+$(b^k, \varphi(b^k))$-maravillosa anidada, cada bloque $w_k$ tiene tamaño
+$\varphi(b^k)b^{b^k}$.
 Definimos para cada $k = 0, 1, \dots$ la posición en que comienza el bloque
 $w_k$, $s_k = \sum_{i=0}^k \varphi(i) b^i$.
 
@@ -1453,7 +1491,7 @@ Teniendo en cuenta lo anterior, podemos reescribir
 	&= \sum_{i=1}^{b^k-1} A\left(\gamma, N_{i-1}\varphi(b^k)b, \nu_{b^k-i-1}\varphi(b^k)b^{b^k-i}, \lbrace \alpha b^{s_k+n} \rbrace_{n\geq0} \right) + N''\varepsilon'', & \varepsilon'' &\in [0, 1].
 \end{align*}
 
-Sea, para cada $i = 1, \dots, b^k - 1$, $S_i = \frac{N_{i-1}}{b^{b^k - i - 1}}$.
+Sea, $S_i = \frac{N_{i-1}}{b^{b^k - i - 1}}$ para cada $i = 1, \dots, b^k - 1$.
 Reemplazando en la expresión anterior, y reagrupando nuevamente las mantisas,
 obtenemos
 \begin{align*}
@@ -1482,7 +1520,8 @@ tal que $N = s_K + R$ con $0 \leq R < \varphi(b^K)b^{b^K}$.
 Notar que $N \geq s_K \geq \varphi(b^{K-1})b^{b^{K-1}}$, por lo que
 $b^K \leq b \log_b(N)$.
 Agrupando las primeras
-$N$ mantisas de $\alpha$ según el bloque al que corresponden, podemos escribir
+$N$ mantisas de $\alpha$ según el bloque al que corresponden,
+y aplicando luego el Lema \ref{lemma:discrepancy-3}, tenemos que
 \begin{align*}
 A(\gamma, N, \lbrace \alpha b^n \rbrace_{n \geq 0})
 	&= \sum_{k=0}^{K - 1} A(\gamma, s_k, \varphi(b^k)b^{b^k}, \lbrace \alpha b^n \rbrace_{n \geq 0})
