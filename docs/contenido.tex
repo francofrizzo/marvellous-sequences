@@ -1314,9 +1314,9 @@ Un concepto estrechamente vinculado al de normalidad es el de
 \emph{discrepancia}. Definimos la discrepancia de una sucesión de números
 reales $(x_n)_{n \geq 1}$ como
 \[
-	\discrepancy{N}((x_n)_{n \geq 1})
+	\discrepancy{N}((x_n)_{n \geq 0})
 	= \sup_{\gamma \in (0,1]} \left\vert
-		\frac{\# \lbrace 0 < n \leq N \;\vert\; \lbrace x_n \rbrace < \gamma \rbrace}
+		\frac{\# \lbrace 0 \leq n < N \;\vert\; \lbrace x_n \rbrace < \gamma \rbrace}
 		{N} - \gamma
 	\right\vert,
 \]
@@ -1491,12 +1491,17 @@ como queríamos demostrar.
 	\label{lemma:discrepancy-3}
 	Sea $\gamma \in [0, 1)$, y sea $1 \leq N \leq \varphi(b^k)b^{b^k}$.
 	Tenemos que
-	\[ A\left(\gamma, s_k, N, \lbrace \alpha b^{n} \rbrace_{n\geq0} \right) =
-	\gamma N + \ord \left(b^{2k} + \varphi(b^k)b^{k} \right). \]
+	\begin{enumerate}
+		\item $ A\left(\gamma, s_k, N, \lbrace \alpha b^{n} \rbrace_{n\geq0} \right) =
+			\gamma N + \ord \left( \varphi(b^k)b^{k} + b^{2k} \right)$.
+		\item $ A\left(\gamma, s_k, \varphi(b^k)b^{b^k}, \lbrace \alpha b^{n} \rbrace_{n\geq0} \right) =
+			\gamma\varphi(b^k)b^{b^i} + \ord\left(\varphi(b^k) + b^k\right)$.
+	\end{enumerate}
 \end{lemma}
 
 \begin{proof}
-Comenzamos por observar las posiciones iniciales de las mantisas a considerar;
+Para probar el primer resultado,
+comenzamos por observar las posiciones iniciales de las mantisas a considerar;
 todas ellas están comprendidas entre las posiciones $s_k$ y $s_{k+1}$ del
 desarrollo en base $b$ de $\alpha$, por lo que pertenecen a una misma
 secuencia $(b^k, \varphi(b^k))$-maravillosa anidada.
@@ -1515,8 +1520,9 @@ Notar que $0 = N_0 \leq N_1 \leq \dots \leq N_{b^k-1} = N'$.
 Esto nos permite agrupar las $N$ mantisas a considerar en bloques consecutivos,
 siguiendo los niveles de anidación de la secuencia maravillosa anidada:
 \begin{itemize}
-	\item Los primeros $b^k - 1$ bloques van desde la posición $N_{i+1}$ a la
-		$N_{i}$, para $i = 1, \dots, b^k - 1$. Cada uno de ellos se corresponde
+	\item Los primeros $b^k - 1$ bloques van desde la posición
+		$N_{i-1}\varphi(b^k)b$ a la $N_{i}\varphi(b^k)b$,
+		para $i = 1, \dots, b^k - 1$. Cada uno de ellos se corresponde
 		exactamente con $\nu_{b^k-i-1}$ secuencias
 		$(b^k - i, \varphi(b^k))$-maravillosas anidadas consecutivas.
 	\item El último bloque va desde la posición $N'\varphi(b^k)b$ hasta la
@@ -1559,18 +1565,28 @@ Finalmente, aplicando el Lema \ref{lemma:discrepancy-2},
 &= \gamma\varphi(b^k) \sum_{i=1}^{b^k-1} \nu_{b^k-i-1}b^{b^k-i} +
 	\sum_{i=1}^{b^k-1} (2\varphi(b^k) + b^k - i - 1)b\varepsilon_i
 	+ N''\varepsilon'' \\
-&= \gamma\varphi(b^k)b N' + \frac{1}{2}\left(b^{2k} - b^k
-	+ 4\varphi(b^k)(b^k-1) \right)b\varepsilon' + N''\varepsilon'',
+&= \gamma\varphi(b^k)b N' + \frac{1}{2}\left(4\varphi(b^k)(b^k-1)
+	+ b^{2k} - b^k \right)b\varepsilon' + N''\varepsilon'',
 	& \vert \varepsilon' \vert & \leq 1 \\
-	&= \gamma N + \frac{1}{2}\left(b^{2k} - b^k
-	+ 4\varphi(b^k)(b^k-1) \right)b\varepsilon' + N''(\varepsilon'' - \gamma) \\
-	&= \gamma N + \frac{1}{2}\left(b^{2k} - b^k
-	+ 4\varphi(b^k)(b^k-1) \right)b\varepsilon' + \varphi(b^k)b\varepsilon'''
+&= \gamma N + \frac{1}{2}\left(4\varphi(b^k)(b^k-1)
+	+ b^{2k} - b^k \right)b\varepsilon' + N''(\varepsilon'' - \gamma) \\
+&= \gamma N + \frac{1}{2}\left(4\varphi(b^k)(b^k-1)
+	+ b^{2k} - b^k \right)b\varepsilon' + \varphi(b^k)b\varepsilon'''
 	& \vert \varepsilon''' \vert & \leq 1 \\
-&= \gamma N + \frac{1}{2}\left(b^{2k} - b^k
-	+ 4\varphi(b^k)b^k \right)b\varepsilon,
+&= \gamma N + \frac{1}{2}\left(4\varphi(b^k)b^k
+	+ b^{2k} - b^k \right)b\varepsilon,
 	& \vert \varepsilon \vert & \leq 1. \\
-&= \gamma N + \ord \left(b^{2k} + \varphi(b^k)b^{k} \right). && \qedhere
+&= \gamma N + \ord \left(\varphi(b^k)b^{k} + b^{2k}\right).
+\end{align*}
+
+Para probar el segundo resultado, basta notar que
+\begin{align*}
+A\left(\gamma, s_k, \varphi(b^k)b^{b^k}, \lbrace \alpha b^{n} \rbrace_{n\geq0} \right)
+	&= A\left(\gamma, 0, \varphi(b^k)b^{b^k}, \lbrace \alpha b^{s_k+n} \rbrace_{n\geq0} \right) \\
+	&= \mathbb{A}_{k,b^k}(0; \gamma) \\
+	&= \gamma\varphi(b^k)b^{b^i} + (2\varphi(b^k) + b^k - 1)\varepsilon,
+		& \vert\varepsilon\vert &\leq 1 \\
+	&= \gamma\varphi(b^k)b^{b^i} + \ord\left(\varphi(b^k) + b^k\right). && \qedhere
 \end{align*}
 \end{proof}
 
@@ -1589,9 +1605,9 @@ A(\gamma, N, \lbrace \alpha b^n \rbrace_{n \geq 0})
 		\lbrace \alpha b^n \rbrace_{n \geq 0})
 		+ A(\gamma, s_K, R, \lbrace \alpha b^n \rbrace_{n \geq 0}) \\
 	&= \sum_{k=0}^{K - 1} \left( \gamma \varphi(b^k)b^{b^k} +
-		\ord \left(b^{2k} + \varphi(b^k)b^{k} \right) \right)
-		+ \gamma R + \ord \left(b^{2K} + \varphi(b^K)b^{K} \right) \\
-	&= \gamma N + \ord \left(\log^2(N) + \varphi(\log(N))\log(N) \right).
+		\ord \left( \varphi(b^k) + b^{k} \right) \right)
+		+ \gamma R + \ord \left(\varphi(b^K)b^{K} + b^{2K} \right) \\
+	&= \gamma N + \ord \left(\varphi(\log(N))\log(N) + \log^2(N) \right).
 \end{align*}
 
 Dado que $\discrepancy{N}(\lbrace \alpha b^n \rbrace)_{n \geq 0}
@@ -1599,7 +1615,7 @@ Dado que $\discrepancy{N}(\lbrace \alpha b^n \rbrace)_{n \geq 0}
 (\lbrace \alpha b^n \rbrace)_{n \geq 0}) - \gamma \right\vert$, resulta que
 
 \[ \discrepancy{N}(\lbrace \alpha b^n \rbrace)_{n \geq 0} =
-	\ord \left(\frac{\log^2(N) + \varphi(\log(N)) \log(N)}{N} \right). \]
+	\ord \left(\frac{\varphi(\log(N)) \log(N) + \log^2(N)}{N} \right). \]
 
 Concretamente, si $\varphi = \ord(N)$, tenemos que $\varphi(\log(N))
 = \ord(\log(N))$, y por lo tanto,
