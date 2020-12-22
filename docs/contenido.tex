@@ -153,8 +153,9 @@ aparece en $\neck{01010011}$.
 
 \section{Collares y secuencias de De Bruijn}
 
-En \cite{de-bruijn-combinatorial-problem}, Nicolaas G. de Bruijn realizó un detallado estudio de una clase
-de collares que han pasado a ser conocidos con su nombre.
+En \cite{de-bruijn-combinatorial-problem}, Nicolaas G. de Bruijn realizó un
+detallado estudio de una clase de collares que han pasado a ser conocidos con su
+nombre.
 
 \begin{definition}[Collar de De Bruijn]
 	Un \emph{collar de De Bruijn} de orden $n$ (o collar $n$-de De Bruijn) es un collar
@@ -1312,9 +1313,17 @@ sido ampliamente estudiada desde entonces.
 Un concepto estrechamente vinculado al de normalidad es el de
 \emph{discrepancia}. Definimos la discrepancia de una sucesión de números
 reales $(x_n)_{n \geq 1}$ como
-\[ \discrepancy{N}((x_n)_{n \geq 1}) = \sup_{\gamma \in (0,1]} \left\vert \frac{\# \lbrace 0 < n \leq N \;\vert\; \lbrace x_n \rbrace < \gamma \rbrace}{N} - \gamma \right\vert, \]
+\[
+	\discrepancy{N}((x_n)_{n \geq 1})
+	= \sup_{\gamma \in (0,1]} \left\vert
+		\frac{\# \lbrace 0 < n \leq N \;\vert\; \lbrace x_n \rbrace < \gamma \rbrace}
+		{N} - \gamma
+	\right\vert,
+\]
 siendo $\lbrace x \rbrace = x - [x]$ la parte fraccional de $x$. Se sabe que
-un número $\alpha$ es normal en base $b$ si y solo si $\lim_{N \to \infty} \discrepancy{N}(\lbrace \alpha b^n \rbrace_{n \geq 0}) = 0.$ Además, la
+un número $\alpha$ es normal en base $b$ si y solo si
+$\lim_{N \to \infty} \discrepancy{N}(\lbrace \alpha b^n \rbrace_{n \geq 0}) = 0.$
+Además, la
 discrepancia puede utilizarse como una métrica de la rapidez con la que un
 número converge a la normalidad.
 
@@ -1331,15 +1340,16 @@ por secuencias maravillosas anidadas.
 
 \begin{theorem}
 \label{theorem:discrepancy-bound}
-Sea $b > 0$, $\varphi$ una función creciente, y sea $\alpha \in [0, 1)$ un número real
-tal que su escritura en base $b$ es
+Sea $b > 0$, $\varphi$ una función creciente, y sea $\alpha \in [0, 1)$ un
+número real tal que su escritura en base $b$ es
 \[ .w_0w_1w_2\dots \]
 donde cada bloque $w_k$ es una secuencia $(b^k, \varphi(b^k))$-maravillosa
 anidada.
 
 Si $\varphi = \ord(N)$, entonces $\alpha$ es un número normal en base $b$ y,
 además,
-\[ \discrepancy{N}(\lbrace \alpha b^n \rbrace)_{n\geq0} = \ord\left( \frac{\log^2(N)}{N} \right). \]
+\[ \discrepancy{N}(\lbrace \alpha b^n \rbrace)_{n\geq0}
+	= \ord\left( \frac{\log^2(N)}{N} \right). \]
 \end{theorem}
 
 Alternativamente, si se pide que los $w_k$ sean secuencias
@@ -1371,18 +1381,26 @@ $w_k$, $s_k = \sum_{i=0}^k \varphi(i) b^i$.
 	el número real que resulta de considerar $i$ dígitos de la expansión de
 	$\alpha$ en base $b$, comenzando en la posición $s_k + n$.
 
-	Sea $0 \leq S \leq \varphi(b^k)b^{k-i}$; para todo $f = 0, \dots, b^i$ tenemos que
-	\[ \tilde{\mathbb{A}}_{ki}(S;f) = A\left(\frac{f}{b^i}, S \varphi(b^k) b^i, \varphi(b^k) b^i, \left(\alpha_{ki}(n)\right)_{n\geq0} \right) = \varphi(b^k)f + (i - 1)\varepsilon, \qquad \vert\varepsilon\vert \leq 1. \]
+	Sea $0 \leq S \leq \varphi(b^k)b^{k-i}$;
+	para todo $f = 0, \dots, b^i$ tenemos que
+	\[
+		\tilde{\mathbb{A}}_{ki}(S;f)
+		= A\left(\frac{f}{b^i}, S \varphi(b^k) b^i, \varphi(b^k) b^i,
+			\left(\alpha_{ki}(n)\right)_{n\geq0} \right)
+		= \varphi(b^k)f + (i - 1)\varepsilon, \qquad \vert\varepsilon\vert \leq 1.
+	\]
 \end{lemma}
 
 \begin{proof}
 Si observamos la expresión
-\[ A\left(\frac{f}{b^i}, S \varphi(b^k) b^i, \varphi(b^k) b^i, \left(\alpha_{ki}(n)\right)_{n\geq0} \right), \]
+\[ A\left(\frac{f}{b^i}, S \varphi(b^k) b^i, \varphi(b^k) b^i,
+	\left(\alpha_{ki}(n)\right)_{n\geq0} \right), \]
 notamos
 que se están considerando $\varphi(b^k)b^i$ mantisas de $\alpha$, comenzando
 en la posición $s_k + S\varphi(b^k)b^i$, y truncando todas ellas a $i$ dígitos.
 Consideremos por un lado el multiconjunto de estas mantisas,
-\[ A_1 = \left\lbrace \alpha_{ki}(n) \;\Big\vert\; S \varphi(b^k) b^i \leq n < (S) \varphi(b^k) b^i \right\rbrace. \]
+\[ A_1 = \left\lbrace \alpha_{ki}(n) \;\Big\vert\; S \varphi(b^k) b^i \leq n
+	< (S) \varphi(b^k) b^i \right\rbrace. \]
 
 Por construcción, a partir de la posición $s_k$ la expansión decimal de
 $\alpha$ contiene una secuencia $(b^k, \varphi(b^k))$-maravillosa anidada,
@@ -1395,9 +1413,10 @@ Esto quiere decir que las posiciones de inicio de todas las mantisas de $A_1$
 caen dentro de una misma secuencia $(i, \varphi(b^i))$-maravillosa anidada.
 Siendo $\beta_0, \beta_1, \dots, \beta_{\varphi(b^k)b^{i}-1}$ los caracteres
 de dicha secuencia, consideremos el multiconjunto de los números reales cuya
-parte fraccional, escrita en base $b$, se corresponde con una palabra de longitud
-$i$ que aparece circularmente en ella:
-\[ A_2 = \left\lbrace \sum_{j=0}^{i} \beta_{\ell \oplus j} b^{-j} \;\Bigg\vert\; \ell = 0, \dots, \varphi(b^k)b^i \right\rbrace, \]
+parte fraccional, escrita en base $b$, se corresponde con una palabra de
+longitud $i$ que aparece circularmente en ella:
+\[ A_2 = \left\lbrace \sum_{j=0}^{i} \beta_{\ell \oplus j} b^{-j}
+	\;\Bigg\vert\; \ell = 0, \dots, \varphi(b^k)b^i \right\rbrace, \]
 donde $\oplus$ representa la suma módulo $\varphi(b^k)b^{i}$.
 
 Podemos observar que los elementos de $A_2$ se corresponden exactamente con
@@ -1406,7 +1425,8 @@ Además, recordemos que en una secuencia $(i, \varphi(b^i))$-maravillosa anidada
 cada palabra de longitud $i$ aparece exactamente $\varphi(b^k)$ veces.
 Esta es, por lo tanto, la multiplicidad de cada uno de los elementos de $A_2$.
 De aquí podemos concluir que
-\[ \# \left\lbrace x \in A_2 \;\Big\vert\; x < \frac{f}{b^i} \right\rbrace = \varphi(b^k)f. \]
+\[ \# \left\lbrace x \in A_2
+	\;\Big\vert\; x < \frac{f}{b^i} \right\rbrace = \varphi(b^k)f. \]
 
 Por otra parte, $A_1$ y $A_2$ difieren en, a lo sumo, $i - 1$ elementos,
 aquellos que se encuentran al final de la secuencia maravillosa anidada y
@@ -1414,10 +1434,14 @@ que, en el caso de $A_1$, se completan con dígitos de la secuencia siguiente,
 mientras que en $A_2$ se completan circularmente con caracteres del comienzo.
 Por lo tanto,
 \begin{align*}
-	A\left(\frac{f}{b^i}, S \varphi(b^k) b^i, \varphi(b^k) b^i, \left(\alpha_{ki}(n)\right)_{n\geq0} \right)
-		&= \# \left\lbrace x \in A_1 \;\Big\vert\; x < \frac{f}{b^i} \right\rbrace \\
-		&= \# \left\lbrace x \in A_2 \;\Big\vert\; x < \frac{f}{b^i} \right\rbrace + (i - 1)\varepsilon, & \vert\varepsilon\vert &\leq 1 \\
-		&= \varphi(b^k)f + (i - 1)\varepsilon. && \qedhere
+	A\left(\frac{f}{b^i}, S \varphi(b^k) b^i, \varphi(b^k) b^i,
+		\left(\alpha_{ki}(n)\right)_{n\geq0} \right)
+	&= \# \left\lbrace x \in A_1 \;\Big\vert\;
+		x < \frac{f}{b^i} \right\rbrace \\
+	&= \# \left\lbrace x \in A_2 \;\Big\vert\;
+		x < \frac{f}{b^i} \right\rbrace + (i - 1)\varepsilon,
+		& \vert\varepsilon\vert &\leq 1 \\
+	&= \varphi(b^k)f + (i - 1)\varepsilon. && \qedhere
 \end{align*}
 
 \end{proof}
@@ -1425,36 +1449,50 @@ Por lo tanto,
 \begin{lemma}
 	\label{lemma:discrepancy-2}
 	Sea $\gamma \in [0, 1)$. Tenemos que
-	\[ \mathbb{A}_{ki}(S;\gamma) =
-		A\left(\gamma, S \varphi(b^k) b^i, \varphi(b^k) b^i, \lbrace \alpha b^{s_k + n} \rbrace_{n\geq0} \right) = \gamma\varphi(b^k)b^i + (2\varphi(b^k) + i - 1)\varepsilon, \qquad \vert\varepsilon\vert \leq 1. \]
+	\[
+		\mathbb{A}_{ki}(S;\gamma) =
+		A\left(\gamma, S \varphi(b^k) b^i, \varphi(b^k) b^i,
+			\lbrace \alpha b^{s_k + n} \rbrace_{n\geq0} \right)
+		= \gamma\varphi(b^k)b^i + (2\varphi(b^k) + i - 1)\varepsilon,
+		\qquad \vert\varepsilon\vert \leq 1.
+	\]
 \end{lemma}
 
 \begin{proof}
 Sea $f = [\gamma b^i]$, de modo que $f = \gamma b^i - \varepsilon_1$, con
 $\varepsilon_1 \in [0, 1)$. Notar que
 \[
-	\tilde{\mathbb{A}}_{ki}(S;f-1) \leq \mathbb{A}_{ki}(S;\gamma) \tilde{\mathbb{A}}_{ki}(S;f+1).
+	\tilde{\mathbb{A}}_{ki}(S;f-1) \leq \mathbb{A}_{ki}(S;\gamma)
+	\leq \tilde{\mathbb{A}}_{ki}(S;f+1).
 \]
 Reemplazando, según el Lema \ref{lemma:discrepancy-1}, tenemos que
 \[
-	\varphi(b^k)f - \varphi(b^k) + (i - 1)\varepsilon_2 \leq \mathbb{A}_{ki}(S;\gamma) \leq \varphi(b^k)f + \varphi(b^k) + (i - 1)\varepsilon_2,
+	\varphi(b^k)f - \varphi(b^k) + (i - 1)\varepsilon_2
+	\leq \mathbb{A}_{ki}(S;\gamma)
+	\leq \varphi(b^k)f + \varphi(b^k) + (i - 1)\varepsilon_2,
 	\qquad \vert \varepsilon_2 \vert \leq 1.
 \]
 Por lo tanto,
 \begin{align*}
-	\mathbb{A}_{ki}(S;\gamma) &= \varphi(b^k)f + \varphi(b^k)\varepsilon_3 + (i - 1)\varepsilon_2, & \vert \varepsilon_3 \vert &\leq 1 \\
-		&= \varphi(b^k)(\gamma b^i - \varepsilon_1) + \varphi(b^k)\varepsilon_3 + (i - 1)\varepsilon_2 \\
-		&= \gamma\varphi(b^k)b^i + \varphi(b^k)(\varepsilon_3 - \varepsilon_1) + (i - 1)\varepsilon_2 \\
-		&= \gamma\varphi(b^k)b^i + (2\varphi(b^k) + i - 1)\varepsilon, & \vert\varepsilon\vert & \leq 1
+	\mathbb{A}_{ki}(S;\gamma)
+		&= \varphi(b^k)f + \varphi(b^k)\varepsilon_3 + (i - 1)\varepsilon_2,
+			& \vert \varepsilon_3 \vert &\leq 1 \\
+		&= \varphi(b^k)(\gamma b^i - \varepsilon_1) + \varphi(b^k)\varepsilon_3
+			+ (i - 1)\varepsilon_2 \\
+		&= \gamma\varphi(b^k)b^i + \varphi(b^k)(\varepsilon_3 - \varepsilon_1)
+			+ (i - 1)\varepsilon_2 \\
+		&= \gamma\varphi(b^k)b^i + (2\varphi(b^k) + i - 1)\varepsilon,
+			& \vert\varepsilon\vert & \leq 1
 \end{align*}
 como queríamos demostrar.
 \end{proof}
 
 \begin{lemma}
 	\label{lemma:discrepancy-3}
-	Sea $\gamma \in [0, 1)$, y sea $1 \leq N \leq \varphi(b^k)b^{b^k}$. Tenemos que
+	Sea $\gamma \in [0, 1)$, y sea $1 \leq N \leq \varphi(b^k)b^{b^k}$.
+	Tenemos que
 	\[ A\left(\gamma, s_k, N, \lbrace \alpha b^{n} \rbrace_{n\geq0} \right) =
-	\gamma N + \ord \left(b^{2k} + b^{k} \varphi(b^k) \right). \]
+	\gamma N + \ord \left(b^{2k} + \varphi(b^k)b^{k} \right). \]
 \end{lemma}
 
 \begin{proof}
@@ -1468,7 +1506,9 @@ forma tal que
 \[ N = N'\varphi(b^k)b + N''. \]
 Sea $(N')_b = \nu_{b^k-2}\nu_{b^k-3}\dots\nu_0$
 la escritura de $N'$ en base $b$. Para cada $i = 0, \dots, b^k-1$, sea
-$N_i = \sum_{j=b^k-i-1}^{b^k-2} \nu_{j}b^{j} = (\nu_{b^k-2}\dots\nu_{b^k-i}\underbrace{0\dots0}_{b^k-2-i})_b$ el resultado de reemplazar por ceros los dígitos de la
+$N_i = \sum_{j=b^k-i-1}^{b^k-2} \nu_{j}b^{j}
+= (\nu_{b^k-2}\dots\nu_{b^k-i}\underbrace{0\dots0}_{b^k-2-i})_b$
+el resultado de reemplazar por ceros los dígitos de la
 escritura de $N'$ en base $b$ a partir del $i+1$-ésimo.
 Notar que $0 = N_0 \leq N_1 \leq \dots \leq N_{b^k-1} = N'$.
 
@@ -1487,30 +1527,50 @@ siguiendo los niveles de anidación de la secuencia maravillosa anidada:
 Teniendo en cuenta lo anterior, podemos reescribir
 \begin{align*}
 	A(\gamma, &s_k, N, \lbrace \alpha b^{n} \rbrace_{n\geq0}) \\
-	&= \sum_{i=1}^{b^k-1} A\left(\gamma, s_k + N_{i-1}\varphi(b^k)b, \nu_{b^k-i-1}\varphi(b^k)b^{b^k-i}, \lbrace \alpha b^{n} \rbrace_{n\geq0} \right) \\
-	& \qquad + A\left(\gamma, s_k + N' \varphi(b^k)b, N'', \lbrace \alpha b^{n} \rbrace_{n\geq0} \right) \\
-	&= \sum_{i=1}^{b^k-1} A\left(\gamma, N_{i-1}\varphi(b^k)b, \nu_{b^k-i-1}\varphi(b^k)b^{b^k-i}, \lbrace \alpha b^{s_k+n} \rbrace_{n\geq0} \right) + N''\varepsilon'', & \varepsilon'' &\in [0, 1].
+	&= \sum_{i=1}^{b^k-1} A\left(\gamma, s_k + N_{i-1}\varphi(b^k)b, \nu_{b^k-i-1}
+		\varphi(b^k)b^{b^k-i}, \lbrace \alpha b^{n} \rbrace_{n\geq0} \right) \\
+	& \qquad + A\left(\gamma, s_k + N' \varphi(b^k)b, N'',
+		\lbrace \alpha b^{n} \rbrace_{n\geq0} \right) \\
+	&= \sum_{i=1}^{b^k-1} A\left(\gamma, N_{i-1}\varphi(b^k)b,
+		\nu_{b^k-i-1}\varphi(b^k)b^{b^k-i}, \lbrace \alpha b^{s_k+n}
+		\rbrace_{n\geq0} \right) + N''\varepsilon'', & \varepsilon'' &\in [0, 1].
 \end{align*}
 
 Sea, $S_i = \frac{N_{i-1}}{b^{b^k - i - 1}}$ para cada $i = 1, \dots, b^k - 1$.
 Reemplazando en la expresión anterior, y reagrupando nuevamente las mantisas,
 obtenemos
 \begin{align*}
-	&= \sum_{i=1}^{b^k-1} A\left(\gamma, S_i\varphi(b^k)b^{b^k-i}, \nu_{b^k-i-1}\varphi(b^k)b^{b^k-i}, \lbrace \alpha b^{s_k+n} \rbrace_{n\geq0} \right) + N''\varepsilon'' \\
-	&= \sum_{i=1}^{b^k-1} \sum_{j=0}^{\nu_{b^k-i-1}-1} A\left(\gamma, (S_i + j)\varphi(b^k)b^{b^k-i}, \varphi(b^k)b^{b^k-i}, \lbrace \alpha b^{s_k+n} \rbrace_{n\geq0} \right) + N''\varepsilon'' \\
-	&= \sum_{i=1}^{b^k-1} \sum_{j=0}^{\nu_{b^k-i-1}-1} \mathbb{A}_{k,b^k-i}(S_i+j; \gamma) + N''\varepsilon''.
+	&= \sum_{i=1}^{b^k-1} A\left(\gamma, S_i\varphi(b^k)b^{b^k-i},
+		\nu_{b^k-i-1}\varphi(b^k)b^{b^k-i}, \lbrace \alpha b^{s_k+n}
+		\rbrace_{n\geq0} \right) + N''\varepsilon'' \\
+	&= \sum_{i=1}^{b^k-1} \sum_{j=0}^{\nu_{b^k-i-1}-1} A\left(\gamma,
+		(S_i + j)\varphi(b^k)b^{b^k-i}, \varphi(b^k)b^{b^k-i},
+		\lbrace \alpha b^{s_k+n} \rbrace_{n\geq0} \right) + N''\varepsilon'' \\
+	&= \sum_{i=1}^{b^k-1} \sum_{j=0}^{\nu_{b^k-i-1}-1}
+		\mathbb{A}_{k,b^k-i}(S_i+j; \gamma) + N''\varepsilon''.
 \end{align*}
 
 Finalmente, aplicando el Lema \ref{lemma:discrepancy-2},
 \begin{align*}
-&= \sum_{i=1}^{b^k-1} \sum_{j=0}^{\nu_{b^k-i-1}-1} \left( \gamma\varphi(b^k)b^{b^k-i} + (2\varphi(b^k) + b^k - i - 1)\varepsilon_i \right) + N''\varepsilon'',
-& \vert \varepsilon_i \vert & \leq 1 \\
-&= \gamma\varphi(b^k) \sum_{i=1}^{b^k-1} \nu_{b^k-i-1}b^{b^k-i} + \sum_{i=1}^{b^k-1} (2\varphi(b^k) + b^k - i - 1)b\varepsilon_i + N''\varepsilon'' \\
-&= \gamma\varphi(b^k)b N' + \frac{1}{2}\left(b^{2k} - b^k + 4(b^k-1)\varphi(b^k) \right)b\varepsilon' + N''\varepsilon'',
-& \vert \varepsilon' \vert & \leq 1 \\
-&= \gamma N + \frac{1}{2}\left(b^{2k} - b^k + 4(b^k+1)\varphi(b^k) \right)b\varepsilon,
-& \vert \varepsilon \vert & \leq 1. \\
-&= \gamma N + \ord \left(b^{2k} + b^{k} \varphi(b^k) \right). && \qedhere
+&= \sum_{i=1}^{b^k-1} \sum_{j=0}^{\nu_{b^k-i-1}-1} \left(
+	\gamma\varphi(b^k)b^{b^k-i} + (2\varphi(b^k) + b^k - i - 1)\varepsilon_i
+	\right) + N''\varepsilon'',
+	& \vert \varepsilon_i \vert & \leq 1 \\
+&= \gamma\varphi(b^k) \sum_{i=1}^{b^k-1} \nu_{b^k-i-1}b^{b^k-i} +
+	\sum_{i=1}^{b^k-1} (2\varphi(b^k) + b^k - i - 1)b\varepsilon_i
+	+ N''\varepsilon'' \\
+&= \gamma\varphi(b^k)b N' + \frac{1}{2}\left(b^{2k} - b^k
+	+ 4\varphi(b^k)(b^k-1) \right)b\varepsilon' + N''\varepsilon'',
+	& \vert \varepsilon' \vert & \leq 1 \\
+	&= \gamma N + \frac{1}{2}\left(b^{2k} - b^k
+	+ 4\varphi(b^k)(b^k-1) \right)b\varepsilon' + N''(\varepsilon'' - \gamma) \\
+	&= \gamma N + \frac{1}{2}\left(b^{2k} - b^k
+	+ 4\varphi(b^k)(b^k-1) \right)b\varepsilon' + \varphi(b^k)b\varepsilon'''
+	& \vert \varepsilon''' \vert & \leq 1 \\
+&= \gamma N + \frac{1}{2}\left(b^{2k} - b^k
+	+ 4\varphi(b^k)b^k \right)b\varepsilon,
+	& \vert \varepsilon \vert & \leq 1. \\
+&= \gamma N + \ord \left(b^{2k} + \varphi(b^k)b^{k} \right). && \qedhere
 \end{align*}
 \end{proof}
 
@@ -1525,17 +1585,24 @@ $N$ mantisas de $\alpha$ según el bloque al que corresponden,
 y aplicando luego el Lema \ref{lemma:discrepancy-3}, tenemos que
 \begin{align*}
 A(\gamma, N, \lbrace \alpha b^n \rbrace_{n \geq 0})
-	&= \sum_{k=0}^{K - 1} A(\gamma, s_k, \varphi(b^k)b^{b^k}, \lbrace \alpha b^n \rbrace_{n \geq 0})
+	&= \sum_{k=0}^{K - 1} A(\gamma, s_k, \varphi(b^k)b^{b^k},
+		\lbrace \alpha b^n \rbrace_{n \geq 0})
 		+ A(\gamma, s_K, R, \lbrace \alpha b^n \rbrace_{n \geq 0}) \\
-	&= \sum_{k=0}^{K - 1} \left( \gamma \varphi(b^k)b^{b^k} + \ord \left(b^{2k} + b^{k} \varphi(b^k) \right) \right)
-		+ \gamma R + \ord \left(b^{2K} + b^{K} \varphi(b^K) \right) \\
-	&= \gamma N + \ord \left(\log^2(N) + \log(N) \varphi(\log(N)) \right).
+	&= \sum_{k=0}^{K - 1} \left( \gamma \varphi(b^k)b^{b^k} +
+		\ord \left(b^{2k} + \varphi(b^k)b^{k} \right) \right)
+		+ \gamma R + \ord \left(b^{2K} + \varphi(b^K)b^{K} \right) \\
+	&= \gamma N + \ord \left(\log^2(N) + \varphi(\log(N))\log(N) \right).
 \end{align*}
 
-Dado que $\discrepancy{N}(\lbrace \alpha b^n \rbrace)_{n \geq 0} = \sup_{\gamma \in (0,1]} \left\vert N^{-1} A(\gamma, N, (\lbrace \alpha b^n \rbrace)_{n \geq 0}) - \gamma \right\vert$, resulta que
+Dado que $\discrepancy{N}(\lbrace \alpha b^n \rbrace)_{n \geq 0}
+= \sup_{\gamma \in (0,1]} \left\vert N^{-1} A(\gamma, N,
+(\lbrace \alpha b^n \rbrace)_{n \geq 0}) - \gamma \right\vert$, resulta que
 
-\[ \discrepancy{N}(\lbrace \alpha b^n \rbrace)_{n \geq 0} = \ord \left(\frac{\log^2(N) + \log(N) \varphi(\log(N))}{N} \right). \]
+\[ \discrepancy{N}(\lbrace \alpha b^n \rbrace)_{n \geq 0} =
+	\ord \left(\frac{\log^2(N) + \varphi(\log(N)) \log(N)}{N} \right). \]
 
-Concretamente, si $\varphi = \ord(N)$, tenemos que $\varphi(\log(N)) = \ord(\log(N))$, y por lo tanto,
-\[ \discrepancy{N}(\lbrace \alpha b^n \rbrace) = \ord \left( \frac{\log^2(N)}{N} \right). \qedhere \]
+Concretamente, si $\varphi = \ord(N)$, tenemos que $\varphi(\log(N))
+= \ord(\log(N))$, y por lo tanto,
+\[ \discrepancy{N}(\lbrace \alpha b^n \rbrace)
+	= \ord \left( \frac{\log^2(N)}{N} \right). \qedhere \]
 \end{proof}
