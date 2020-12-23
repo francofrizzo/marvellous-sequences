@@ -310,7 +310,8 @@ cantidad de circuitos eulerianos en un multidigrafo. Recibe su nombre por las
 iniciales de sus descubridores, De Bruijn, Van Aardenne-Ehrenfest, Smith y
 Tutte.
 
-\begin{theorem*}[\BEST{}, \cite{van-aardenne-ehrenfest-circuits-and-trees}]
+\begin{theorem*}[\BEST{}, \cite{van-aardenne-ehrenfest-circuits-and-trees},
+	\cite{tutte-graph-theory}]
 	Sea $G$ un multidigrafo euleriano con vértices $v_1, \dots, v_n$.
 	La cantidad de circuitos eulerianos en $G$ está dada por
 	\[ \operatorname{ec}(G) = t_k \prod_{i=1}^n (d_i - 1)!, \]
@@ -329,7 +330,7 @@ a partir de su \emph{matriz laplaciana}, definida como
 donde $d_i$ es el grado de salida de $v_i$ y $d_{ij}$ es la cantidad de
 aristas que van de $i$ a $j$.
 
-\begin{theorem*}[Kirchoff, ver \cite{farrell-multi-eulerian-tours}]
+\begin{theorem*}[Kirchoff, \cite{tutte-graph-theory}]
 	Sea $G$ un multidigrafo con vértices $v_1, \dots, v_n$. La cantidad $t_i$
 	de árboles generadores orientados hacia un vértice $v_i$ es el $i$-ésimo
 	cofactor de la matriz $\laplacian(G)$, es decir,
