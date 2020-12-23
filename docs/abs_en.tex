@@ -4,30 +4,30 @@
 %\vspace{1cm}
 \chapter*{\runtitle}
 
-Fix a finite alphabet of $b$ symbols; a \emph{marvellous sequence} of
-order $(n,m)$ is a sequence of symbols taken from this alphabet such that,
+Consider an alphabet of $b$ symbols; a \emph{marvellous sequence} of
+order $(n,m)$ is a sequence of symbols from this alphabet such that,
 when looked at in a circular fashion, every possible word of length $n$ appears
 exactly $m$ times.
-\emph{Nested marvellous sequences} are those marvellous sequences that, whenever
-$n > 1$, are also the concatenation of $b$ nested marvellous sequences of order
-$(n-1,m)$.
+\emph{Nested marvellous sequences} of order $(n,m)$ are marvellous
+sequences that, are also the concatenation of $b$ nested
+marvellous sequences of order $(n-1,m)$, unless $n = 1$.
 
-It is known that, for every $(n,m)$ such that $n \leq m$, there are marvellous
-sequences in which every occurence of a word of length $n$ is in a different
+It is known that, whenever $n$ is less that or equal to $m$, there are marvellous
+sequences for which every occurence of a word of length $n$ is in a different
 position modulo $m$. Is this condition necessary? In other words,
 are there any \emph{new} nested marvellous sequences of order $(n,m)$ that only
 arise if the restriction that the occurences are in different positions modulo
 $m$ is lifted?
 
-Starting out from this question, in this thesis we engage in a study of nested
-marvellous sequences, arriving at different answers depending of the values of
-$n$ and $m$. In those cases where $n$ is of the order of the logarithm of $m$
---in the base of the alphabet size--, the response is affirmative, and we
-present a constructive method that allows to obtain such sequences. On the other
-hand we show that such sequences do not exist if $n$ is greater than $2m$
-when considering a binary alphabet.
-For the remaining cases, we carry out a computational study from which we
-draw examples and conjectures.
+In this thesis we prove that for every pair $n,m$ with $m$ exponential in $n$,
+the answer is affirmative, and we present a constructive method.
+Also, for an alphabet of size two, we show that it if $n$ is greater than $2m$
+there are no such sequences.
+We conjecture that, for every $n$ less than or equal to $m + 1$, there are
+sequences and we give several examples.
+Finally, we prove that nested marvellous sequences can be used to construct
+normal numbers ---in the Borel sense--- that converge to normality at the
+fastest rate hitherto known.
 
 \bigskip
 
