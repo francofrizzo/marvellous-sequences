@@ -32,7 +32,7 @@ nestedMarvellous2AsAtoms n m = map (asAtoms 2 m) (recursiveNestedMarvellous2 n m
 marvellousAutosimilar :: Int -> Int -> Int -> [[Int]]
 marvellousAutosimilar k n m
   | n == 1 = atoms k m
-  | otherwise = filter (isNestedMarvellous k n m) [x ++ x ++ x | x <- marvellousAutosimilar k (n - 1) m]
+  | otherwise = filter (isNestedMarvellous k n m) [concat $ replicate k x | x <- marvellousAutosimilar k (n - 1) m]
 
 marvellousWeaklyAutosimilar :: Int -> Int -> Int -> Int -> [[Int]]
 marvellousWeaklyAutosimilar k w n m
