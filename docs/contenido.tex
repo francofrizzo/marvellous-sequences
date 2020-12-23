@@ -1306,7 +1306,7 @@ nuestras conjeturas.
 
 \chapter{Secuencias maravillosas anidadas, discrepancia y normalidad}
 
-Consideremos una base entera $b > 2$. Un número real es \emph{normal} en base
+Consideremos una base entera $b \geq 2$. Un número real es \emph{normal} en base
 $b$ si, al escribir en esta base el desarrollo de su parte fraccional,
 la distribución de los posibles bloques de dígitos de longitud $i$ tiende
 a ser uniforme, para todo $i \geq 1$; en otras palabras, si la frecuencia
@@ -1331,6 +1331,10 @@ Además, la
 discrepancia puede utilizarse como una métrica de la rapidez con la que un
 número converge a la normalidad.
 
+\pending{Definir O grande (notación asintótica). la notación de Landau: O(g(x)),
+Orden de g(x), coloquialmente llamada Notación O Grande, para referirse a las
+funciones acotadas superiormente por la función g(x). }
+
 En \cite{levin-discrepancy-estimate}, Mordechay Levin introduce dos
 métodos para construir números normales con discrepancia mínima, del orden de
 $\ord(N^{-1}\log^2(N))$. Una de estas construcciones
@@ -1344,7 +1348,9 @@ por secuencias maravillosas anidadas.
 
 \begin{theorem}
 \label{theorem:discrepancy-bound}
-Sea $b > 0$, $\varphi$ una función creciente, y sea $\alpha \in [0, 1)$ un
+Sea $b \geq 2$ un número entero,
+$\varphi: \nats \to \nats$ una función creciente,
+y $\alpha \in [0, 1)$ un
 número real tal que su escritura en base $b$ es
 \[ .w_0w_1w_2\dots \]
 donde cada bloque $w_k$ es una secuencia $(b^k, \varphi(b^k))$-maravillosa
@@ -1356,11 +1362,15 @@ además,
 	= \ord\left( \frac{\log^2(N)}{N} \right). \]
 \end{theorem}
 
+\pending{Agregar ejemplos para otros $\varphi$.}
+
 Alternativamente, si se pide que los $w_k$ sean secuencias
 $(k, \varphi(k))$-maravillosas anidadas (con $k = 1, 2, \dots$),
 se tiene un resultado análogo pero
 con $\log^3(N)$ en lugar de $\log^2(N)$ en la expresión de la discrepancia
 (ver \cite{levin-discrepancy-estimate}).
+
+\pending{``Según los argumentos de Levin...''.}
 
 Nuestra demostración sigue, en líneas muy generales, la estructura utilizada
 por Levin. Los tres lemas que presentamos
@@ -1399,7 +1409,7 @@ $A$, ya que $\discrepancy{N}\left( (x_n)_{n \geq 0}\right)
 	expansión de $\alpha$ en base $b$ a partir de la posición $s_k + n$,
 	seguidos de ceros.
 
-	Para todo $S$ tal que $0 \leq S \leq \varphi(b^k)b^{k-i}$ y
+	Para todo $S$ tal que $0 \leq S \leq b^{k-i}$ y
 	$f = 0, \dots, b^i$ tenemos que
 	\begin{align*}
 		\tilde{\mathbb{A}}_{ki}(S;f)
