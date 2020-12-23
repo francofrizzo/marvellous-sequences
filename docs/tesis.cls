@@ -134,7 +134,7 @@
     \theorembodyfont{}
     \itemfont{\slshape}
     \examplefont{}
-    \headingstextfont{\small\slshape}
+    \headingstextfont{\small\itshape}
     \pagenumberfont{\small}
     \captionheaderfont{\slshape\small}
     \captionbodyfont{\small}
