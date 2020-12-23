@@ -66,9 +66,8 @@ en particular, $m \geq b^{n-1}$, por lo que $n$ debe ser a lo sumo del orden
 del logaritmo de $m$ en base $b$.
 
 En el otro extremo, se encuentran las duplas $(n,m)$ para las que $n$ es grande
-en comparación con $m$. Para el caso de un alfabeto binario,
-si $n$ es mayor que $2m$, demostramos que no es
-posible encontrar secuencias maravillosas anidadas; si bien conjeturamos que
+en comparación con $m$. Si $n$ es mayor que $2m$, demostramos que no es
+posible encontrar secuencias maravillosas anidadas; más aún, conjeturamos que
 las mismas dejan de existir tan pronto como $n$ supera a $m + 1$.
 
 Para los valores de $n$ y $m$ que quedan en medio de estos casos,
@@ -906,8 +905,8 @@ maravillosas anidadas? ¿Cuál es la cantidad de tales secuencias, en los casos
 en que sí existen? ¿Cuántas de ellas, además, no son perfectas anidadas?
 En esta sección presentamos las respuestas a las que pudimos arribar en el curso
 de este trabajo, como así también algunas conjeturas acerca de los casos para
-los que no contamos con certezas. En adelante, consideraremos siempre que
-$\alphabet = \lbrace 0, 1 \rbrace$. La Tabla
+los que no contamos con certezas. En adelante, a menos que se indique lo
+contrario, consideraremos que $\alphabet = \lbrace 0, 1 \rbrace$. La Tabla
 \ref{table:nested-marvellous-existence} presenta un resumen visual de los
 resultados.
 
@@ -1073,7 +1072,7 @@ equilibrada.
 El resultado que presentamos a continuación formaliza este razonamiento.
 
 \begin{theorem}
-	Sea un alfabeto de dos símbolos.
+	Sea un alfabeto de $b$ símbolos.
 	No existen secuencias $(n,m)$-maravillosas anidadas para ningunos $n$, $m$
 	tales que $n > 2m$.
 \end{theorem}
@@ -1089,25 +1088,24 @@ El resultado que presentamos a continuación formaliza este razonamiento.
 	secuencia $x$ que es $(n,m)$-maravillosa anidada.
 	Por definición, el patrón $0^{2m+1}$ debe aparecer $m$ veces circularmente
 	en $x$. Sea $i$ la posición inicial en $x$ de la primera aparición de dicho
-	patrón módulo $2m$.
+	patrón módulo $bm$.
 
 	Recordemos que $x$ consiste en una concatenación de $m$-átomos, cada uno de
-	los cuales tiene longitud $2m$. Los $2m+1$ ceros del patrón mencionado
+	los cuales tiene longitud $bm$, y que la cantidad de ceros en un $m$-átomo
+	es exactamente $m$. Esto quiere decir que los $2m+1$ ceros del patrón mencionado
 	necesariamente abarcarán más de un átomo, con los primeros $2m - i + 1$ ceros
 	ubicados dentro de un átomo y los $i$ ceros restantes en el átomo
 	siguiente.
 
-	\[ \underbrace{\alpha\dots\alpha}_{2m}
-		\; \underbrace{\alpha\dots\alpha}_{2m} \; \cdots
-		\; \underbrace{\alpha\dots\alpha\overbrace{00\dots00}^{2m-i+1}}_{2m}
-		\; \underbrace{\overbrace{00\dots00}^{i}\dots\alpha}_{2m} \; \cdots
-		\; \underbrace{\alpha\dots\alpha}_{2m} \]
+	\[ \underbrace{\alpha\dots\alpha}_{bm}
+		\; \underbrace{\alpha\dots\alpha}_{bm} \; \cdots
+		\; \underbrace{\alpha\dots\alpha\overbrace{00\dots00}^{2m-i+1}}_{bm}
+		\; \underbrace{\overbrace{00\dots00}^{i}\dots\alpha}_{bm} \; \cdots
+		\; \underbrace{\alpha\dots\alpha}_{bm} \]
 
 	Notar que si $i \leq m$, entonces $2m - i + 1 > m$, por lo que hay
 	más de $m$ ceros en el primer átomo; si, por el contrario, $i > m$, entonces
-	hay más de $m$ ceros en el segundo átomo. Ninguno
-	de los dos casos es posible, ya que la cantidad de ceros en un $m$-átomo es
-	exactamente $m$.
+	hay más de $m$ ceros en el segundo átomo. Ninguno de los dos casos es posible.
 \end{proof}
 
 No contamos con una demostración de la inexistencia de secuencias maravillosas
