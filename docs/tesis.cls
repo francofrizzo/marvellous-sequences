@@ -19,6 +19,7 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{tesis}[\filedate\space\fileversion\space%
        LaTeX document class (wm).]
+\RequirePackage[spanish,activeacute]{babel}
 \newcommand\@ptsize{}
 \newif\if@restonecol
 \newif\if@titlepage
@@ -535,15 +536,15 @@
           \if@thema
              \ifx\@shortauthor\@empty
                 \addcontentsline{toc}{chapter}{%
-                \protect\numberline{\thechapter.}#1}%
+                \protect\numberline{\thechapter}#1}%
              \else
                 \addcontentsline{toc}{chapter}{%
-                \protect\numberline{\thechapter.}%
+                \protect\numberline{\thechapter}%
                 \@shortauthor\hfill\mbox{}\vskip\normallineskip #1}%
              \fi
           \else
              \addcontentsline{toc}{chapter}{%
-             \protect\numberline{\thechapter.}#1}%
+             \protect\numberline{\thechapter}#1}%
           \fi
       \else
         \addcontentsline{toc}{chapter}{#1}
@@ -714,10 +715,10 @@
   \renewcommand\theenumii{\alph{enumii}}
   \renewcommand\theenumiii{\roman{enumiii}}
   \renewcommand\theenumiv{\Alph{enumiv}}
-  \newcommand\labelenumi{\theenumi.}
-  \newcommand\labelenumii{(\theenumii)}
-  \newcommand\labelenumiii{\theenumiii.}
-  \newcommand\labelenumiv{\theenumiv.}
+  \renewcommand\labelenumi{\theenumi.}
+  \renewcommand\labelenumii{(\theenumii)}
+  \renewcommand\labelenumiii{\theenumiii.}
+  \renewcommand\labelenumiv{\theenumiv.}
   \renewcommand\p@enumii{\theenumi}
   \renewcommand\p@enumiii{\theenumi(\theenumii)}
   \renewcommand\p@enumiv{\p@enumiii\theenumiii}
@@ -735,10 +736,10 @@
   \renewcommand\p@enumiv{\p@enumiii\theenumiii}
 \fi
 \if@itemization
-  \newcommand\labelitemi{$\m@th\bullet$}
-  \newcommand\labelitemii{\normalfont\bfseries --}
-  \newcommand\labelitemiii{$\m@th\ast$}
-  \newcommand\labelitemiv{$\m@th\cdot$}
+  \renewcommand\labelitemi{$\m@th\bullet$}
+  \renewcommand\labelitemii{\normalfont\bfseries --}
+  \renewcommand\labelitemiii{$\m@th\ast$}
+  \renewcommand\labelitemiv{$\m@th\cdot$}
 \else
   \newcommand\labelitemi{\bfseries --}
   \newcommand\labelitemii{\bfseries --}
@@ -1078,6 +1079,7 @@
       \noindent
       \hbox to 1.8em{\hss\@makefnmark\kern 0.25em}#1}
 \fi
+\AtBeginDocument{
 \def\contentsname{Contenidos}
 \def\listfigurename{Lista de Figuras}
 \def\listtablename{Lista de Tablas}
@@ -1094,6 +1096,7 @@
 \def\figureshortname{Fig.}                      % <-- thesis
 \def\tableshortname{Tab.}                       % <-- thesis
 \def\prefacename{Prefacio}                       % <-- thesis
+}
 \newcommand{\today}{\ifcase\month\or
   Enero\or Febrero\or Marzo\or Abril\or Mayo\or Junio\or
   Julio\or Augosto\or Septiembre\or Octubre\or Noviembre\or Diciembre\fi
