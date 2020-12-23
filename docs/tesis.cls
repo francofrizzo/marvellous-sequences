@@ -19,7 +19,7 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{tesis}[\filedate\space\fileversion\space%
        LaTeX document class (wm).]
-\RequirePackage[spanish,shorthands=off]{babel}
+\RequirePackage[spanish,activeacute,shorthands=off]{babel}
 \newcommand\@ptsize{}
 \newif\if@restonecol
 \newif\if@titlepage
@@ -988,7 +988,6 @@
 \bibindent=1.5em
 \newenvironment{thebibliography}[1]
      {\if@chapterbib
-        \section*{\refname\@mkboth{\refname}{\refname}}%
       \else
         \chapter*{\bibname\@mkboth{\bibname}{\bibname}}%
       \fi
@@ -1079,7 +1078,7 @@
       \noindent
       \hbox to 1.8em{\hss\@makefnmark\kern 0.25em}#1}
 \fi
-\AtBeginDocument{
+\addto{\captionsspanish}{
 \def\contentsname{Contenidos}
 \def\listfigurename{Lista de Figuras}
 \def\listtablename{Lista de Tablas}
@@ -1097,10 +1096,12 @@
 \def\tableshortname{Tab.}                       % <-- thesis
 \def\prefacename{Prefacio}                       % <-- thesis
 }
-\newcommand{\today}{\ifcase\month\or
-  Enero\or Febrero\or Marzo\or Abril\or Mayo\or Junio\or
-  Julio\or Augosto\or Septiembre\or Octubre\or Noviembre\or Diciembre\fi
-  \space\number\day, \number\year}
+\AtBeginDocument{
+\renewcommand{\today}{\number\day\space de \ifcase\month\or
+  enero\or febrero\or marzo\or abril\or mayo\or junio\or
+  julio\or agosto\or septiembre\or octubre\or noviembre\or diciembre\fi
+  \space de \number\year}
+}
 \setlength\columnsep{10\p@}
 \setlength\columnseprule{0\p@}
 \iffinal

@@ -1,4 +1,4 @@
-\documentclass[11pt,a4paper]{tesis}
+\documentclass[11pt,a4paper,oneside]{tesis}
 
 \usepackage{graphicx}
 \usepackage[utf8]{inputenc}
@@ -42,6 +42,7 @@
 
 \usepackage[style=numeric,maxnames=4,
   doi=false,isbn=false,url=false,eprint=false]{biblatex}
+\usepackage{csquotes}
 \addbibresource{tesis.bib}
 
 \begin{document}
@@ -61,10 +62,10 @@
 \pagestyle{empty}
 \input{abs_esp.tex}
 
-% \cleardoublepage
+\cleardoublepage
 \input{abs_en.tex} % OPCIONAL: comentar si no se quiere
 
-% \cleardoublepage
+\cleardoublepage
 \input{agradecimientos.tex} % OPCIONAL: comentar si no se quiere
 
 % \cleardoublepage
@@ -82,6 +83,6 @@
 
 %%%% BIBLIOGRAFIA
 \backmatter
-\printbibliography
+\printbibliography[title={Bibliografía}]
 
 \end{document}
