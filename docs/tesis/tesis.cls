@@ -19,7 +19,7 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{tesis}[\filedate\space\fileversion\space%
        LaTeX document class (wm).]
-\RequirePackage[spanish,activeacute,shorthands=off]{babel}
+\RequirePackage[spanish]{babel}
 \newcommand\@ptsize{}
 \newif\if@restonecol
 \newif\if@titlepage

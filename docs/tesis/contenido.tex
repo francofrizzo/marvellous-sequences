@@ -1308,94 +1308,126 @@ nuestras conjeturas.
 \chapter{Una aplicación: secuencias maravillosas anidadas y normalidad}
 \label{chapter:normality}
 
-Consideremos una base entera $b \geq 2$. Un número real es \emph{normal} en base
-$b$ si, al escribir en esta base el desarrollo de su parte fraccional,
-la distribución de los posibles bloques de dígitos de longitud $i$ tiende
-a ser uniforme, para todo $i \geq 1$; en otras palabras, si la frecuencia
-relativa de cada uno de estos bloques converge a $b^{-i}$. La noción de
-normalidad fue presentada por Émile Borel \cite{borel-normality} en 1909 y ha
-sido ampliamente estudiada desde entonces.
+Consideremos una base entera $b \geq 2$. Un número real perteneciente al 
+intervalo $[0,1)$ es \emph{normal} en base
+$b$ si, en su desarrollo en esta base, todos los posibles bloques de dígitos de
+igual longitud aparecen con la misma frecuencia asintótica; en otras
+palabras, si para todo entero $i \geq 1$, la frecuencia relativa de aparición
+de todos los bloques de dígitos de longitud $i$ converge a $b^{-i}$. La noción
+de normalidad fue presentada por Émile Borel \cite{borel-normality} en 1909, y
+ha sido ampliamente estudiada desde entonces. En \cite{becher-normal-numbers}
+puede encontrarse una introducción al trabajo realizado en el área, haciendo
+énfasis en la perspectiva computacional.
 
-Un concepto estrechamente vinculado al de normalidad es el de
-\emph{discrepancia}. Definimos la discrepancia de una sucesión de números
-reales $(x_n)_{n \geq 1}$ como
+\medskip
+
+Otra manera de definir la normalidad es a través del concepto de
+\emph{distribución uniforme módulo 1}.
+En adelante, dado un número real $x$, usaremos
+la notación $[x]$ para su parte entera y $\lbrace x \rbrace = x - [x]$ para su parte fraccional.
+Sea $(x_n)_{n\geq0}$ una secuencia de números reales; definimos su
+\emph{discrepancia} como
 \[
 	\discrepancy{N}((x_n)_{n \geq 0})
 	= \sup_{\gamma \in (0,1]} \left\vert
 		\frac{\# \lbrace 0 \leq n < N \;\vert\; \lbrace x_n \rbrace < \gamma \rbrace}
 		{N} - \gamma
-	\right\vert,
+	\right\vert.
 \]
-siendo $\lbrace x \rbrace = x - [x]$ la parte fraccional de $x$. Se sabe que
-un número $\alpha$ es normal en base $b$ si y solo si
-$\lim_{N \to \infty} \discrepancy{N}(\lbrace \alpha b^n \rbrace_{n \geq 0}) = 0.$
-Además, la
-discrepancia puede utilizarse como una métrica de la rapidez con la que un
-número converge a la normalidad.
+Decimos que $(x_n)_{n\geq0}$ está
+\emph{uniformemente distribuida módulo 1} si $\discrepancy{N}((x_n)_{n\geq0})
+\xrightarrow{N \to \infty} 0$; intuitivamente, esto significa que las partes
+fraccionales de sus términos están ``bien repartidas'' a lo largo del
+intervalo $[0, 1)$. Puede consultarse un estudio en profundidad de las
+secuencias uniformemente distribuidas en \cite{kuipers-uniform-distribution}.
 
-\pending{Definir O grande (notación asintótica). la notación de Landau: O(g(x)),
-Orden de g(x), coloquialmente llamada Notación O Grande, para referirse a las
-funciones acotadas superiormente por la función g(x). }
+Se sabe que un número real $x \in [0,1)$ es normal en base $b$ si y
+solo si la sucesión de sus mantisas, $\lbrace x b^n \rbrace_{n\geq0}$,
+está uniformemente distribuida módulo 1. La discrepancia de esta sucesión,
+además, permite cuantificar la velocidad con la cual un número converge a la
+normalidad.
 
+\medskip
+
+Aunque se sabe que casi todos los números reales ---en el sentido de la medida
+de Lebesgue--- son normales, por el momento todos los ejemplos que se conocen
+están dados por construcción.
 En \cite{levin-discrepancy-estimate}, Mordechay Levin introduce dos
-métodos para construir números normales con discrepancia mínima, del orden de
-$\ord(N^{-1}\log^2(N))$. Una de estas construcciones
-\cite[Theorem 2]{levin-discrepancy-estimate}, basada en el triángulo de Pascal,
-es generalizada por Becher y
-Carton en \cite{becher-nested-perfect}, permitiendo construir números normales
-a partir de secuencias perfectas anidadas.
-El resultado que presentamos a continuación muestra que es posible generalizar
-aún más esta construcción, reemplazando las secuencias perfectas anidadas
+métodos para construir números normales. Una de estas construcciones
+\cite[Theorem 2]{levin-discrepancy-estimate} está basada en el triángulo de
+Pascal, y permite construir un número normal cuya discrepancia, del
+orden\footnote{
+	Utilizamos la notación $\Ord(f)$, conocida 
+	como notación de Landau o notación ``o grande'', para hacer referencia a las
+	funciones acotadas superiormente por la función $f$, multiplicada a lo sumo
+	por una constante. Por su parte, la notación $\ord(f)$, conocida como
+	notación ``o pequeña'', hace referencia a las funciones acotadas por $f$
+	en forma \emph{estricta}, es decir, las funciones $g$ para las
+	que $\frac{g(x)}{f(x)} \xrightarrow{x \to \infty} 0$.
+} de $\Ord(\log^2(N)/N)$, es la mínima conocida por el momento.
+
+Esta construcción es generalizada por Becher y Carton en \cite{becher-nested-perfect}, brindando un método que permite construir números
+normales de discrepancia mínima concatenando secuencias perfectas anidadas.
+Concretamente, logran demostrar que si $\alpha \in [0, 1)$ es tal que su
+expansión en base $b$ es de la forma $.w_0 w_1 w_2 \dots$, con cada $w_k$ una
+secuencia $(2^k,2^k)$-perfecta anidada, entonces $x$ es normal en base $b$,
+siendo su discrepancia del mismo orden que la del número de Levin.
+
+El resultado que presentamos a continuación ---a cuya demostración está dedicado
+el resto de esta sección--- generaliza aún más la construcción de Becher y
+Carton, mostrando que es posible reemplazar las secuencias perfectas anidadas
 por secuencias maravillosas anidadas.
 
 \begin{theorem}
 \label{theorem:discrepancy-bound}
-Sea $b \geq 2$ un número entero,
-$\varphi: \nats \to \nats$ una función creciente,
-y $\alpha \in [0, 1)$ un
-número real tal que su escritura en base $b$ es
-\[ .w_0w_1w_2\dots \]
-donde cada bloque $w_k$ es una secuencia $(b^k, \varphi(b^k))$-maravillosa
-anidada.
+Sean $b, q \geq 2$ números enteros y
+$\varphi: \nats \to \nats$ una función creciente.
+Sea $\alpha \in [0, 1)$ un número real tal que su escritura en base $b$
+es de la forma $.w_0w_1w_2\dots$, donde cada bloque $w_k$ es una secuencia
+$(q^k, \varphi(q^k))$-maravillosa anidada.
 
-Si $\varphi = \ord(N)$, entonces $\alpha$ es un número normal en base $b$ y,
-además,
+Si $\varphi$ es tal que $\varphi(\log(N)) = \ord(N)$,
+entonces $\alpha$ es normal en base $b$, y además,
 \[ \discrepancy{N}(\lbrace \alpha b^n \rbrace)_{n\geq0}
-	= \ord\left( \frac{\log^2(N)}{N} \right). \]
+	= \Ord\left( \frac{\varphi(\log(N))\log(N)}{N} \right). \]
 \end{theorem}
 
-\pending{Agregar ejemplos para otros $\varphi$.}
+Notar que aquí la función $\varphi$ indica la relación entre los parámetros $n$
+y $m$ de las secuencias maravillosas anidadas. Si la relación es lineal, como
+en la construcción dada por Becher y Carton, se obtiene la discrepancia óptima
+de $\Ord(\log^2(N)/N)$. Si se toma $m$ cuadrático con respecto a $n$, se
+obtiene para la discrepancia la cota más gruesa de $\Ord(\log^3(N)/N)$.
+En general, si se toma $\varphi = \Ord(N^c)$ para cualquier $c \geq 1$,
+$\alpha$ es normal en base $b$ y su discrepancia es del orden de
+$\Ord(\log^{c + 1}(N)/N)$.
 
-Alternativamente, si se pide que los $w_k$ sean secuencias
-$(k, \varphi(k))$-maravillosas anidadas (con $k = 1, 2, \dots$),
-se tiene un resultado análogo pero
-con $\log^3(N)$ en lugar de $\log^2(N)$ en la expresión de la discrepancia
-(ver \cite{levin-discrepancy-estimate}).
+% Alternativamente, se puede plantear una construcción similar pero pidiendo que
+% los $w_k$ sean secuencias $(k, \varphi(k))$-maravillosas anidadas
+% (con $k = 1, 2, \dots$); en otras palabras, que el parámetro $n$ crezca de
+% manera aritmética, en lugar de geométrica. En este caso, siguiendo una
 
-\pending{``Según los argumentos de Levin...''.}
+% argumentación de Levin en \cite{levin-discrepancy-estimate}, 
+% se tiene un resultado análogo pero
+% con $\log^3(N)$ en lugar de $\log^2(N)$ en la expresión de la discrepancia
+% (ver ).
 
-Nuestra demostración sigue, en líneas muy generales, la estructura utilizada
-por Levin. Los tres lemas que presentamos
-a continuación dan una cadena de estimaciones que permite ir acotando
-parcialmente la discrepancia del número $\alpha$, y se corresponden de
-manera aproximada con \cite[Lemma 5]{levin-discrepancy-estimate},
-\cite[Corollary 1]{levin-discrepancy-estimate}
-y \cite[Corollary 2]{levin-discrepancy-estimate}, respectivamente.
-La demostración del Teorema \ref{theorem:discrepancy-bound} queda completa
-al final de la sección.
+\medskip
 
-Comenzamos por notar que, por ser una secuencia
-$(b^k, \varphi(b^k))$-maravillosa anidada, cada bloque $w_k$ tiene tamaño
-$\varphi(b^k)b^{b^k}$.
-Definimos para cada $k = 0, 1, \dots$ la posición en que comienza el bloque
-$w_k$, $s_k = \sum_{i=0}^k \varphi(i) b^i$.
+Antes de comenzar con la demostración, presentamos algunas definiciones que
+nos serán útiles más adelante.
+En primer lugar, para cada $k = 0, 1, \dots$, definimos $s_k$ como la posicón
+dentro del desarrollo de $\alpha$ donde comienza el bloque $w_k$.
+Podemos notar que cada $w_k$, por ser una secuencia
+$(q^k, \varphi(q^k))$-maravillosa anidada, tiene tamaño $\varphi(q^k)b^{q^k}$.
+Esto implica que $s_k = \sum_{i=0}^{k-1} \varphi(q^i) b^{q^i}$.
 
-A lo largo de la demostración hacemos referencia a la siguiente función contadora
+Definimos también la función contadora
 \[ A\left(\gamma, S, N, \left(x_n\right)_{n\geq0} \right)
 	= \# \lbrace S \leq n < S + N \;\vert\; \lbrace x_n \rbrace < \gamma \rbrace, \]
 que determina cuántos de los términos de la sucesión $\left(x_n\right)_{n\geq0}$
 con índices comprendidos entre $S$ y $S+N$ son menores que $\gamma$, donde
-$\gamma \in (0, 1]$, $S \geq 0$ y $N \geq 1$. En ocasiones escribimos
+$\gamma \in (0, 1]$, $S \geq 0$ y $N \geq 1$. Para alivianar la notacion,
+en ocasiones escribimos
 \[ A\left(\gamma, N, \left(x_n\right)_{n\geq0} \right)
 	= A\left(\gamma, 0, N, \left(x_n\right)_{n\geq0} \right). \]
 Cabe señalar que la discrepancia de una sucesión puede escribirse en función de
@@ -1403,118 +1435,114 @@ $A$, ya que $\discrepancy{N}\left( (x_n)_{n \geq 0}\right)
 = \sup_{\gamma \in (0,1]} \left\vert N^{-1} A(\gamma, N,
 (x_n)_{n \geq 0}) - \gamma \right\vert$.
 
+\medskip
+
+Nuestra demostración sigue, en líneas muy generales, la misma estructura
+de la que Levin brinda para su construcción. Comenzamos por presentar
+tres lemas que, mediante una cadena de estimaciones, permiten ir acotando
+parcialmente la discrepancia del número $\alpha$, y se corresponden de
+manera aproximada con \cite[Lemma 5]{levin-discrepancy-estimate},
+\cite[Corollary 1]{levin-discrepancy-estimate}
+y \cite[Corollary 2]{levin-discrepancy-estimate}, respectivamente.
+La demostración del Teorema \ref{theorem:discrepancy-bound} queda completa
+al final de la sección.
+
 \begin{lemma}
 	\label{lemma:discrepancy-1}
-	Sea $k$ un entero no negativo y sea $i$ tal que $1 \leq i \leq b^k$. Definimos
+	Sea $k$ un entero no negativo y sea $i$ tal que $1 \leq i \leq q^k$. Definimos
 	\[ \alpha_{ki}(n) = \frac{[\lbrace \alpha b^{s_k + n} \rbrace b^i]}{b^i}, \]
 	el número real cuya expansión en base $b$ consiste en $i$ dígitos de la
 	expansión de $\alpha$ en base $b$ a partir de la posición $s_k + n$,
 	seguidos de ceros.
 
-	Para todo $S$ tal que $0 \leq S \leq b^{k-i}$ y
+	Para todo $S$ tal que $0 \leq S < b^{q^k-i}$ y
 	$f = 0, \dots, b^i$ tenemos que
-	\begin{align*}
-		\tilde{\mathbb{A}}_{ki}(S;f)
-		&= A\left(\frac{f}{b^i}, S \varphi(b^k) b^i, \varphi(b^k) b^i,
-			\left(\alpha_{ki}(n)\right)_{n\geq0} \right) \\
-		&= \varphi(b^k)f + (i - 1)\varepsilon,
-			&\qquad \vert\varepsilon\vert &\leq 1.
-	\end{align*}
+	\[
+		A\left(\frac{f}{b^i}, S \varphi(q^k) b^i, \varphi(q^k) b^i,
+			\left(\alpha_{ki}(n)\right)_{n\geq0} \right)
+		= \varphi(q^k)f + (i - 1)\varepsilon,
+			\qquad \vert\varepsilon\vert \leq 1.
+	\]
 \end{lemma}
 
 \begin{proof}
-Si observamos la expresión
-\[ A\left(\frac{f}{b^i}, S \varphi(b^k) b^i, \varphi(b^k) b^i,
-	\left(\alpha_{ki}(n)\right)_{n\geq0} \right), \]
-notamos
-que se están considerando $\varphi(b^k)b^i$ mantisas de $\alpha$, comenzando
-en la posición $s_k + S\varphi(b^k)b^i$, y truncando todas ellas a $i$ dígitos.
-Consideremos por un lado el multiconjunto de estas mantisas,
-\[ A_1 = \left\lbrace \alpha_{ki}(n) \;\Big\vert\; S \varphi(b^k) b^i \leq n
-	< (S) \varphi(b^k) b^i \right\rbrace. \]
-
 Por construcción, a partir de la posición $s_k$ la expansión decimal de
-$\alpha$ contiene una secuencia $(b^k, \varphi(b^k))$-maravillosa anidada,
-es decir, una concatenación de secuencias
-$(i, \varphi(b^k))$-maravillosas anidadas. Cada una de estas secuencias tiene
-longitud $\varphi(b^k)b^{i}$ y comienza en una posición congruente a $s_k$
-módulo $\varphi(b^k)b^{i}$.
+$\alpha$ contiene una secuencia $(q^k, \varphi(q^k))$-maravillosa anidada,
+es decir, una concatenación de $b^{q^k-i}$ secuencias
+$(i, \varphi(q^k))$-maravillosas anidadas. Cada una de estas secuencias tiene
+longitud $\varphi(q^k)b^{i}$ y comienza en una posición congruente a $s_k$
+módulo $\varphi(q^k)b^{i}$.
 
-Esto quiere decir que las posiciones de inicio de todas las mantisas de $A_1$
-caen dentro de una misma secuencia $(i, \varphi(b^i))$-maravillosa anidada.
-Siendo $\beta_0, \beta_1, \dots, \beta_{\varphi(b^k)b^{i}-1}$ los caracteres
-de dicha secuencia, consideremos el multiconjunto de los números reales cuya
-parte fraccional, escrita en base $b$, se corresponde con una palabra de
-longitud $i$ que aparece circularmente en ella:
-\[ A_2 = \left\lbrace \sum_{j=0}^{i} \beta_{\ell \oplus j} b^{-j}
-	\;\Bigg\vert\; \ell = 0, \dots, \varphi(b^k)b^i \right\rbrace, \]
-donde $\oplus$ representa la suma módulo $\varphi(b^k)b^{i}$.
+Si observamos el lado izquierdo de la expresión a demostrar,
+notamos que se están considerando $\varphi(q^k)b^i$ mantisas de $\alpha$,
+comenzando en la posición $s_k + S\varphi(q^k)b^i$
+(y truncadas a sus primeros $i$ dígitos).
+Esto quiere decir que las posiciones de inicio de todas estas mantisas
+caen dentro de una misma secuencia $(i, \varphi(q^k))$-maravillosa anidada.
 
-Podemos observar que los elementos de $A_2$ se corresponden exactamente con
-los números reales $f'b^{-i}$ para $f' = 0, \dots, b^i$.
-Además, recordemos que en una secuencia $(i, \varphi(b^i))$-maravillosa anidada,
-cada palabra de longitud $i$ aparece exactamente $\varphi(b^k)$ veces.
-Esta es, por lo tanto, la multiplicidad de cada uno de los elementos de $A_2$.
-De aquí podemos concluir que
-\[ \# \left\lbrace x \in A_2
-	\;\Big\vert\; x < \frac{f}{b^i} \right\rbrace = \varphi(b^k)f. \]
+Consideremos, para cada palabra $\beta_1\dots\beta_i$ de
+longitud $i$, el número real entre $0$ y $1$ cuya expansión decimal consiste
+en dicha palabra seguida de ceros, es decir, $\sum_{j=1}^{i} \beta_{j} b^{-j}$.
+Notar que este número es de la forma $\frac{\tilde{f}}{b^i}$, con
+$\tilde{f} = \sum_{j=1}^{i} \beta_{j} b^{i-j}$ distinto para cada palabra.
+Como en nuestra secuencia $(i, \varphi(q^k))$-maravillosa anidada, por
+definición, cada posible palabra de longitud $i$ aparece $\varphi(q^k)$ veces,
+la cantidad de posiciones de esta secuencia tales que la palabra que allí
+comienza tiene asociado un número menor que $\frac{f}{b^i}$ es exactamente
+$\varphi(q^k)f$.
 
-Por otra parte, $A_1$ y $A_2$ difieren en, a lo sumo, $i - 1$ elementos,
-aquellos que se encuentran al final de la secuencia maravillosa anidada y
-que, en el caso de $A_1$, se completan con dígitos de la secuencia siguiente,
-mientras que en $A_2$ se completan circularmente con caracteres del comienzo.
-Por lo tanto,
-\begin{align*}
-	A\left(\frac{f}{b^i}, S \varphi(b^k) b^i, \varphi(b^k) b^i,
-		\left(\alpha_{ki}(n)\right)_{n\geq0} \right)
-	&= \# \left\lbrace x \in A_1 \;\Big\vert\;
-		x < \frac{f}{b^i} \right\rbrace \\
-	&= \# \left\lbrace x \in A_2 \;\Big\vert\;
-		x < \frac{f}{b^i} \right\rbrace + (i - 1)\varepsilon,
-		& \vert\varepsilon\vert &\leq 1 \\
-	&= \varphi(b^k)f + (i - 1)\varepsilon. && \qedhere
-\end{align*}
-
+Para todas las posiciones de la secuencia excepto las últimas $i - 1$,
+el número real asociado a la palabra que comienza en esa posición coincide
+exactamente con la mantisa a considerar. Esto significa que $\varphi(q^k)f$ es
+una buena aproximación de la cantidad de mantisas menores que $\frac{f}{b^i}$.
+Las últimas $i - 1$ posiciones pueden diferir ya que, en el caso de la
+secuencia maravillosa anidada, se completan circularmente con el comienzo de la
+secuencia, lo cual explica el término del error.
 \end{proof}
 
 \begin{lemma}
 	\label{lemma:discrepancy-2}
-	Sea $k$ un entero no negativo y sea $i$ tal que $1 \leq i \leq b^k$.
-	Para todo $S$ tal que $0 \leq S \leq \varphi(b^k)b^{k-i}$ y
-	$\gamma \in [0, 1)$ tenemos que
-	\begin{align*}
-		\mathbb{A}_{ki}(S;\gamma)
-		&= A\left(\gamma, S \varphi(b^k) b^i, \varphi(b^k) b^i,
-			\lbrace \alpha b^{s_k + n} \rbrace_{n\geq0} \right) \\
-		& = \gamma\varphi(b^k)b^i + (2\varphi(b^k) + i - 1)\varepsilon,
-			& \vert\varepsilon\vert &\leq 1.
-	\end{align*}
+	Sea $k$ un entero no negativo y sea $i$ tal que $1 \leq i \leq q^k$.
+	Para todo $S$ tal que $0 \leq S < b^{q^k-i}$ y
+	$\gamma \in (0, 1]$ tenemos que
+	\[
+		A\left(\gamma, S \varphi(q^k) b^i, \varphi(q^k) b^i,
+			\lbrace \alpha b^{s_k + n} \rbrace_{n\geq0} \right)
+		= \gamma\varphi(q^k)b^i + (2\varphi(q^k) + i - 1)\varepsilon,
+			\qquad \vert\varepsilon\vert \leq 1.
+	\]
 \end{lemma}
 
 \begin{proof}
 Sea $f = [\gamma b^i]$, de modo que $f = \gamma b^i - \varepsilon_1$, con
 $\varepsilon_1 \in [0, 1)$. Notar que
-\[
-	\tilde{\mathbb{A}}_{ki}(S;f-1) \leq \mathbb{A}_{ki}(S;\gamma)
-	\leq \tilde{\mathbb{A}}_{ki}(S;f+1).
-\]
+\begin{multline*}
+	A\left(\frac{f-1}{b^i}, S \varphi(q^k) b^i, \varphi(q^k) b^i,
+		\left(\alpha_{ki}(n)\right)_{n\geq0} \right) \\
+	\leq A\left(\gamma, S \varphi(q^k) b^i, \varphi(q^k) b^i,
+		\lbrace \alpha b^{s_k + n} \rbrace_{n\geq0} \right) \\
+	\leq A\left(\frac{f+1}{b^i}, S \varphi(q^k) b^i, \varphi(q^k) b^i,
+		\left(\alpha_{ki}(n)\right)_{n\geq0} \right).
+\end{multline*}
 Reemplazando, según el Lema \ref{lemma:discrepancy-1}, tenemos que
-\[
-	\varphi(b^k)f - \varphi(b^k) + (i - 1)\varepsilon_2
-	\leq \mathbb{A}_{ki}(S;\gamma)
-	\leq \varphi(b^k)f + \varphi(b^k) + (i - 1)\varepsilon_2,
+\begin{multline*}
+	\varphi(q^k)f - \varphi(q^k) + (i - 1)\varepsilon_2 \\
+	\leq A\left(\gamma, S \varphi(q^k) b^i, \varphi(q^k) b^i,
+		\lbrace \alpha b^{s_k + n} \rbrace_{n\geq0} \right) \\
+	\leq \varphi(q^k)f + \varphi(q^k) + (i - 1)\varepsilon_2,
 	\qquad \vert \varepsilon_2 \vert \leq 1.
-\]
+\end{multline*}
 Por lo tanto,
 \begin{align*}
-	\mathbb{A}_{ki}(S;\gamma)
-		&= \varphi(b^k)f + \varphi(b^k)\varepsilon_3 + (i - 1)\varepsilon_2,
+	A\left(\gamma, S \varphi(q^k) b^i, \varphi(q^k) b^i,
+		\lbrace \alpha b^{s_k + n} \rbrace_{n\geq0} \right)
+		&= \varphi(q^k)f + \varphi(q^k)\varepsilon_3 + (i - 1)\varepsilon_2,
 			& \vert \varepsilon_3 \vert &\leq 1 \\
-		&= \varphi(b^k)(\gamma b^i - \varepsilon_1) + \varphi(b^k)\varepsilon_3
+		&= \varphi(q^k)(\gamma b^i - \varepsilon_1) + \varphi(q^k)\varepsilon_3
 			+ (i - 1)\varepsilon_2 \\
-		&= \gamma\varphi(b^k)b^i + \varphi(b^k)(\varepsilon_3 - \varepsilon_1)
+		&= \gamma\varphi(q^k)b^i + \varphi(q^k)(\varepsilon_3 - \varepsilon_1)
 			+ (i - 1)\varepsilon_2 \\
-		&= \gamma\varphi(b^k)b^i + (2\varphi(b^k) + i - 1)\varepsilon,
+		&= \gamma\varphi(q^k)b^i + (2\varphi(q^k) + i - 1)\varepsilon,
 			& \vert\varepsilon\vert & \leq 1
 \end{align*}
 como queríamos demostrar.
@@ -1522,14 +1550,14 @@ como queríamos demostrar.
 
 \begin{lemma}
 	\label{lemma:discrepancy-3}
-	Sea $k$ un entero no negativo, $\gamma \in [0, 1)$,
-	y $1 \leq N \leq \varphi(b^k)b^{b^k}$.
+	Sea $k$ un entero no negativo, $\gamma \in (0, 1]$,
+	y $1 \leq N \leq \varphi(q^k)b^{q^k}$.
 	Tenemos que
 	\begin{enumerate}
 		\item $ A\left(\gamma, s_k, N, \lbrace \alpha b^{n} \rbrace_{n\geq0} \right) =
-			\gamma N + \ord \left( \varphi(b^k)b^{k} + b^{2k} \right)$.
-		\item $ A\left(\gamma, s_k, \varphi(b^k)b^{b^k}, \lbrace \alpha b^{n} \rbrace_{n\geq0} \right) =
-			\gamma\varphi(b^k)b^{b^i} + \ord\left(\varphi(b^k) + b^k\right)$.
+			\gamma N + \Ord \left( \varphi(q^k)q^k + q^{2k} \right)$.
+		\item $ A\left(\gamma, s_k, \varphi(q^k)b^{q^k}, \lbrace \alpha b^{n} \rbrace_{n\geq0} \right) =
+			\gamma\varphi(q^k)b^{q^k} + \Ord\left(\varphi(q^k) + q^k\right)$.
 	\end{enumerate}
 \end{lemma}
 
@@ -1538,110 +1566,115 @@ Para probar el primer resultado,
 comenzamos por observar las posiciones iniciales de las mantisas a considerar;
 todas ellas están comprendidas entre las posiciones $s_k$ y $s_{k+1}$ del
 desarrollo en base $b$ de $\alpha$, por lo que pertenecen a una misma
-secuencia $(b^k, \varphi(b^k))$-maravillosa anidada.
+secuencia $(q^k, \varphi(q^k))$-maravillosa anidada.
 
-Sea $N' = \left[ \frac{N}{\varphi(b^k)b} \right]$, y $N'' < \varphi(b^k)b$ de
+Sea $N' = \left[ \frac{N}{\varphi(q^k)b} \right]$, y $N'' < \varphi(q^k)b$ de
 forma tal que 
-\[ N = N'\varphi(b^k)b + N''. \]
-Sea $(N')_b = \nu_{b^k-2}\nu_{b^k-3}\dots\nu_0$
-la escritura de $N'$ en base $b$. Para cada $i = 0, \dots, b^k-1$, sea
-$N_i = \sum_{j=b^k-i-1}^{b^k-2} \nu_{j}b^{j}
-= (\nu_{b^k-2}\dots\nu_{b^k-i}\underbrace{0\dots0}_{b^k-2-i})_b$
+\[ N = N'\varphi(q^k)b + N''. \]
+Sea $(N')_b = \nu_{q^k-2}\nu_{q^k-3}\dots\nu_0$
+la escritura de $N'$ en base $b$. Para cada $i = 0, \dots, q^k-1$, sea
+$N_i = \sum_{j=q^k-i-1}^{q^k-2} \nu_{j}b^{j}
+= (\nu_{q^k-2}\dots\nu_{q^k-i}\underbrace{0\dots0}_{q^k-2-i})_b$
 el resultado de reemplazar por ceros los dígitos de la
 escritura de $N'$ en base $b$ a partir del $i+1$-ésimo.
-Notar que $0 = N_0 \leq N_1 \leq \dots \leq N_{b^k-1} = N'$.
+Notar que $0 = N_0 \leq N_1 \leq \dots \leq N_{q^k-1} = N'$.
 
 Esto nos permite agrupar las $N$ mantisas a considerar en bloques consecutivos,
 siguiendo los niveles de anidación de la secuencia maravillosa anidada:
 \begin{itemize}
-	\item Los primeros $b^k - 1$ bloques van desde la posición
-		$N_{i-1}\varphi(b^k)b$ a la $N_{i}\varphi(b^k)b$,
-		para $i = 1, \dots, b^k - 1$. Cada uno de ellos se corresponde
-		exactamente con $\nu_{b^k-i-1}$ secuencias
-		$(b^k - i, \varphi(b^k))$-maravillosas anidadas consecutivas.
-	\item El último bloque va desde la posición $N'\varphi(b^k)b$ hasta la
+	\item Los primeros $q^k - 1$ bloques van desde la posición
+		$N_{i-1}\varphi(q^k)b$ a la $N_{i}\varphi(q^k)b$,
+		para $i = 1, \dots, q^k - 1$. Cada uno de ellos se corresponde
+		exactamente con $\nu_{q^k-i-1}$ secuencias
+		$(q^k - i, \varphi(q^k))$-maravillosas anidadas consecutivas.
+	\item El último bloque va desde la posición $N'\varphi(q^k)b$ hasta la
 		posición $N$. Comprende las últimas $N''$ mantisas, que no son suficientes
-		para conformar una secuencia $(1, \varphi(b^k))$-maravillosa anidada.
+		para conformar una secuencia $(1, \varphi(q^k))$-maravillosa anidada.
 \end{itemize}
+
+\medskip
 
 Teniendo en cuenta lo anterior, podemos reescribir
 \begin{align*}
 	A(\gamma, &s_k, N, \lbrace \alpha b^{n} \rbrace_{n\geq0}) \\
-	&= \sum_{i=1}^{b^k-1} A\left(\gamma, s_k + N_{i-1}\varphi(b^k)b, \nu_{b^k-i-1}
-		\varphi(b^k)b^{b^k-i}, \lbrace \alpha b^{n} \rbrace_{n\geq0} \right) \\
-	& \qquad + A\left(\gamma, s_k + N' \varphi(b^k)b, N'',
+	&= \sum_{i=1}^{q^k-1} A\left(\gamma, s_k + N_{i-1}\varphi(q^k)b, \nu_{q^k-i-1}
+		\varphi(q^k)b^{q^k-i}, \lbrace \alpha b^{n} \rbrace_{n\geq0} \right) \\
+	& \qquad + A\left(\gamma, s_k + N' \varphi(q^k)b, N'',
 		\lbrace \alpha b^{n} \rbrace_{n\geq0} \right) \\
-	&= \sum_{i=1}^{b^k-1} A\left(\gamma, N_{i-1}\varphi(b^k)b,
-		\nu_{b^k-i-1}\varphi(b^k)b^{b^k-i}, \lbrace \alpha b^{s_k+n}
+	&= \sum_{i=1}^{q^k-1} A\left(\gamma, N_{i-1}\varphi(q^k)b,
+		\nu_{q^k-i-1}\varphi(q^k)b^{q^k-i}, \lbrace \alpha b^{s_k+n}
 		\rbrace_{n\geq0} \right) + N''\varepsilon'', & \varepsilon'' &\in [0, 1].
 \end{align*}
 
-Sea, $S_i = \frac{N_{i-1}}{b^{b^k - i - 1}}$ para cada $i = 1, \dots, b^k - 1$.
-Reemplazando en la expresión anterior, y reagrupando nuevamente las mantisas,
-obtenemos
+Sea $S_i = \frac{N_{i-1}}{b^{q^k - i - 1}}$ para cada $i = 1, \dots, b^k - 1$.
+Reemplazando en la expresión anterior, y reagrupando luego las mantisas
+nuevamente, obtenemos
 \begin{align*}
-	&= \sum_{i=1}^{b^k-1} A\left(\gamma, S_i\varphi(b^k)b^{b^k-i},
-		\nu_{b^k-i-1}\varphi(b^k)b^{b^k-i}, \lbrace \alpha b^{s_k+n}
+	&= \sum_{i=1}^{q^k-1} A\left(\gamma, S_i\varphi(q^k)b^{q^k-i},
+		\nu_{q^k-i-1}\varphi(q^k)b^{q^k-i}, \lbrace \alpha b^{s_k+n}
 		\rbrace_{n\geq0} \right) + N''\varepsilon'' \\
-	&= \sum_{i=1}^{b^k-1} \sum_{j=0}^{\nu_{b^k-i-1}-1} A\left(\gamma,
-		(S_i + j)\varphi(b^k)b^{b^k-i}, \varphi(b^k)b^{b^k-i},
-		\lbrace \alpha b^{s_k+n} \rbrace_{n\geq0} \right) + N''\varepsilon'' \\
-	&= \sum_{i=1}^{b^k-1} \sum_{j=0}^{\nu_{b^k-i-1}-1}
-		\mathbb{A}_{k,b^k-i}(S_i+j; \gamma) + N''\varepsilon''.
+	&= \sum_{i=1}^{q^k-1} \sum_{j=0}^{\nu_{q^k-i-1}-1} A\left(\gamma,
+		(S_i + j)\varphi(q^k)b^{q^k-i}, \varphi(q^k)b^{q^k-i},
+		\lbrace \alpha b^{s_k+n} \rbrace_{n\geq0} \right) + N''\varepsilon''.
 \end{align*}
 
-Finalmente, aplicando el Lema \ref{lemma:discrepancy-2},
+Finalmente, aplicando el Lema \ref{lemma:discrepancy-2} en cada término,
+con $i = q^k - i$ y $S = S_i + j$:
 \begin{align*}
-&= \sum_{i=1}^{b^k-1} \sum_{j=0}^{\nu_{b^k-i-1}-1} \left(
-	\gamma\varphi(b^k)b^{b^k-i} + (2\varphi(b^k) + b^k - i - 1)\varepsilon_i
+&= \sum_{i=1}^{q^k-1} \sum_{j=0}^{\nu_{q^k-i-1}-1} \left(
+	\gamma\varphi(q^k)b^{q^k-i} + (2\varphi(q^k) + q^k - i - 1)\varepsilon_i
 	\right) + N''\varepsilon'',
 	& \vert \varepsilon_i \vert & \leq 1 \\
-&= \gamma\varphi(b^k) \sum_{i=1}^{b^k-1} \nu_{b^k-i-1}b^{b^k-i} +
-	\sum_{i=1}^{b^k-1} (2\varphi(b^k) + b^k - i - 1)b\varepsilon_i
-	+ N''\varepsilon'' \\
-&= \gamma\varphi(b^k)b N' + \frac{1}{2}\left(4\varphi(b^k)(b^k-1)
-	+ b^{2k} - b^k \right)b\varepsilon' + N''\varepsilon'',
+&= \gamma\varphi(q^k) \sum_{i=1}^{q^k-1} \nu_{q^k-i-1}b^{q^k-i} +
+	\sum_{i=1}^{q^k-1} (2\varphi(q^k) + q^k - i - 1)b\varepsilon'_i
+	+ N''\varepsilon'',
+	& \vert \varepsilon_i' \vert & \leq 1 \\
+&= \gamma\varphi(q^k)b N' + \frac{1}{2}\left(4\varphi(q^k)(q^k-1)
+	+ q^{2k} - q^k \right)b\varepsilon' + N''\varepsilon'',
 	& \vert \varepsilon' \vert & \leq 1 \\
-&= \gamma N + \frac{1}{2}\left(4\varphi(b^k)(b^k-1)
-	+ b^{2k} - b^k \right)b\varepsilon' + N''(\varepsilon'' - \gamma) \\
-&= \gamma N + \frac{1}{2}\left(4\varphi(b^k)(b^k-1)
-	+ b^{2k} - b^k \right)b\varepsilon' + \varphi(b^k)b\varepsilon'''
+&= \gamma N + \frac{1}{2}\left(4\varphi(q^k)(q^k-1)
+	+ q^{2k} - q^k \right)b\varepsilon' + N''(\varepsilon'' - \gamma) \\
+&= \gamma N + \frac{1}{2}\left(4\varphi(q^k)(q^k-1)
+	+ q^{2k} - q^k \right)b\varepsilon' + \varphi(q^k)b\varepsilon'''
 	& \vert \varepsilon''' \vert & \leq 1 \\
-&= \gamma N + \frac{1}{2}\left(4\varphi(b^k)b^k
-	+ b^{2k} - b^k \right)b\varepsilon,
+&= \gamma N + \frac{1}{2}\left(4\varphi(q^k)q^k
+	+ q^{2k} - q^k \right)b\varepsilon,
 	& \vert \varepsilon \vert & \leq 1. \\
-&= \gamma N + \ord \left(\varphi(b^k)b^{k} + b^{2k}\right).
+&= \gamma N + \Ord \left(\varphi(q^k)q^{k} + q^{2k}\right).
 \end{align*}
+
+\medskip
 
 Para probar el segundo resultado, basta notar que
 \begin{align*}
-A\left(\gamma, s_k, \varphi(b^k)b^{b^k}, \lbrace \alpha b^{n} \rbrace_{n\geq0} \right)
-	&= A\left(\gamma, 0, \varphi(b^k)b^{b^k}, \lbrace \alpha b^{s_k+n} \rbrace_{n\geq0} \right) \\
-	&= \mathbb{A}_{k,b^k}(0; \gamma) \\
-	&= \gamma\varphi(b^k)b^{b^i} + (2\varphi(b^k) + b^k - 1)\varepsilon,
+A\left(\gamma, s_k, \varphi(q^k)b^{q^k}, \lbrace \alpha b^{n} \rbrace_{n\geq0} \right)
+	&= A\left(\gamma, 0, \varphi(q^k)b^{q^k}, \lbrace \alpha b^{s_k+n} \rbrace_{n\geq0} \right) \\
+	&= \gamma\varphi(q^k)b^{q^k} + (2\varphi(q^k) + q^k - 1)\varepsilon,
 		& \vert\varepsilon\vert &\leq 1 \\
-	&= \gamma\varphi(b^k)b^{b^i} + \ord\left(\varphi(b^k) + b^k\right). && \qedhere
+	&= \gamma\varphi(q^k)b^{q^k} + \Ord\left(\varphi(q^k) + q^k\right).
 \end{align*}
+En la segunda igualdad, se aplicó el Lema \ref{lemma:discrepancy-2} tomando
+$i = q^k$ y $S = 0$.
 \end{proof}
 
 \begin{proof}[Demostración del Teorema \ref{theorem:discrepancy-bound}]
 
 Para todo $N$, existe un entero $K$ tal que $N \in [s_K, s_{K+1})$, de forma
-tal que $N = s_K + R$ con $0 \leq R < \varphi(b^K)b^{b^K}$.
-Notar que $N \geq s_K \geq \varphi(b^{K-1})b^{b^{K-1}}$, por lo que
-$b^K \leq b \log_b(N)$.
+tal que $N = s_K + R$ con $0 \leq R < \varphi(q^K)b^{q^K}$.
+Notar que $N \geq s_K \geq \varphi(q^{K-1})b^{q^{K-1}}$, por lo que
+$q^K \leq q \log_b(N)$.
 Agrupando las primeras
 $N$ mantisas de $\alpha$ según el bloque al que corresponden,
 y aplicando luego el Lema \ref{lemma:discrepancy-3}, tenemos que
 \begin{align*}
 A(\gamma, N, \lbrace \alpha b^n \rbrace_{n \geq 0})
-	&= \sum_{k=0}^{K - 1} A(\gamma, s_k, \varphi(b^k)b^{b^k},
+	&= \sum_{k=0}^{K - 1} A(\gamma, s_k, \varphi(q^k)b^{q^k},
 		\lbrace \alpha b^n \rbrace_{n \geq 0})
 		+ A(\gamma, s_K, R, \lbrace \alpha b^n \rbrace_{n \geq 0}) \\
-	&= \sum_{k=0}^{K - 1} \left( \gamma \varphi(b^k)b^{b^k} +
-		\ord \left( \varphi(b^k) + b^{k} \right) \right)
-		+ \gamma R + \ord \left(\varphi(b^K)b^{K} + b^{2K} \right) \\
-	&= \gamma N + \ord \left(\varphi(\log(N))\log(N) + \log^2(N) \right).
+	&= \sum_{k=0}^{K - 1} \left( \gamma \varphi(q^k)b^{q^k} +
+		\Ord \left( \varphi(q^k) + q^{k} \right) \right)
+		+ \gamma R + \Ord \left(\varphi(q^K)q^{K} + q^{2K} \right) \\
+	&= \gamma N + \Ord \left(\varphi(\log(N))\log(N) + \log^2(N) \right).
 \end{align*}
 
 Dado que $\discrepancy{N}\left(\lbrace \alpha b^n \rbrace_{n \geq 0}\right)
@@ -1649,10 +1682,10 @@ Dado que $\discrepancy{N}\left(\lbrace \alpha b^n \rbrace_{n \geq 0}\right)
 \left(\lbrace \alpha b^n \rbrace_{n \geq 0}\right)) - \gamma \right\vert$, resulta que
 
 \[ \discrepancy{N}\left(\lbrace \alpha b^n \rbrace_{n \geq 0}\right) =
-	\ord \left(\frac{\varphi(\log(N)) \log(N) + \log^2(N)}{N} \right). \]
+	\Ord \left(\frac{\varphi(\log(N)) \log(N) + \log^2(N)}{N} \right). \]
 
-Concretamente, si $\varphi = \ord(N)$, tenemos que $\varphi(\log(N))
-= \ord(\log(N))$, y por lo tanto,
-\[ \discrepancy{N}\left(\lbrace \alpha b^n \rbrace_{n \geq 0}\right)
-	= \ord \left( \frac{\log^2(N)}{N} \right). \qedhere \]
+Concretamente, si $\varphi(\log(N)) = \ord(N)$, tenemos que
+$\discrepancy{N}\left(\lbrace \alpha b^n \rbrace_{n \geq 0}\right)
+\xrightarrow{N \to \infty} 0$, con lo cual $\alpha$ es un número normal
+en base $b$.
 \end{proof}
