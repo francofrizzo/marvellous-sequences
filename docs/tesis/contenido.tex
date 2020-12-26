@@ -3,15 +3,15 @@
 Consideremos un alfabeto finito, y sea $b$ la
 cantidad de símbolos de este alfabeto.
 Los collares ---o palabras circulares--- de
-De Bruijn de orden $n$ son aquellos en las que todas las palabras de longitud
+De~Bruijn de orden $n$ son aquellos en las que todas las palabras de longitud
 $n$ aparecen exactamente una vez.
-Los collares de De Bruijn de orden $n$ tienen longitud $b^n$.
+Los collares de De~Bruijn de orden $n$ tienen longitud $b^n$.
 Nicolaas Govert de Bruijn \cite{de-bruijn-combinatorial-problem}
 dio esta definición al mismo tiempo que los caracterizó como circuitos eulerianos
-en los llamados grafos de De Bruijn, y contó cuántos hay.
+en los llamados grafos de De~Bruijn, y contó cuántos hay.
 
 Recientemente Alvarez, Becher, Ferrari y Yuhjtman \cite{alvarez-perfect-necklaces}
-presentaron una generalización de los collares de De Bruijn,
+presentaron una generalización de los collares de De~Bruijn,
 que se llaman \emph{collares perfectos}.
 Una collar es \emph{perfecto} de orden $(n,m)$ si todas las palabras 
 de longitud $n$ ocurren exactamente $m$ veces, y todas ellas en distintas
@@ -83,7 +83,7 @@ de las últimas.
 Un interés de las secuencias maravillosas anidadas es que se pueden usar
 para construir números normales ---en el sentido de Borel--- que 
 tienen la propiedad de converger a la normalidad muy rápidamente.
-En particular, presentamos una construcción cuya velocidad de convergencia
+En este trabajo presentamos una construcción cuya velocidad de convergencia
 es la misma que la del número de Levin
 \cite[Theorem 2]{levin-discrepancy-estimate}, la máxima conocida por el momento.
 
@@ -159,31 +159,31 @@ Para referirnos a la concatenación de dos palabras $w_1$ y $w_2$ escribimos
 sencillamente $w_1w_2$; para la concatenación de $n$ copias de una misma
 palabra $w$, usamos la notación $w^n$.
 
-\section{Collares y secuencias de De Bruijn}
+\section{Collares y secuencias de De~Bruijn}
 
 En \cite{de-bruijn-combinatorial-problem}, Nicolaas G. de Bruijn realizó un
 detallado estudio de una clase de collares que han pasado a ser conocidos con su
 nombre.
 
-\begin{definition}[Collar de De Bruijn]
-	Un \emph{collar de De Bruijn} de orden $n$ (o collar $n$-de De Bruijn) es un collar
+\begin{definition}[Collar de De~Bruijn]
+	Un \emph{collar de De~Bruijn} de orden $n$ (o collar $n$-de De~Bruijn) es un collar
 	de longitud $b^n$ en el que cada una de las posibles palabras de longitud $n$ 
 	aparece exactamente una vez.
 \end{definition}
 
 \begin{examples}\ %
 	\begin{itemize}
-		\item El collar $\neck{11000101}$ es un collar de De Bruijn de orden $3$.
-		\item El collar $\neck{0101100111101000}$ es un collar de De Bruijn de orden $4$.
+		\item El collar $\neck{11000101}$ es un collar de De~Bruijn de orden $3$.
+		\item El collar $\neck{0101100111101000}$ es un collar de De~Bruijn de orden $4$.
 	\end{itemize}
 \end{examples}
 
-De Bruijn presenta una bonita caracterización de estos collares como circuitos
-en una familia de digrafos que ha dado en conocerse como digrafos de De Bruijn.
-El digrafo de De Bruijn de orden $n$ tiene como vértices todas las posibles
+De~Bruijn presenta una bonita caracterización de estos collares como circuitos
+en una familia de digrafos que ha dado en conocerse como digrafos de De~Bruijn.
+El digrafo de De~Bruijn de orden $n$ tiene como vértices todas las posibles
 palabras de longitud $n$; existe una arista entre dos palabras si los últimos
 $n-1$ caracteres de la primera coinciden con los primeros $n-1$ caracteres de la
-segunda. Utilizamos la notación $G_n$ para referirnos al digrafo de De Bruijn
+segunda. Utilizamos la notación $G_n$ para referirnos al digrafo de De~Bruijn
 de orden $n$.
 
 \begin{figure}[h] \centering
@@ -259,16 +259,16 @@ de orden $n$.
 		\end{tabular} \\
 		$G_1$ & $G_2$ & $G_3$
 	\end{tabular}
-	\caption{Digrafos de De Bruijn de orden $1$, $2$ y $3$
+	\caption{Digrafos de De~Bruijn de orden $1$, $2$ y $3$
 		para $\alphabet = \lbrace 0, 1 \rbrace$.}
 \end{figure}
 
-Cada collar de De Bruijn de orden $n$ se corresponde unívocamente con un circuito
+Cada collar de De~Bruijn de orden $n$ se corresponde unívocamente con un circuito
 hamiltoniano en el digrafo $G_n$, es decir, un camino cerrado que visita cada
 vértice exactamente una vez. El collar se conforma concatenando en orden
 el primer carácter de cada uno de los vértices visitados por el circuito.
 
-Una propiedad muy interesante de la familia de digrafos de De Bruijn es que
+Una propiedad muy interesante de la familia de digrafos de De~Bruijn es que
 cada $G_n$ es el grafo de línea de $G_{n-1}$; es decir, $G_n$ puede
 construirse tomando como vértices el conjunto de aristas de $G_{n-1}$ y
 colocando una arista entre cada par de vértices si las aristas correspondientes
@@ -276,34 +276,34 @@ en $G_{n-1}$ son adyacentes. Esto quiere decir que los circuitos hamiltonianos
 en $G_n$ se corresponden con circuitos eulerianos en $G_{n-1}$, esto es,
 caminos cerrados que utilizan cada arista exactamente una vez.
 
-De Bruijn utiliza esta naturaleza recursiva de la familia de digrafos $G_n$
-para demostrar una fórmula cerrada para la cantidad de collares de De Bruijn
+De~Bruijn utiliza esta naturaleza recursiva de la familia de digrafos $G_n$
+para demostrar una fórmula cerrada para la cantidad de collares de De~Bruijn
 de orden $n$ existentes, que en el caso de un alfabeto binario es exactamente
 $\frac{2^{2^{n-1}}}{2^n}$. Este resultado fue luego generalizado en
 \cite{van-aardenne-ehrenfest-circuits-and-trees} para alfabetos de tamaño arbitrario,
 donde la cantidad de collares es $\frac{(b!)^{b^{n-1}}}{b^n}$.
 
 Cabe señalar que, debido a sus características, la forma más natural de
-presentar la definición de los collares de De Bruijn es justamente en términos
+presentar la definición de los collares de De~Bruijn es justamente en términos
 de collares, o palabras circulares. No obstante ---y esta situación se repite
 para otras definiciones similares que aparecen más adelante en este trabajo---,
 en ocasiones interesa tener en cuenta cada corte particular de un collar como
 un elemento distinto. Por eso, en adelante, utilizaremos el término
-\emph{secuencia de De Bruijn} para referirnos a un corte de un collar de De
+\emph{secuencia de De~Bruijn} para referirnos a un corte de un collar de De
 Bruijn\footnote{Queremos hacer énfasis en este punto, ya que el término
-\emph{secuencia de De Bruijn} es utilizado de forma ambigua en la literatura.
-Para algunos autores, una secuencia de De Bruijn de orden $n$ es una secuencia
+\emph{secuencia de De~Bruijn} es utilizado de forma ambigua en la literatura.
+Para algunos autores, una secuencia de De~Bruijn de orden $n$ es una secuencia
 de longitud $b^n + n - 1$, donde cada palabra posible de longitud $n$ aparece
 exactamente una vez, sin considerar apariciones circulares. Notar, sin embargo,
-que las secuencias de De Bruijn así entendidas están en correspondencia uno a
+que las secuencias de De~Bruijn así entendidas están en correspondencia uno a
 uno con las que definimos aquí, con la única diferencia de que en ellas los
 primeros $n-1$ caracteres aparecen repetidos al final.}.
 
-¿Cuántas secuencias de De Bruijn de orden $n$ existen para cada $n$? Se puede notar que
-el período de una secuencia $n$-de De Bruijn es necesariamente igual a su
+¿Cuántas secuencias de De~Bruijn de orden $n$ existen para cada $n$? Se puede notar que
+el período de una secuencia $n$-de De~Bruijn es necesariamente igual a su
 longitud, $b^n$; de lo contrario, la palabra de longitud $n$ con la que comienza
-volvería a aparecer más adelante. Luego, cada collar $n$-de De Bruijn tiene
-$b^n$ cortes distintos, con lo cual la cantidad de secuencias $n$-de De Bruijn
+volvería a aparecer más adelante. Luego, cada collar $n$-de De~Bruijn tiene
+$b^n$ cortes distintos, con lo cual la cantidad de secuencias $n$-de De~Bruijn
 es exactamente $(b!)^{b^{n-1}}$.
 
 \section{El teorema \BEST{}}
@@ -311,11 +311,11 @@ es exactamente $(b!)^{b^{n-1}}$.
 El teorema \BEST{} es un resultado en teoría de grafos que permite determinar la
 cantidad de circuitos eulerianos en un multidigrafo\footnote{
 	Consideramos que las aristas de un multidigrafo tienen identidad propia, es
-	decir, dos aristas que conectan los mismos vértices son distinguibles entre
-	sí.
+	decir, que las aristas que conectan los mismos vértices son distinguibles
+	entre sí.
 }.
 Recibe su nombre por las iniciales de sus descubridores,
-De Bruijn, Van Aardenne-Ehrenfest, Smith y Tutte.
+De~Bruijn, Van Aardenne-Ehrenfest, Smith y Tutte.
 
 \begin{theorem*}[\BEST{}, \cite{van-aardenne-ehrenfest-circuits-and-trees},
 	\cite{tutte-graph-theory}]
@@ -342,14 +342,14 @@ aristas que van de $i$ a $j$.
 	de árboles generadores orientados hacia un vértice $v_i$ es el $i$-ésimo
 	cofactor de la matriz $\laplacian(G)$, es decir,
 	\[ t_i = \operatorname{det}(\laplacian_i(G)), \]
-	siendo $\laplacian_i(G)$ la matriz que se obtiene al omitir la $i$-ésima fila
-	y la $i$-ésima columna de $\laplacian(G)$.
+	siendo $\laplacian_i(G)$ la matriz que se obtiene al omitir la
+	fila y la columna $i$-ésimas de $\laplacian(G)$.
 \end{theorem*}
 
 En multidigrafos eulerianos, el vértice que se elija resulta irrelevante, ya
 que la cantidad de árboles generadores hacia cualquiera de ellos es invariante;
 en otras palabras, todos los cofactores de $\laplacian(G)$ son iguales. En
-el caso concreto del digrafo de De Bruijn de orden $n$, tenemos que
+el caso concreto del digrafo de De~Bruijn de orden $n$, tenemos que
 \cite{van-aardenne-ehrenfest-circuits-and-trees} para cualquier
 $k = 1, \dots, 2^n$,
 \[ t_k = \frac{b^{b^{n}}}{b^{n+1}}, \]
@@ -363,11 +363,11 @@ contabilizar la cantidad de circuitos eulerianos:
 \end{align*}
 
 Notar que esta fórmula se corresponde exactamente con la dada en la sección
-anterior para la cantidad de collares de De Bruijn de orden $n + 1$.
+anterior para la cantidad de collares de De~Bruijn de orden $n + 1$.
 
 \section{Secuencias maravillosas}
 
-A continuación presentamos una generalización de las secuencias de De Bruijn,
+A continuación presentamos una generalización de las secuencias de De~Bruijn,
 que denominaremos \emph{secuencias maravillosas}.
 
 \begin{definition}[Secuencia maravillosa]
@@ -384,22 +384,22 @@ $(n,m)$-maravilloso.
 	\begin{itemize}
 		\item Las siguientes secuencias son $(2,4)$ y $(3,3)$-maravillosas, respectivamente:
 		\[ 1110000111010010; \qquad 000111110110110100100100. \]
-		\item Todas las secuencias de De Bruijn de orden $n$ son ejemplos de secuencias
+		\item Todas las secuencias de De~Bruijn de orden $n$ son ejemplos de secuencias
 		$(n,1)$-maravillosas.
 	\end{itemize}
 \end{examples}
 
 Una pregunta inmediata que surge de esta definición es cómo puede extenderse a
 los collares maravillosos la caracterización como circuitos eulerianos
-presentada para los collares de De Bruijn, y si es posible utilizar este enfoque
+presentada para los collares de De~Bruijn, y si es posible utilizar este enfoque
 para determinar la cantidad de secuencias maravillosas existentes para cada valor
 de $n$ y $m$, lo cual resulta de especial interés más adelante en este
 trabajo.
 
 Un enfoque posible consiste en definir una familia de \emph{multidigrafos de De
 	Bruijn}.
-Llamamos multidigrafo de De Bruijn de orden $n$ y grado $m$ al multidigrafo
-$G_n^m$ que se obtiene a partir del digrafo de De Bruijn de orden $n$ si se
+Llamamos multidigrafo de De~Bruijn de orden $n$ y grado $m$ al multidigrafo
+$G_n^m$ que se obtiene a partir del digrafo de De~Bruijn de orden $n$ si se
 replica $m$ veces cada arista.
 Con esta definición, es inmediato comprobar que todo circuito euleriano en
 $G_n^m$ (o hamiltoniano en $G_{n+1}^m$) determina de manera unívoca un collar
@@ -445,7 +445,7 @@ estas palabras exactamente $m$ veces.
 	     edge [loop below] node {111} (11)
 	     edge [in=300, out=330, loop] (11);
 	\end{tikzpicture}
-	\caption{Multidigrafo de De Bruijn de orden $2$ y grado $3$
+	\caption{Multidigrafo de De~Bruijn de orden $2$ y grado $3$
 		para $\alphabet = \lbrace 0, 1 \rbrace$.}
 \end{figure}
 
@@ -461,11 +461,11 @@ representar un collar $(n+1,m)$-maravilloso con un circuito euleriano.
 
 Si se tiene este hecho en consideración, es posible aplicar el teorema \BEST{}
 para contabilizar la cantidad de circuitos eulerianos en los multidigrafos de
-De Bruijn y así obtener una fórmula cerrada para la cantidad de collares
+De~Bruijn y así obtener una fórmula cerrada para la cantidad de collares
 maravillosos.
 Sin embargo, si lo que se desea contar son las secuencias maravillosas ---en
 lugar de los collares---, surge una nueva dificultad, ya que a diferencia de los
-collares de De Bruijn, el período de un collar maravilloso no es invariante, es
+collares de De~Bruijn, el período de un collar maravilloso no es invariante, es
 decir, la cantidad de secuencias distintas que pueden obtenerse realizando
 cortes a un collar maravilloso es diferente para cada collar.
 
@@ -584,7 +584,7 @@ distinta módulo $m$. Por ejemplo, la siguiente es una secuencia $(2,4)$-perfect
 
 Puede verse una presentación de estas secuencias en \cite{alvarez-perfect-necklaces},
 junto a una caracterización de las mismas en términos de una modificación
-de los digrafos de De Bruijn, los denominados grafos astutos, y una fórmula
+de los digrafos de De~Bruijn, los denominados grafos astutos, y una fórmula
 para su cantidad.
 
 En \cite{becher-nested-perfect}, Becher y Carton definen las \emph{secuencias
@@ -878,7 +878,7 @@ Puede notarse que, debido a la condición de que $b^{n-1}$ divida a $m$ necesari
 para la existencia de este tipo de secuencias, el menor $m$ para el cual la
 cantidad de secuencias no es $0$, dado un $n$ fijo, es $m = b^{n-1}$. Este caso
 es especialmente interesante ya que los átomos que se utilizarán son secuencias
-$(n, 1)$-maravillosas, es decir, secuencias $n$-de De Bruijn, para cuya
+$(n, 1)$-maravillosas, es decir, secuencias $n$-de De~Bruijn, para cuya
 generación se han estudiado ya diversos métodos.
 
 Sabemos ya bajo qué condiciones podemos garantizar la existencia de secuencias
@@ -1017,7 +1017,7 @@ todas las secuencias $(n,m)$-maravillosas anidadas.
 La técnica que utilizamos es del tipo \emph{generate and test} y consiste en:
 \begin{enumerate}[label=\arabic*.]
 	\item Fijar un valor para el parámetro $m$.
-	\item Generar todas las secuencias $(1,m)$-maravillosas ($m$-átomos) de manera
+	\item Generar todas las secuencias $(1,m)$-maravillosas ($m$-átomos) de forma
 	combinatoria.
 	\item Iterar sobre los valores de $n = 2, 3, \dots$, considerando como espacio
 	de búsqueda todas las posibles concatenaciones de dos secuencias
@@ -1379,7 +1379,7 @@ Esta construcción es generalizada por Becher y Carton en \cite{becher-nested-pe
 normales de discrepancia mínima concatenando secuencias perfectas anidadas.
 Concretamente, logran demostrar que si $\alpha \in [0, 1)$ es tal que su
 expansión en base $b$ es de la forma $.w_0 w_1 w_2 \dots$, con cada $w_k$ una
-secuencia $(2^k,2^k)$-perfecta anidada, entonces $x$ es normal en base $b$,
+secuencia $(2^k,2^k)$-perfecta anidada, entonces $\alpha$ es normal en base $b$,
 siendo su discrepancia del mismo orden que la del número de Levin.
 
 El resultado que presentamos a continuación ---a cuya demostración está dedicado
@@ -1595,7 +1595,7 @@ siguiendo los niveles de anidación de la secuencia maravillosa anidada:
 \begin{itemize}
 	\item Los primeros $q^k - 1$ bloques van desde la posición
 		$N_{i-1}\varphi(q^k)b$ a la $N_{i}\varphi(q^k)b$,
-		para $i = 1, \dots, q^k - 1$. Cada uno de ellos se corresponde
+		para ${i = 1, \dots, q^k - 1}$. Cada uno de ellos se corresponde
 		exactamente con $\nu_{q^k-i-1}$ secuencias
 		$(q^k - i, \varphi(q^k))$-maravillosas anidadas consecutivas.
 	\item El último bloque va desde la posición $N'\varphi(q^k)b$ hasta la
