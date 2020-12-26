@@ -3,7 +3,7 @@
 Consideremos un alfabeto finito, y sea $b$ la
 cantidad de símbolos de este alfabeto.
 Los collares ---o palabras circulares--- de
-De Bruijn de orden $n$ son aquellas en las que todas las palabras de longitud
+De Bruijn de orden $n$ son aquellos en las que todas las palabras de longitud
 $n$ aparecen exactamente una vez.
 Los collares de De Bruijn de orden $n$ tienen longitud $b^n$.
 Nicolaas Govert de Bruijn \cite{de-bruijn-combinatorial-problem}
@@ -39,12 +39,11 @@ existen o no las secuencias maravillosas anidadas que no son perfectas anidadas.
 
 \medskip
 
-Emprendimos este trabajo con el objetivo de responder la pregunta formulada por
+Emprendimos este trabajo con el propósito de responder la pregunta formulada por
 Becher y Carton de si existen secuencias maravillosas anidadas que no son
 perfectas anidadas.
 En caso de responder positivamente, nos propusimos dar métodos de construcción
-que permitieran obtener secuencias de estas características, con el objetivo
-de máxima de contar la cantidad de secuencias maravillosas anidadas de orden
+que permitieran obtener secuencias de estas características, con el objetivo de contar la cantidad de secuencias maravillosas anidadas de orden
 $(n,m)$ y, en caso de que esto no fuera posible, de poder brindar ejemplos que
 garantizaran su existencia.
 
@@ -310,9 +309,13 @@ es exactamente $(b!)^{b^{n-1}}$.
 \section{El teorema \BEST{}}
 
 El teorema \BEST{} es un resultado en teoría de grafos que permite determinar la
-cantidad de circuitos eulerianos en un multidigrafo. Recibe su nombre por las
-iniciales de sus descubridores, De Bruijn, Van Aardenne-Ehrenfest, Smith y
-Tutte.
+cantidad de circuitos eulerianos en un multidigrafo\footnote{
+	Consideramos que las aristas de un multidigrafo tienen identidad propia, es
+	decir, dos aristas que conectan los mismos vértices son distinguibles entre
+	sí.
+}.
+Recibe su nombre por las iniciales de sus descubridores,
+De Bruijn, Van Aardenne-Ehrenfest, Smith y Tutte.
 
 \begin{theorem*}[\BEST{}, \cite{van-aardenne-ehrenfest-circuits-and-trees},
 	\cite{tutte-graph-theory}]
@@ -334,7 +337,7 @@ a partir de su \emph{matriz laplaciana}, definida como
 donde $d_i$ es el grado de salida de $v_i$ y $d_{ij}$ es la cantidad de
 aristas que van de $i$ a $j$.
 
-\begin{theorem*}[Kirchoff, \cite{tutte-graph-theory}]
+\begin{theorem*}[Kirchoff, \cite{farrell-multi-eulerian-tours}, \cite{tutte-graph-theory}]
 	Sea $G$ un multidigrafo con vértices $v_1, \dots, v_n$. La cantidad $t_i$
 	de árboles generadores orientados hacia un vértice $v_i$ es el $i$-ésimo
 	cofactor de la matriz $\laplacian(G)$, es decir,
@@ -490,7 +493,7 @@ teorema \BEST{}.
 	Sea $G$ un multidigrafo fuertemente conexo con vértices $v_1, \dots, v_n$, y
 	sea $\pi \in \mathbb{N}^n$.
 	Existen circuitos $\pi$-eulerianos en $G$ si y solo si
-	\[ \laplacian(G) \cdot \pi = 0, \]
+	\[ \laplacian(G) \cdot \pi = \vec{0}, \]
 	en cuyo caso la cantidad de estos circuitos que comienzan con una arista $e$
 	determinada es
 	\[ \operatorname{ec}_\pi(G, e) = t_e
@@ -744,7 +747,7 @@ El siguiente lema se presenta a modo de resultado intermedio para
 demostrar la Proposición \ref{proposition:autosimilar-nm-characterization}.
 
 \begin{lemma} \label{lemma:marvellous-for-smaller-n}
-	Sea $x$ una secuencia $(n,m)$-mavarillosa.
+	Sea $x$ una secuencia $(n,m)$-maravillosa.
 	Para todo $k$ tal que $0 \leq k < n$, la secuencia $x$ es
 	$(n - k, b^{k}m)$-maravillosa.
 \end{lemma}
@@ -759,7 +762,7 @@ demostrar la Proposición \ref{proposition:autosimilar-nm-characterization}.
 	Para extender $w$ a una palabra de longitud $n$ debe agregársele un sufijo de
 	longitud $k$, por lo que existen $b^{k}$ formas distintas de hacerlo.
 	Todas estas palabras que resultan de extender $w$ aparecen exactamente $m$
-	veces en $x$, ya que esta es una secuencia $(n,m)$-mavarillosa.
+	veces en $x$, ya que esta es una secuencia $(n,m)$-maravillosa.
 	Luego, $w$ aparece exactamente $b^{k}m$ veces en $x$, $m$ veces como prefijo de
 	una palabra de longitud $n$ distinto.
 	Por lo tanto, $x$ es una secuencia $(n - k, b^{k}m)$-maravillosa.
