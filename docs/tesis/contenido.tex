@@ -1352,8 +1352,8 @@ teoría de la distribución uniforme módulo 1 en
 
 Se sabe que un número real $x \in [0,1)$ es normal en base $b$ si y
 solo si la sucesión de sus mantisas, $\lbrace x b^n \rbrace_{n\geq0}$,
-está uniformemente distribuida módulo 1. La discrepancia de esta sucesión,
-además, permite cuantificar la velocidad con la cual un número converge a la
+está uniformemente distribuida módulo 1. La discrepancia de esta sucesión
+permite cuantificar la velocidad con la cual un número converge a la
 normalidad.
 
 \medskip
@@ -1424,7 +1424,7 @@ $\Ord(\log^{c + 1}(N)/N)$.
 
 Antes de comenzar con la demostración, presentamos algunas definiciones que
 nos serán útiles más adelante.
-En primer lugar, para cada $k = 0, 1, \dots$, definimos $s_k$ como la posicón
+En primer lugar, para cada $k = 0, 1, \dots$, definimos $s_k$ como la posición
 dentro del desarrollo de $\alpha$ donde comienza el bloque $w_k$.
 Podemos notar que cada $w_k$, por ser una secuencia
 $(q^k, \varphi(q^k))$-maravillosa anidada, tiene tamaño $\varphi(q^k)b^{q^k}$.
@@ -1475,7 +1475,8 @@ al final de la sección.
 \end{lemma}
 
 \begin{proof}
-Por construcción, a partir de la posición $s_k$ la expansión decimal de
+	\enlargethispage{\baselineskip}
+Por construcción, a partir de la posición $s_k$ la expansión en base $b$ de
 $\alpha$ contiene una secuencia $(q^k, \varphi(q^k))$-maravillosa anidada,
 es decir, una concatenación de $b^{q^k-i}$ secuencias
 $(i, \varphi(q^k))$-maravillosas anidadas. Cada una de estas secuencias tiene
@@ -1490,7 +1491,7 @@ Esto quiere decir que las posiciones de inicio de todas estas mantisas
 caen dentro de una misma secuencia $(i, \varphi(q^k))$-maravillosa anidada.
 
 Consideremos, para cada palabra $\beta_1\dots\beta_i$ de
-longitud $i$, el número real entre $0$ y $1$ cuya expansión decimal consiste
+longitud $i$, el número real entre $0$ y $1$ cuya expansión en base $b$ consiste
 en dicha palabra seguida de ceros, es decir, $\sum_{j=1}^{i} \beta_{j} b^{-j}$.
 Notar que este número es de la forma $\frac{\tilde{f}}{b^i}$, con
 $\tilde{f} = \sum_{j=1}^{i} \beta_{j} b^{i-j}$ distinto para cada palabra.
@@ -1523,6 +1524,7 @@ secuencia, lo cual explica el término del error.
 \end{lemma}
 
 \begin{proof}
+Consideremos la notación $\alpha_{ki}(n)$ del Lema \ref{lemma:discrepancy-1}.
 Sea $f = [\gamma b^i]$, de modo que $f = \gamma b^i - \varepsilon_1$, con
 $\varepsilon_1 \in [0, 1)$. Notar que
 \begin{multline*}
@@ -1582,8 +1584,8 @@ forma tal que
 \[ N = N'\varphi(q^k)b + N''. \]
 Sea $(N')_b = \nu_{q^k-2}\nu_{q^k-3}\dots\nu_0$
 la escritura de $N'$ en base $b$. Para cada $i = 0, \dots, q^k-1$, sea
-$N_i = \sum_{j=q^k-i-1}^{q^k-2} \nu_{j}b^{j}
-= (\nu_{q^k-2}\dots\nu_{q^k-i}\underbrace{0\dots0}_{q^k-2-i})_b$
+\[ N_i = \sum_{j=q^k-i-1}^{q^k-2} \nu_{j}b^{j}
+= (\nu_{q^k-2}\dots\nu_{q^k-i}\underbrace{0\dots0}_{q^k-2-i})_b \]
 el resultado de reemplazar por ceros los dígitos de la
 escritura de $N'$ en base $b$ a partir del $i+1$-ésimo.
 Notar que $0 = N_0 \leq N_1 \leq \dots \leq N_{q^k-1} = N'$.
