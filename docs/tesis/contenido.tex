@@ -156,6 +156,10 @@ aparece circularmente. En este caso, también podemos decir directamente que
 la palabra aparece en el collar; en el ejemplo anterior, diríamos que $110$
 aparece en $\neck{01010011}$.
 
+Para referirnos a la concatenación de dos palabras $w_1$ y $w_2$ escribimos
+sencillamente $w_1w_2$; para la concatenación de $n$ copias de una misma
+palabra $w$, usamos la notación $w^n$.
+
 \section{Collares y secuencias de De Bruijn}
 
 En \cite{de-bruijn-combinatorial-problem}, Nicolaas G. de Bruijn realizó un
@@ -449,7 +453,7 @@ collar son indistinguibles, por lo que las $m$ aristas respectivas pueden ser
 permutadas, obteniendo un nuevo ciclo euleriano que se corresponde con el mismo
 collar.
 Concretamente, como existen $m! $ maneras de permutar cada conjunto de $m$
-aristas, se tiene un total de $m!b^{n+1}$ maneras distintas de
+aristas, se tiene un total de $(m!)^{b^{n+1}}$ maneras distintas de
 representar un collar $(n+1,m)$-maravilloso con un circuito euleriano.
 
 Si se tiene este hecho en consideración, es posible aplicar el teorema \BEST{}
@@ -701,7 +705,7 @@ de $b^{n-1}$ copias de un mismo $m$-átomo.
 
 La proposición que enunciamos a continuación nos permite caracterizar a
 las secuencias $(n,m)$-maravillosas anidadas autosimilares a
-partir de una propiedad verificable los átomos que les dan origen.
+partir de una propiedad verificable de los átomos que les dan origen.
 Gracias a este resultado, podemos determinar para qué valores de $(n,m)$ existen
 este tipo de secuencias, cuál es su cantidad, y presentar un método para su
 construcción.
@@ -792,7 +796,7 @@ demostración para la Proposición \ref{proposition:autosimilar-nm-characterizat
 	Esto quiere decir que, siendo $y = \omega^{b^{n' - 2}}$, $y$ es una secuencia
 	$(n'-1, m)$-maravillosa anidada.
 	Para probar que $\omega^{b^{n' - 1}} = y^b$ es $(n',m)$-maravillosa anidada,
-	solo resta ver que es $(n',m)$-maravillosa, ya que es la concatenación de dos
+	solo resta ver que es $(n',m)$-maravillosa, ya que es la concatenación de $b$
 	secuencias $(n'-1, m)$-maravillosas anidadas.
 
 	Empleando otra vez el Lema \ref{lemma:marvellous-for-smaller-n}, esta vez para
@@ -816,9 +820,10 @@ cualesquiera valores de $n$ y $m$, podemos enunciar el siguiente corolario.
 \end{corollary}
 
 \begin{proof}
-	Se sigue de forma inmediata de la caracterización dada por la Proposición
-	\ref{proposition:autosimilar-nm-characterization} y la fórmula para la cantidad de
-	secuencias maravillosas presentada en la Proposición \ref{proposition:marvellous-count}.
+	Se sigue de forma inmediata de la caracterización dada por la
+	Proposición~\ref{proposition:autosimilar-nm-characterization}
+	y la fórmula para la cantidad de secuencias maravillosas presentada en la
+	Proposición~\ref{proposition:marvellous-count}.
 \end{proof}
 
 Las Tablas \ref{table:count-autosimilar-2} y \ref{table:count-autosimilar-3}
