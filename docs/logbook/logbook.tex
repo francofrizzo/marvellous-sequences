@@ -43,7 +43,8 @@
 \rhead{\MakeUppercase{\footnotesize{\textls{\myauthor}}}}
 \lhead{\MakeUppercase{\footnotesize{\textls{\mytitle}}}}
 
-\include{commands}
+\input{../shared/commands}
+\input{../shared/amsthm-env}
 
 \begin{document}
 
@@ -123,7 +124,7 @@ posiciones consecutivas de $s$ que van desde $i$ hasta $j$, inclusive.
 
 \begin{proof}[Idea de la demostración]
 	Contar los ciclos eulerianos en $G_{n-1}$.
-	En \cite{db} se prueba que la cantidad de dichos ciclos es exactamente
+	En \cite{de-bruijn-combinatorial-problem} se prueba que la cantidad de dichos ciclos es exactamente
 	$2^{2^{n-1} - n}$.
 \end{proof}
 
@@ -216,7 +217,7 @@ posiciones consecutivas de $s$ que van desde $i$ hasta $j$, inclusive.
 	Las secuencias $(n,m)$-perfectas se corresponden con los ciclos
 	eulerianos (hamiltonianos) en el grafo astuto de orden $n-1$ (n) y grado $m$.
 
-	En \cite{ALVAREZ201648} se brinda una fórmula para la cantidad de
+	En \cite{alvarez-perfect-necklaces} se brinda una fórmula para la cantidad de
 	collares $(n,m)$-perfectos a partir de este hecho.
 \end{remark}
 
@@ -294,7 +295,7 @@ posiciones consecutivas de $s$ que van desde $i$ hasta $j$, inclusive.
 	secuencia $(n,m)$-afín. Resta ver que para cada combinación posible de
 	parámetros, la secuencia obtenida es única. La demostración de este hecho se
 	sigue de que las matrices empleadas en el procedimiento son inversibles,
-	y puede leerse en \cite{BECHER2019101403}.
+	y puede leerse en \cite{becher-nested-perfect}.
 \end{proof}
 
 \begin{theorem}
@@ -303,7 +304,7 @@ posiciones consecutivas de $s$ que van desde $i$ hasta $j$, inclusive.
 \end{theorem}
 
 \begin{proof}[Idea de la demostración]
-	La demostración puede verse en \cite{BECHER2019101403}. En primer lugar se
+	La demostración puede verse en \cite{becher-nested-perfect}. En primer lugar se
 	prueba que las secuencias afines son perfectas anidadas, analizando
 	meticulosamente las características de la construcción, y luego se muestra
 	que todas las secuencias perfecta son afines a través de un argumento de
@@ -604,7 +605,7 @@ La secuencia [inserte ejemplo aquí] es $(4, 8)$-maravillosa anidada pero no es 
 	\end{align*}
 \end{proof}
 
-\bibliography{references}{}
+\bibliography{../shared/references}{}
 \bibliographystyle{plain}
 
 \end{document}

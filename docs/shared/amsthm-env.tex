@@ -1,10 +1,8 @@
-% \DeclareTextFontCommand{\emph}{\bfseries}
-
 \theoremstyle{plain}
 \newtheorem{theorem}{Teorema}
-\newtheorem{proposition}[theorem]{Proposición}
-\newtheorem{corollary}[theorem]{Corolario}
-\newtheorem{lemma}[theorem]{Lema}
+\newtheorem{proposition}{Proposición}
+\newtheorem{corollary}[proposition]{Corolario}
+\newtheorem{lemma}[proposition]{Lema}
 \newtheorem*{theorem*}{Teorema}
 \newtheorem*{proposition*}{Proposición}
 \newtheorem*{corollary*}{Corolario}
@@ -15,10 +13,9 @@
 
 \theoremstyle{remark}
 \newtheorem*{remark}{Observación}
+\let\example\relax
 \newtheorem*{example}{Ejemplo}
 \newtheorem*{examples}{Ejemplos}
 
 \newcommand{\note}[1]{\textbf{\textcolor{red}{#1}}}
 \newcommand{\pending}[1]{\textbf{\textcolor{blue}{#1}}}
-
-\input{../shared/commands}
