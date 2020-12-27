@@ -1,9 +1,78 @@
-\documentclass[hexcolor=61b15a]{ff-slides}
+\documentclass[spanish,xcolor={table}]{beamer}
+
+\usepackage[utf8]{inputenc}
+
+\usepackage[spanish,activeacute]{babel}
+\spanishplainpercent
+\uselanguage{Spanish}
+\languagepath{Spanish}
+
+\RequirePackage{lmodern}
+\RequirePackage{libertineRoman}
+\RequirePackage{biolinum}
+\RequirePackage{eulervm}
+\RequirePackage[T1]{fontenc}
+
+\RequirePackage{amsmath,amssymb,amsthm,mathtools,mathabx}
+\RequirePackage[italic,nolessnomore]{mathastext}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+\usetikzlibrary{babel}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.9}
+
+\RequirePackage{multicol}
+\RequirePackage{tabularx}
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+\usepackage{diagbox}
+
+\newcommand\wider[2][3em]{%
+\makebox[\linewidth][c]{%
+  \begin{minipage}{\dimexpr\textwidth+#1\relax}
+  \raggedright#2
+  \end{minipage}%
+  }%
+}
+
+% ----------------------------------------------------------------------------
+
+% Beamer settings
+\useoutertheme{default}
+\useinnertheme{rectangles}
+\usefonttheme[onlymath]{serif}
+\setbeamertemplate{blocks}[rounded]
+\beamertemplatenavigationsymbolsempty
+
+% Paragraph spacing
+\setlength{\parskip}{.5em}
+
+% Item spacing
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd{\@listI}{\itemsep3\p@}{\itemsep6\p@}{}{}
+\patchcmd{\@listii}{\itemsep\parsep}{\itemsep3\p@}{}{}
+\makeatother
+
+% Remove figure caption prefix
+\setbeamertemplate{caption}{\raggedright\insertcaption\par}
+
+% ----------------------------------------------------------------------------
+
+\input{../shared/commands}
+\DeclareTextFontCommand{\emph}{\bfseries}
+
+\definecolor{ne-proof}{HTML}{ea5c69}
+\definecolor{ne-empir}{HTML}{ffac81}
+\definecolor{ne-conjc}{HTML}{fdf2ac}
+\definecolor{e-count-for}{HTML}{58d383}
+\definecolor{e-count-emp}{HTML}{71d7e9}
+\definecolor{e-examples}{HTML}{d9edfa}
 
 % ----------------------------------------------------------------------------
 
 \title{Secuencias maravillosas anidadas}
-\subtitle{Tesis de licenciatura en Ciencias de la Computación}
+\subtitle{Tesis de Licenciatura en Ciencias de la Computación}
 \author{Franco Frizzo}
 \institute[DC, FCEyN, UBA]
     {Departamento de Computación, FCEyN, UBA}
@@ -17,13 +86,950 @@
 
 % ============================================================================
 
-\begin{frame}{Diapo 1}
+\begin{frame}{Preliminares}
+
+\begin{itemize}
+  \item Trabajaremos con un \emph{alfabeto} de $b$ símbolos ($b > 2$).
+  \begin{itemize}
+    \item En los ejemplos, $b = 2$, $\alphabet = \lbrace 0, 1 \rbrace$.
+  \end{itemize}
+  \item Una \emph{palabra} (o cadena, o secuencia) es una tira de símbolos de este alfabeto.
+  
+  \item Un \emph{collar} es una palabra mirada circularmente.
+\end{itemize}
 
 \end{frame}
 
 % ----------------------------------------------------------------------------
 
-\begin{frame}{Diapo 2}
+\begin{frame}{Collares de De Bruijn}
+
+\begin{columns}
+  \column{.4\textwidth - 1cm}
+  \begin{figure}
+    \includegraphics[width=\textwidth]{de-bruijn.jpg}
+    \caption{Nicolaas G. de Bruijn}
+  \end{figure}
+  \column{.6\textwidth}
+
+  Un \emph{collar de De Bruijn} de orden $n$ es un collar donde cada palabra de longitud $n$ aparece una vez.
+  
+  \begin{example}
+    Tomemos $n = 3$. \vspace{-.5em}
+
+    \begin{multicols}{2}
+      \begin{tabular}{lclc}
+        000 & & 100 & \\
+        001 & & 101 & \\
+        010 & & 110 & \\ 
+        011 & & 111 & \\
+      \end{tabular}
+      \columnbreak
+      $\neck{11000101}$
+    \end{multicols}
+  \end{example}
+\end{columns}
+
+\end{frame}
+
+% ----------------------------------------------------------------------------
+
+\begin{frame}{Digrafos de De Bruijn}
+
+\begin{tabular}{ccc}
+  \begin{tabular}{c}
+    \begin{tikzpicture}[->,>=stealth,auto,node distance=2cm,
+      scale=0.7,every node/.style={transform shape},
+      every loop/.style={},thick,main node/.style={circle,draw}]
+    
+    \node[style={scale=1.4}] (name) at (-1,1.4) {$G_1$};
+
+    \node[main node] (0) {0};
+    \node[main node] (1) [below of=0] {1};
+    
+    \draw
+    (0) edge [bend left] node {01} (1)
+        edge [loop above] node {00} (0)
+    (1) edge [bend left] node {10} (0)
+        edge [loop below] node {11} (1);
+    \end{tikzpicture}
+  \end{tabular} &
+
+  \begin{tabular}{c}
+    \begin{tikzpicture}[->,>=stealth,auto,node distance=2.2cm,
+      scale=0.7,every node/.style={transform shape},
+      every loop/.style={},thick,main node/.style={circle,draw}]
+    
+    \node[style={scale=1.4}] (name) at (-1.6,1) {$G_2$};
+
+    \node[main node] (00) {00};
+    \node[main node] (01) [below right of=00] {01};
+    \node[main node] (10) [below left of=00] {10};
+    \node[main node] (11) [below right of=10] {11};
+    
+    \draw
+    (00) edge [loop above] node {000} (00)
+        edge [bend left] node {001} (01)
+    (01) edge [bend left] node {011} (11)
+        edge [bend left] node {010} (10)
+    (10) edge [bend left] node {100} (00)
+        edge [bend left] node {101} (01)
+    (11) edge [bend left] node {110} (10)
+        edge [loop below] node {111} (11);
+    \end{tikzpicture}
+  \end{tabular} &
+
+  \begin{tabular}{c}
+    \begin{tikzpicture}[->,>=stealth,auto,node distance=1.6cm,
+      scale=0.7,every node/.style={transform shape},
+      every loop/.style={},thick,main node/.style={circle,draw,font=\footnotesize}]
+    
+    \node[style={scale=1.4}] (name) at (-2.2,1) {$G_3$};
+
+    \node[main node] (000) {000};
+    \node[main node] (010) [below of=000] {010};
+    \node[main node] (101) [below of=010] {101};
+    \node[main node] (111) [below of=101] {111};
+    
+    \node[main node] (001) [right of=010,yshift=.35cm] {001};
+    \node[main node] (100) [left of=010,yshift=.35cm] {100};
+    \node[main node] (011) [right of=101,yshift=-.35cm] {011};
+    \node[main node] (110) [left of=101,yshift=-.35cm] {110};
+    
+    \draw
+    (000) edge [loop above] node {0000} (000)
+          edge [bend left=20] node {0001} (001)
+    (001) edge [bend left=20] node {0010} (010)
+          edge [bend left=25] node {0011} (011)
+    (010) edge [bend left=20] node {0100} (100)
+          edge [bend left] node {0101} (101)
+    (011) edge [bend left=15] node {0110} (110)
+          edge [bend left=20] node {0111} (111)
+    (100) edge [bend left=20] node {1000} (000)
+          edge [bend left=15] node {1001} (001)
+    (101) edge [bend left] node {1010} (010)
+          edge [bend left=20] node {1011} (011)
+    (110) edge [bend left=25] node {1100} (100)
+          edge [bend left=20] node {1101} (101)
+    (111) edge [bend left=20] node {1110} (110)
+          edge [loop below] node {1111} (111);
+    \end{tikzpicture}
+  \end{tabular}
+\end{tabular}
+
+Los collares de De Bruijn de orden $n$ son:
+\begin{itemize}
+  \item circuitos \emph{hamiltonianos} en el digrafo de De Bruijn de orden $n$.
+  \item circuitos \emph{eulerianos} en el de orden $n-1$.
+\end{itemize}
+
+\end{frame}
+
+% ----------------------------------------------------------------------------
+
+\begin{frame}{Digrafos de De Bruijn}
+
+\begin{example}
+{[[Agregar ejemplo]]}
+\end{example}
+
+\end{frame}
+
+% ----------------------------------------------------------------------------
+
+\begin{frame}{Collares perfectos}
+  Un \emph{collar perfecto} de orden $(n,m)$ es un collar donde
+  \begin{itemize}
+    \item cada palabra de longitud $n$ aparece $m$ veces, y
+    \item cada aparición es en una posición distinta módulo $m$.
+  \end{itemize}
+
+  \begin{example}
+  {[[ Agregar ejemplo ]]}
+  \end{example}
+
+  Alvarez, Becher, Ferrari y Yuhjtman los caracterizaron como ciclos en los
+  \emph{grafos astutos} y dieron una fórmula para su cantidad.  
+\end{frame}
+
+% ----------------------------------------------------------------------------
+
+\begin{frame}{Secuencias perfectas anidadas}
+\end{frame}
+
+% ----------------------------------------------------------------------------
+
+\begin{frame}{Secuencias maravillosas}
+\end{frame}
+
+% ----------------------------------------------------------------------------
+
+\begin{frame}{Secuencias maravillosas anidadas}
+\end{frame}
+
+% ----------------------------------------------------------------------------
+
+\begin{frame}{Nuestro problema a resolver}
+  ¿Existen secuencias maravillosas anidadas que no sean perfectas anidadas? ¿Cuántas son?
+\end{frame}
+
+% ----------------------------------------------------------------------------
+
+\begin{frame}{Un mapa a completar}
+
+  \scriptsize
+   
+  \setlength{\tabcolsep}{.5em}
+  \begin{tabularx}{\textwidth}{|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|}
+    \hline
+    \diagbox[width=2em]{$n$}{$m$} & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16  \\
+    \hline
+    1 & & & & & & & & & & & & & & & & \\
+    \hline
+    2 & & & & & & & & & & & & & & & & \\
+    \hline
+    3 & & & & & & & & & & & & & & & & \\
+    \hline
+    4 & & & & & & & & & & & & & & & & \\
+    \hline
+    5 & & & & & & & & & & & & & & & & \\
+    \hline
+    6 & & & & & & & & & & & & & & & & \\
+    \hline
+    7 & & & & & & & & & & & & & & & & \\
+    \hline
+    8 & & & & & & & & & & & & & & & & \\
+    \hline
+    9 & & & & & & & & & & & & & & & & \\
+    \hline
+    10 & & & & & & & & & & & & & & & & \\
+    \hline
+    11 & & & & & & & & & & & & & & & & \\
+    \hline
+    12 & & & & & & & & & & & & & & & & \\
+    \hline
+    13 & & & & & & & & & & & & & & & & \\
+    \hline
+    14 & & & & & & & & & & & & & & & & \\
+    \hline
+    15 & & & & & & & & & & & & & & & & \\
+    \hline
+    16 & & & & & & & & & & & & & & & & \\
+    \hline
+  \end{tabularx}
+\end{frame}
+
+% ----------------------------------------------------------------------------
+
+\begin{frame}{El caso $n = 1$}
+
+\begin{itemize}
+  \item Las secuencias $(1,m)$-maravillosas anidadas \\
+  son simplemente las secuencias $(1,m)$-maravillosas.
+  \item Usando la fórmula para contar secuencias maravillosas, sabemos que
+  su cantidad es
+  \[ \frac{(bm)! }{(m!)^b}. \]
+  \item Podemos construir ejemplos que no son perfectos anidados. \\
+  Si definimos
+  \[ w = 01\dots(b-1), \]
+  la secuencia $w^m$ no es $(1,m)$-perfecta anidada.
+\end{itemize}
+
+\end{frame}
+
+% ----------------------------------------------------------------------------
+
+\begin{frame}{}
+
+  \scriptsize
+   
+  \setlength{\tabcolsep}{.5em}
+  \begin{tabularx}{\textwidth}{|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|}
+    \hline
+    \diagbox[width=2em]{$n$}{$m$} & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16  \\
+    \hline
+    1 & \cellcolor{e-count-for} & \cellcolor{e-count-for} & \cellcolor{e-count-for} & \cellcolor{e-count-for} & \cellcolor{e-count-for} & \cellcolor{e-count-for} & \cellcolor{e-count-for} & \cellcolor{e-count-for} & \cellcolor{e-count-for} & \cellcolor{e-count-for} & \cellcolor{e-count-for} & \cellcolor{e-count-for} & \cellcolor{e-count-for} & \cellcolor{e-count-for} & \cellcolor{e-count-for} & \cellcolor{e-count-for} \\
+    \hline
+    2 & & & & & & & & & & & & & & & & \\
+    \hline
+    3 & & & & & & & & & & & & & & & & \\
+    \hline
+    4 & & & & & & & & & & & & & & & & \\
+    \hline
+    5 & & & & & & & & & & & & & & & & \\
+    \hline
+    6 & & & & & & & & & & & & & & & & \\
+    \hline
+    7 & & & & & & & & & & & & & & & & \\
+    \hline
+    8 & & & & & & & & & & & & & & & & \\
+    \hline
+    9 & & & & & & & & & & & & & & & & \\
+    \hline
+    10 & & & & & & & & & & & & & & & & \\
+    \hline
+    11 & & & & & & & & & & & & & & & & \\
+    \hline
+    12 & & & & & & & & & & & & & & & & \\
+    \hline
+    13 & & & & & & & & & & & & & & & & \\
+    \hline
+    14 & & & & & & & & & & & & & & & & \\
+    \hline
+    15 & & & & & & & & & & & & & & & & \\
+    \hline
+    16 & & & & & & & & & & & & & & & & \\
+    \hline
+  \end{tabularx} \vspace{1em} \\
+  
+  {
+    \setlength{\tabcolsep}{.3em}
+    \scriptsize
+    \begin{tabular}{clcl}
+    \color{e-count-for}{$\blacksquare$} & Cantidad expresada como fórmula cerrada \\
+    \end{tabular}
+  }
+\end{frame}
+
+% ----------------------------------------------------------------------------
+
+\begin{frame}{El caso $n > 2m$}
+
+\begin{theorem}
+  No existen secuencias $(n,m)$-maravillosas anidadas para ningunos $n$, $m$
+	tales que $n > 2m$.
+\end{theorem}
+
+\begin{proof}
+  \begin{itemize}
+    \item Una secuencia $(2m + 1,m)$-maravillosa es una concatenación
+    de $m$-átomos de longitud $bm$.
+    \item La cadena $0^{2m+1}$ aparece en algún lugar de la secuencia.
+    \item Necesariamente esta cadena abarca más de un átomo.
+  \end{itemize}
+  \[ \underbrace{\alpha\dots\alpha}_{bm}
+    \; \underbrace{\alpha\dots\alpha}_{bm} \; \cdots
+    \; \underbrace{\alpha\dots\alpha\overbrace{00\dots00}^{k}}_{bm}
+    \; \underbrace{\overbrace{00\dots00}^{2m+1-k}\dots\alpha}_{bm} \; \cdots
+    \; \underbrace{\alpha\dots\alpha}_{bm} \]
+  \begin{itemize}
+    \item Si $k > m$ hay más de $m$ ceros en el primer átomo. \\
+    Si $k \leq m$ entonces entonces $2m + 1 - k > m$ y hay más de $m$ ceros en el segundo átomo. Absurdo. \qedhere
+  \end{itemize}
+\end{proof}
+
+\end{frame}
+
+% ----------------------------------------------------------------------------
+
+\begin{frame}{}
+
+  \scriptsize
+   
+  \setlength{\tabcolsep}{.5em}
+  \begin{tabularx}{\textwidth}{|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|}
+    \hline
+    \diagbox[width=2em]{$n$}{$m$} & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16  \\
+    \hline
+    1 & \cellcolor{e-count-for} & \cellcolor{e-count-for} & \cellcolor{e-count-for} & \cellcolor{e-count-for} & \cellcolor{e-count-for} & \cellcolor{e-count-for} & \cellcolor{e-count-for} & \cellcolor{e-count-for} & \cellcolor{e-count-for} & \cellcolor{e-count-for} & \cellcolor{e-count-for} & \cellcolor{e-count-for} & \cellcolor{e-count-for} & \cellcolor{e-count-for} & \cellcolor{e-count-for} & \cellcolor{e-count-for} \\
+    \hline
+    2 & & & & & & & & & & & & & & & & \\
+    \hline
+    3 & \cellcolor{ne-proof} & & & & & & & & & & & & & & & \\
+    \hline
+    4 & \cellcolor{ne-proof} & & & & & & & & & & & & & & & \\
+    \hline
+    5 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & & & & & & & & & & & & & & \\
+    \hline
+    6 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & & & & & & & & & & & & & & \\
+    \hline
+    7 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & & & & & & & & & & & & & \\
+    \hline
+    8 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & & & & & & & & & & & & & \\
+    \hline
+    9 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & & & & & & & & & & & & \\
+    \hline
+    10 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & & & & & & & & & & & & \\
+    \hline
+    11 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & & & & & & & & & & & \\
+    \hline
+    12 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & & & & & & & & & & & \\
+    \hline
+    13 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & & & & & & & & & & \\
+    \hline
+    14 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & & & & & & & & & & \\
+    \hline
+    15 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & & & & & & & & & \\
+    \hline
+    16 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & & & & & & & & & \\
+    \hline
+  \end{tabularx} \vspace{1em} \\
+  
+  {
+    \setlength{\tabcolsep}{.3em}
+    \scriptsize
+    \begin{tabular}{clcl}
+    \color{e-count-for}{$\blacksquare$} & Cantidad expresada como fórmula cerrada
+      & \color{ne-proof}{$\blacksquare$} & No existencia demostrada
+    \end{tabular}
+  }
+\end{frame}
+
+% ----------------------------------------------------------------------------
+
+\begin{frame}{Una familia maravillosa}
+
+\begin{itemize}
+  \item Nos interesa dar métodos para construir secuencias maravillosas anidadas.
+  \item Vamos a definir una familia de secuencias maravillosas anidadas
+  que son sencillas de construir.
+\end{itemize}
+
+\begin{block}{Definición}
+  Una secuencia maravillosa anidada es \emph{autosimilar} si consiste en
+  la repetición de un único átomo.
+\end{block}
+
+\begin{example}
+  {[[ Agregar ejemplo ]]}
+\end{example}
+
+\begin{itemize}
+  \item ¿Para qué valores de $(n,m)$ existen secuencias autosimilares? \\ ¿Cuántas son?
+\end{itemize}
+
+\end{frame}
+
+% ----------------------------------------------------------------------------
+
+\begin{frame}{Dos observaciones clave}
+
+¿Qué pasa si pegamos una secuencia maravillosa consigo misma?
+
+\bigskip
+
+\begin{block}{Observación 1}
+  Si $w$ es una secuencia $(n,m)$-maravillosa, entonces
+  $w^k$ es una secuencia $(n,km)$-maravillosa.
+\end{block}
+
+\begin{example}
+  {[[ Agregar ejemplo ]]}
+\end{example}
+
+\end{frame}
+
+% ----------------------------------------------------------------------------
+
+\begin{frame}{Dos observaciones clave}
+
+¿Qué pasa si tomamos una secuencia maravillosa \\
+y miramos patrones más cortos?
+
+\bigskip
+
+\begin{block}{Observación 2}
+  Una secuencia $(n,m)$-maravillosa también es
+  $(n-k,b^km)$-maravillosa para todo $0 \leq k < n$.
+\end{block}
+
+\begin{example}
+  {[[ Agregar ejemplo ]]}
+\end{example}
+
+\end{frame}
+
+% ----------------------------------------------------------------------------
+
+\begin{frame}{Nuestro resultado}
+
+  
+\end{frame}
+
+% ----------------------------------------------------------------------------
+
+\begin{frame}{}
+
+  \scriptsize
+   
+  \setlength{\tabcolsep}{.5em}
+  \begin{tabularx}{\textwidth}{|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|}
+    \hline
+    \diagbox[width=2em]{$n$}{$m$} & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16  \\
+    \hline
+    1 & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A/R & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A \\
+    \hline
+    2 & & A & & A & & A & & A & & A & & A & & A & & A \\
+    \hline
+    3 & \cellcolor{ne-proof} & & & A & & & & A & & & & A & & & & A \\
+    \hline
+    4 & \cellcolor{ne-proof} & & & & & & & A & & & & & & & & A \\
+    \hline
+    5 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & & & & & & & & & & & & & & A \\
+    \hline
+    6 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & & & & & & & & & & & & & & \\
+    \hline
+    7 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & & & & & & & & & & & & & \\
+    \hline
+    8 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & & & & & & & & & & & & & \\
+    \hline
+    9 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & & & & & & & & & & & & \\
+    \hline
+    10 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & & & & & & & & & & & & \\
+    \hline
+    11 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & & & & & & & & & & & \\
+    \hline
+    12 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & & & & & & & & & & & \\
+    \hline
+    13 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & & & & & & & & & & \\
+    \hline
+    14 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & & & & & & & & & & \\
+    \hline
+    15 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & & & & & & & & & \\
+    \hline
+    16 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & & & & & & & & & \\
+    \hline
+  \end{tabularx} \vspace{1em} \\
+  
+  {
+    \setlength{\tabcolsep}{.3em}
+    \scriptsize
+    \begin{tabular}{clcl}
+    \color{e-count-for}{$\blacksquare$} & Cantidad expresada como fórmula cerrada
+      & \color{ne-proof}{$\blacksquare$} & No existencia demostrada \\
+    A & Método de secuencias autosimilares
+    \end{tabular}
+  }
+\end{frame}
+
+% ----------------------------------------------------------------------------
+
+\begin{frame}{Estudio computacional}
+
+\begin{itemize}
+  \item Exploración computacional generando exhaustivamente \\ todas las secuencias $(n,m)$-maravillosas anidadas.
+  \item Técnica \textit{generate and test}:
+  \begin{enumerate}
+    \item Fijar $m$.
+    \item Generar los $m$-átomos ($n=1$).
+    \item Iterar sobre $n$, filtrando las concatenaciones \\ de pares generados
+    en el paso anterior.
+  \end{enumerate}
+  \item El espacio de búsqueda crece muy rápidamente, \\ solo es posible
+  examinar valores chicos de $n$ y $m$.
+\end{itemize}
+
+\end{frame}
+
+% ----------------------------------------------------------------------------
+
+\begin{frame}{Resultados (alfabeto de dos símbolos)}
+\wider{
+  \small
+  \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+    \hline
+    \diagbox[width=2.5em]{$n$}{$m$}
+    & 1 & 2  & 3     & 4       & 5          & 6       & 7         & 8          \\
+    \hline
+    1 & 2 & 6  & 20    & 70      & 252        & 924     & 3.432     & 12.870     \\ \hline
+    2 & 2 & 16 & 156   & 1.720   & 20.420     & 254.744 & 3.292.632 & 43.705.512 \\
+    \hline
+    3 & 0 & 16 & 1.344 & 237.504 & 26.647.952 & -       & -         & -          \\
+    \hline
+    4 & 0 & 0  & 1.568 & -       & -          & -       & -         & -          \\
+    \hline
+    5 & 0 & 0  & 0     & -       & -          & -       & -         & -          \\
+    \hline
+  \end{tabular}
+}
+
+\bigskip
+
+\begin{itemize}
+  \item El espacio de búsqueda crece muy rápidamente.
+  \item Solo fue posible estudiar valores pequeños de $n$ y $m$.
+  \item Para valores de $n$ chicos respecto a $m$ \\ las secuencias son abundantes.
+  \item Para $m = 1,2,3$ no existen secuencias con $n > m+1$.
+\end{itemize}
+
+\end{frame}
+
+
+% ----------------------------------------------------------------------------
+
+\begin{frame}{}
+
+  \scriptsize
+   
+  \setlength{\tabcolsep}{.5em}
+  \begin{tabularx}{\textwidth}{|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|}
+    \hline
+    \diagbox[width=2em]{$n$}{$m$} & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16  \\
+    \hline
+    1 & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A \\
+    \hline
+    2 & \cellcolor{e-count-emp} & \cellcolor{e-count-emp} A & \cellcolor{e-count-emp} & \cellcolor{e-count-emp} A & \cellcolor{e-count-emp} & \cellcolor{e-count-emp} A & \cellcolor{e-count-emp} & \cellcolor{e-count-emp} A & & A & & A & & A & & A \\
+    \hline
+    3 & \cellcolor{ne-proof} & \cellcolor{e-count-emp} & \cellcolor{e-count-emp} & \cellcolor{e-count-emp} A & \cellcolor{e-count-emp} & \cellcolor{e-examples} & \cellcolor{e-examples} & \cellcolor{e-examples} A & & & & A & & & & A \\
+    \hline
+    4 & \cellcolor{ne-proof} & \cellcolor{ne-empir} & \cellcolor{e-count-emp} & \cellcolor{e-examples} & \cellcolor{e-examples} & \cellcolor{e-examples} & \cellcolor{e-examples} & \cellcolor{e-examples} A & & & & & & & & A \\
+    \hline
+    5 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-empir} & \cellcolor{e-examples} & & & & \cellcolor{e-examples} & & & & & & & & A \\
+    \hline
+    6 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-empir} & & & & & \cellcolor{e-examples} & & & & & & & & \\
+    \hline
+    7 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & & & & & \cellcolor{e-examples} & & & & & & & & \\
+    \hline
+    8 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & & & & & \cellcolor{e-examples} & & & & & & & & \\
+    \hline
+    9 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & & & & & & & & & & & & \\
+    \hline
+    10 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & & & & & & & & & & & & \\
+    \hline
+    11 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & & & & & & & & & & & \\
+    \hline
+    12 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & & & & & & & & & & & \\
+    \hline
+    13 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & & & & & & & & & & \\
+    \hline
+    14 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & & & & & & & & & & \\
+    \hline
+    15 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & & & & & & & & & \\
+    \hline
+    16 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & & & & & & & & & \\
+    \hline
+  \end{tabularx} \vspace{1em} \\
+  
+  {
+    \setlength{\tabcolsep}{.3em}
+    \scriptsize
+    \begin{tabular}{clcl}
+    \color{e-count-for}{$\blacksquare$} & Cantidad expresada como fórmula cerrada
+      & \color{ne-proof}{$\blacksquare$} & No existencia demostrada \\
+    \color{e-count-emp}{$\blacksquare$} & Cantidad determinada experimentalmente
+      & \color{ne-empir}{$\blacksquare$} & No existencia determinada experiment. \\
+    \color{e-examples}{$\blacksquare$}  & Ejemplos no perfectos hallados \\
+    A & Método de secuencias autosimilares
+    \end{tabular}
+  }
+\end{frame}
+
+% ----------------------------------------------------------------------------
+
+\begin{frame}{Rotando secuencias perfectas anidadas}
+
+\begin{itemize}
+  \item Para los valores que no pudimos explorar de forma exhaustiva, \\ buscamos formas de generar ejemplos.
+  \item Rotando la mitad de secuencias perfectas anidadas se puede \\
+  generar secuencias maravillosas anidadas que no son perfectas.
+\end{itemize}
+
+\begin{examples}
+  \begin{itemize}
+		\item $m = 2$, $n = 2$:
+		\[
+			\begin{array}{c}
+				1001\; \underline{0011} \\
+				\downarrow \\
+				1001\; \underline{1001}
+			\end{array}
+		\]
+		\item $m = 4$, $n = 4$:
+		\footnotesize
+		\[
+			\begin{array}{c}
+				10100101\;00001111\;01101001\;11000011\;\underline{0010110\;11000011\;11110000\;101001011} \\
+				\downarrow \\
+				10100101\;00001111\;01101001\;11000011\;\underline{1001011\;01100001\;11111000\;010100101}
+			\end{array}
+		\]
+  \end{itemize}
+\end{examples}
+  
+\end{frame}
+
+
+% ----------------------------------------------------------------------------
+
+\begin{frame}{Submuestreando el espacio de búsqueda}
+
+  \begin{itemize}
+    \item Podemos generar ejemplos de secuencias maravillosas anidadas \\
+    con el método de \textit{generate and test} explorando solo una parte \\
+    del espacio de búsqueda.
+    \item Se consiguieron ejemplos para:
+    \begin{itemize}
+      \item $m = 4$; $n = 4, 5$.
+      \item $m = 5$; $n = 4, 5$.
+      \item $m = 6$; $n = 3, 4, 5$.
+      \item $m = 7$; $n = 3, 4, 5$.
+    \end{itemize}
+  \end{itemize}
+    
+  \end{frame}
+
+% ----------------------------------------------------------------------------
+
+\begin{frame}{}
+
+  \scriptsize
+   
+  \setlength{\tabcolsep}{.5em}
+  \begin{tabularx}{\textwidth}{|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|}
+    \hline
+    \diagbox[width=2em]{$n$}{$m$} & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16  \\
+    \hline
+    1 & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A/R & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A/R & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A/R & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A/R \\
+    \hline
+    2 & \cellcolor{e-count-emp} & \cellcolor{e-count-emp} A/R & \cellcolor{e-count-emp} & \cellcolor{e-count-emp} A/R & \cellcolor{e-count-emp} & \cellcolor{e-count-emp} A & \cellcolor{e-count-emp} & \cellcolor{e-count-emp} A/R & & A & & A & & A & & A \\
+    \hline
+    3 & \cellcolor{ne-proof} & \cellcolor{e-count-emp} & \cellcolor{e-count-emp} & \cellcolor{e-count-emp} A/R & \cellcolor{e-count-emp} & \cellcolor{e-examples} & \cellcolor{e-examples} & \cellcolor{e-examples} A/R & & & & A & & & & A \\
+    \hline
+    4 & \cellcolor{ne-proof} & \cellcolor{ne-empir} & \cellcolor{e-count-emp} & \cellcolor{e-examples} R & \cellcolor{e-examples} & \cellcolor{e-examples} & \cellcolor{e-examples} & \cellcolor{e-examples} A/R & & & & & & & & A \\
+    \hline
+    5 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-empir} & \cellcolor{e-examples} & & & & \cellcolor{e-examples} R & & & & & & & & A \\
+    \hline
+    6 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-empir} & & & & & \cellcolor{e-examples} R & & & & & & & & \\
+    \hline
+    7 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & & & & & \cellcolor{e-examples} R & & & & & & & & \\
+    \hline
+    8 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & & & & & \cellcolor{e-examples} R & & & & & & & & \\
+    \hline
+    9 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & & & & & & & & & & & & \\
+    \hline
+    10 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & & & & & & & & & & & & \\
+    \hline
+    11 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & & & & & & & & & & & \\
+    \hline
+    12 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & & & & & & & & & & & \\
+    \hline
+    13 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & & & & & & & & & & \\
+    \hline
+    14 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & & & & & & & & & & \\
+    \hline
+    15 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & & & & & & & & & \\
+    \hline
+    16 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & & & & & & & & & \\
+    \hline
+  \end{tabularx} \vspace{1em} \\
+  
+  {
+    \setlength{\tabcolsep}{.3em}
+    \scriptsize
+    \begin{tabular}{clcl}
+    \color{e-count-for}{$\blacksquare$} & Cantidad expresada como fórmula cerrada
+      & \color{ne-proof}{$\blacksquare$} & No existencia demostrada \\
+    \color{e-count-emp}{$\blacksquare$} & Cantidad determinada experimentalmente
+      & \color{ne-empir}{$\blacksquare$} & No existencia determinada experiment. \\
+    \color{e-examples}{$\blacksquare$}  & Ejemplos no perfectos hallados \\
+    A & Método de secuencias autosimilares
+      & R & Ejemplos rotando secuencias perfectas
+    \end{tabular}
+  }
+\end{frame}
+
+% ----------------------------------------------------------------------------
+
+\begin{frame}{Estimando la cantidad de secuencias}
+
+\begin{itemize}
+  \item ¿Qué pasa si solo examinamos una parte \\ del espacio de búsqueda?
+  \item Consideremos $m = 8$.
+  \begin{itemize}
+    \item Cantidad de secuencias para $n=1$: $12.870$.
+    \item Espacio de búsqueda para $n=2$: $(12.870)^2 = 165.636.900$.
+    \item Cantidad de secuencias para $n=2$: $43.705.512$ (\textbf{26,39\%}).
+    \item Examinando solo $1.000.000$ de pares: $263.734$ (\textbf{26,37\%}) \\
+      (promedio de 10 corridas).
+  \end{itemize}
+  \item Idea: podemos aproximar la cantidad de secuencias \\ submuestreando el
+  espacio de búsqueda.
+\end{itemize}  
+
+\end{frame}
+
+% ----------------------------------------------------------------------------
+
+\begin{frame}{Resultados de la estimación ($m=8$)}
+
+\small
+\wider{
+\begin{tabularx}{\textwidth}{|c|C|C|C|C|C|C|}
+  \hline
+  $n$ & Tamaño estimado del espacio de búsqueda & Pares examinados & Secuencias maravillosas anidadas halladas & Proporción & Cant. estimada de sec. marav. anidadas \\
+  \hline
+  1 & - & - & 12.870 & - & 12.870 \\
+  \hline
+  2 & 165.636.900 & 165.636.900 & 43.705.512 & $26.39\%$ & 43.705.512 \\
+  \hline
+  3 & $1.91 \times 10^{15}$ & 1.000.000.000 & 46.201.550 & $4.620\%$ & $8.83 \times 10^{13}$ \\
+  \hline
+  4 & $7.79 \times 10^{27}$ & 1.000.000.000 & 1.710.968 & $0.1711\%$ & $1.33 \times 10^{25}$ \\
+  \hline
+  5 & $1.78 \times 10^{50}$ & 1.000.000.000 & 2.072 & $0.00000207\%$ & $3.68 \times 10^{44}$ \\
+  \hline
+  6 & $1.35 \times 10^{89}$ & 4.293.184 & 0 & $0\%$ & - \\
+  \hline
+\end{tabularx}
+}
+
+\medskip
+
+\begin{itemize}
+  \item Los resultados podrían estar sesgados a medida que se incrementa $n$.
+  \item Aún así, todo indica que la cantidad de secuencias maravillosas anidadas es enorme.
+\end{itemize}
+
+\end{frame}
+
+
+% ----------------------------------------------------------------------------
+
+\begin{frame}{Maravillosas, pero no perfectas}
+
+  \begin{tikzpicture}[scale=.8]
+		\begin{axis}[
+			x tick label style={
+				/pgf/number format/1000 sep=},
+			enlargelimits=0.05,
+			legend style={at={(1.1,1)},
+				anchor=north west},
+			legend cell align={left},
+			ybar,
+			enlarge x limits={0.15},
+      ymode=log,
+      ylabel={Cantidad de secuencias ($m = 8$)},
+			xlabel=$n$,
+		]
+		\addplot 
+			coordinates {(1,12870) (2,43705512) (3,8.83e13)
+			(4,1.33e25) (5,3.68e44)};
+		\addplot 
+			coordinates {(1,256) (2,512) (3,1024)
+			(4,2048) (5,4096)};
+		\legend{Maravillosas anidadas (est.),Perfectas anidadas}
+		\end{axis}
+  \end{tikzpicture}
+  
+  \vspace{-.5em}
+
+  \begin{itemize}
+    \item La cantidad estimada de secuencias maravillosas anidadas es muy superior a la de perfectas anidadas.
+    \item Resultados similares para $m = 4, 5, 6$.
+  \end{itemize}
+  
+\end{frame}
+
+% ----------------------------------------------------------------------------
+
+\begin{frame}{Conjeturas}
+
+A partir de los resultados obtenidos, planteamos las \\ siguientes conjeturas.
+
+\begin{itemize}
+	\item \textbf{Conjetura 1}. Para todo $(n,m)$ con $n > m + 1$ no existen
+		secuencias $(n,m)$-maravillosas anidadas.
+	\item \textbf{Conjetura 2}. Para todo $(n,m)$ con $n \leq m + 1$ existen
+	secuencias $(n,m)$-maravillosas anidadas. Además, la cantidad de estas
+	secuencias es considerablemente mayor que la cantidad de secuencias
+	$(n,m)$-perfectas anidadas.
+\end{itemize}
+
+\end{frame}
+
+% ----------------------------------------------------------------------------
+
+\begin{frame}{}
+
+  \scriptsize
+   
+  \setlength{\tabcolsep}{.5em}
+  \begin{tabularx}{\textwidth}{|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|}
+    \hline
+    \diagbox[width=2em]{$n$}{$m$} & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16  \\
+    \hline
+    1 & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A/R & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A/R & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A/R & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A/R \\
+    \hline
+    2 & \cellcolor{e-count-emp} & \cellcolor{e-count-emp} A/R & \cellcolor{e-count-emp} & \cellcolor{e-count-emp} A/R & \cellcolor{e-count-emp} & \cellcolor{e-count-emp} A & \cellcolor{e-count-emp} & \cellcolor{e-count-emp} A/R & & A & & A & & A & & A \\
+    \hline
+    3 & \cellcolor{ne-proof} & \cellcolor{e-count-emp} & \cellcolor{e-count-emp} & \cellcolor{e-count-emp} A/R & \cellcolor{e-count-emp} & \cellcolor{e-examples} & \cellcolor{e-examples} & \cellcolor{e-examples} A/R & & & & A & & & & A \\
+    \hline
+    4 & \cellcolor{ne-proof} & \cellcolor{ne-empir} & \cellcolor{e-count-emp} & \cellcolor{e-examples} R & \cellcolor{e-examples} & \cellcolor{e-examples} & \cellcolor{e-examples} & \cellcolor{e-examples} A/R & & & & & & & & A \\
+    \hline
+    5 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-empir} & \cellcolor{e-examples} & & & & \cellcolor{e-examples} R & & & & & & & & A \\
+    \hline
+    6 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-empir} & \cellcolor{ne-conjc} & & & & \cellcolor{e-examples} R & & & & & & & & \\
+    \hline
+    7 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & & & \cellcolor{e-examples} R & & & & & & & & \\
+    \hline
+    8 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & & \cellcolor{e-examples} R & & & & & & & & \\
+    \hline
+    9 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & & & & & & & & & \\
+    \hline
+    10 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & & & & & & & & \\
+    \hline
+    11 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & & & & & & & \\
+    \hline
+    12 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & & & & & & \\
+    \hline
+    13 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & & & & & \\
+    \hline
+    14 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & & & & \\
+    \hline
+    15 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & & & \\
+    \hline
+    16 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & \cellcolor{ne-conjc} & & \\
+    \hline
+  \end{tabularx} \vspace{1em} \\
+  
+  {
+    \setlength{\tabcolsep}{.3em}
+    \scriptsize
+    \begin{tabular}{clcl}
+    \color{e-count-for}{$\blacksquare$} & Cantidad expresada como fórmula cerrada
+      & \color{ne-proof}{$\blacksquare$} & No existencia demostrada \\
+    \color{e-count-emp}{$\blacksquare$} & Cantidad determinada experimentalmente
+      & \color{ne-empir}{$\blacksquare$} & No existencia determinada experiment. \\
+    \color{e-examples}{$\blacksquare$}  & Ejemplos no perfectos hallados \\
+    A & Método de secuencias autosimilares
+      & R & Ejemplos rotando secuencias perfectas \\
+    $\square$  & Se conjetura que existen secuencias
+      & \color{ne-conjc}{$\blacksquare$}  & Se conjetura que no existen secuencias \\
+    \end{tabular}
+  }
+\end{frame}
+
+% ----------------------------------------------------------------------------
+
+\begin{frame}{Una aplicación}
+
+  \begin{columns}
+    \column{.6\textwidth}
+  
+    \begin{itemize}
+      \item Un número real es \emph{normal} en base $b$ si en su expansión en esta base  todos los bloques de dígitos de igual longitud aparecen con la misma frecuencia asintótica.
+      \item La noción fue definida por Émile Borel en 1909.
+      \item Casi todos los números son normales, pero solo se conocen ejemplos por construcción.
+    \end{itemize}
+
+    \column{.4\textwidth}
+    \begin{figure}
+      \includegraphics[width=\textwidth]{babel.jpg}
+    \end{figure}
+  \end{columns}
+
+\end{frame}
+
+% ----------------------------------------------------------------------------
+
+\begin{frame}{Normalidad y distribución uniforme}
+
+  \begin{itemize}
+    \item Alternativamente, un número $\alpha$ es normal en base $b$ si
+    la sucesión de sus mantisas
+    \[ \lbrace x_n \rbrace_{n \geq 0} \]
+    está distribuida uniformemente módulo 1.
+  \end{itemize}
 
 \end{frame}
 
