@@ -694,12 +694,12 @@ para la que daremos un método constructivo; se trata de las que llamamos
 	repeticiones de una misma secuencia de longitud $bm$.
 \end{definition}
 
-\begin{example}
-	La secuencia \[ 01110110\ 01110110\ 01110110\ 01110110 \] es
+\begin{examples}
+	La secuencia \[ 01110110\;01110110\;01110110\;01110110 \] es
 	$(3,4)$-autosimilar.
-	La secuencia \[ 110000101011 \ 110000101011 \] es $(2,6)$-autosimilar; además,
+	La secuencia \[ 110000101011\;110000101011 \] es $(2,6)$-autosimilar; además,
 	es $(2,6)$-maravillosa anidada.
-\end{example}
+\end{examples}
 
 Nos interesa estudiar las secuencias $(n,m)$-maravillosas anidadas que, además,
 son autosimilares.
@@ -726,19 +726,16 @@ construcción.
 		\item El $4$-átomo $01011100$ es $(1,4)$, $(2,2)$ y
 		      $(3,1)$-maravilloso.
 		      Por lo tanto, las siguientes tres secuencias son $(1,4)$, $(2,4)$ y
-		      $(3,4)$-maravillosas anidadas, respectivamente.
-		      \[ 01011100; \qquad 01011100\ 01011100; \qquad 01011100\
-			      01011100\ 01011100\ 01011100.
-		      \]
+		      $(3,4)$-maravillosas anidadas, respectivamente:
+					\[ 01011100; \qquad 01011100\;01011100;
+						\qquad 01011100\;01011100\;01011100\;01011100. \]
 		\item El $4$-átomo $10001101$ es $(1,4)$ y $(2,2)$-maravilloso,
 		      pero no $(3,1)$-maravilloso.
 		      Por lo tanto, las siguientes dos secuencias son $(3,1)$ y $(3,2)$-maravillosas
-		      anidadas, respectivamente.
-		      \[ 10001101; \qquad 10001101\ 10001101,
-		      \]
+		      anidadas, respectivamente:
+		      \[ 10001101; \qquad 10001101\;10001101, \]
 		      pero la secuencia
-		      \[ 10001101\ 10001101\ 10001101\
-			      10001101 \]
+		      \[ 10001101\;10001101\;10001101\;10001101 \]
 		      no es $(3,4)$-maravillosa anidada.
 	\end{itemize}
 \end{examples}
@@ -753,7 +750,7 @@ demostrar la Proposición \ref{proposition:autosimilar-nm-characterization}.
 \end{lemma}
 
 \begin{example}
-	La secuencia $(3,4)$-maravillosa \[ 00001111\ 00101011\ 00101101\ 11100010, \]
+	La secuencia $(3,4)$-maravillosa \[ 00001111\;00101011\;00101101\;11100010, \]
 	es también $(2,8)$ y $(1,16)$-maravillosa.
 \end{example}
 
@@ -892,7 +889,7 @@ permite asegurar también que estas secuencias no son secuencias perfefctas.
 \begin{proof}
 	Dado que la secuencia se construye repitiendo al menos dos veces una misma
 	secuencia de longitud $bm$, la palabra de longitud $n$ que aparece en la
-	posición $0$ de la secuencia aparece nuevamente en la posición $bm$.
+	posición $1$ de la secuencia aparece nuevamente en la posición $bm + 1$.
 	Esto contradice la definición de secuencia perfecta, ya que cada aparición de
 	dicha palabra debería comenzar en una posición distinta módulo $m$.
 \end{proof}

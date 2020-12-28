@@ -7,25 +7,27 @@
 \uselanguage{Spanish}
 \languagepath{Spanish}
 
-\RequirePackage{lmodern}
-\RequirePackage{libertineRoman}
-\RequirePackage{biolinum}
-\RequirePackage{eulervm}
-\RequirePackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{libertineRoman}
+\usepackage{biolinum}
+\usepackage{eulervm}
+\usepackage[T1]{fontenc}
+\usepackage[normalem]{ulem}
 
-\RequirePackage{amsmath,amssymb,amsthm,mathtools,mathabx}
-\RequirePackage[italic,nolessnomore]{mathastext}
+\usepackage{amsmath,amssymb,amsthm,mathtools,mathabx}
+\usepackage[italic,nolessnomore]{mathastext}
 
 \usepackage{tikz}
 \usetikzlibrary{arrows}
 \usetikzlibrary{babel}
+\usetikzlibrary{overlay-beamer-styles}
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.9}
 \pgfkeys{/pgf/number format/1000 sep={$.$}}
 \pgfkeys{/pgf/number format/dec sep={$,$}}
 
-\RequirePackage{multicol}
-\RequirePackage{tabularx}
+\usepackage{multicol}
+\usepackage{tabularx}
 \newcolumntype{C}{>{\centering\arraybackslash}X}
 \usepackage{diagbox}
 
@@ -117,7 +119,7 @@
 
 % ----------------------------------------------------------------------------
 
-\begin{frame}{Collares y secuencias de De~Bruijn}
+\begin{frame}<-10>{Collares y secuencias de De~Bruijn}
 
 \begin{columns}
   \column{.4\textwidth - 1cm}
@@ -140,16 +142,29 @@
     Tomemos $n = 3$. \vspace{-.5em}
     
     \begin{multicols}{2}
-      \begin{tabular}{lclc}
-        000 & & 100 & \\
-        001 & & 101 & \\
-        010 & & 110 & \\ 
-        011 & & 111 & \\
+      \begin{tabular}{ll}
+        \alt<4->{\alt<4>{\textcolor{red}{000}}{\sout{000}}}{000} &
+        \alt<3->{\alt<3>{\textcolor{red}{100}}{\sout{100}}}{100} \\
+        \alt<5->{\alt<5>{\textcolor{red}{001}}{\sout{001}}}{001} &
+        \alt<7->{\alt<7>{\textcolor{red}{101}}{\sout{101}}}{101} \\
+        \alt<6->{\alt<6>{\textcolor{red}{010}}{\sout{010}}}{010} &
+        \alt<2->{\alt<2>{\textcolor{red}{110}}{\sout{110}}}{110} \\ 
+        \alt<8->{\alt<8>{\textcolor{red}{011}}{\sout{011}}}{011} &
+        \alt<9->{\alt<9>{\textcolor{red}{111}}{\sout{111}}}{111} \\
       \end{tabular}
       \columnbreak
       \large{
-        $\neck{11000101}$
-        }
+        $\neck{
+          \alt<2,8-9>{\textcolor{red}{\underline{1}}}{1}
+          \alt<2-3,9>{\textcolor{red}{\underline{1}}}{1}
+          \alt<2-4>{\textcolor{red}{\underline{0}}}{0}
+          \alt<3-5>{\textcolor{red}{\underline{0}}}{0}
+          \alt<4-6>{\textcolor{red}{\underline{0}}}{0}
+          \alt<5-7>{\textcolor{red}{\underline{1}}}{1}
+          \alt<6-8>{\textcolor{red}{\underline{0}}}{0}
+          \alt<7-9>{\textcolor{red}{\underline{1}}}{1}
+        }$
+      }
     \end{multicols}
   \end{example}    
 \end{columns}
@@ -196,9 +211,9 @@
     (00) edge [loop above] node {000} (00)
         edge [bend left] node {001} (01)
     (01) edge [bend left] node {011} (11)
-        edge [bend left] node {010} (10)
+        edge [bend right] node {010} (10)
     (10) edge [bend left] node {100} (00)
-        edge [bend left] node {101} (01)
+        edge [bend right] node {101} (01)
     (11) edge [bend left] node {110} (10)
         edge [loop below] node {111} (11);
     \end{tikzpicture}
@@ -253,7 +268,7 @@ Los collares de De~Bruijn de orden $n$ son:
 
 % ----------------------------------------------------------------------------
 
-\begin{frame}{Digrafos de De~Bruijn}
+\begin{frame}<-10>{Digrafos de De~Bruijn}
 
 \begin{example}
 \centering
@@ -271,14 +286,14 @@ Los collares de De~Bruijn de orden $n$ son:
       \node[main node] (11) [below right of=10] {11};
       
       \draw
-      (00) edge [loop above] node {000} (00)
-          edge [bend left] node {001} (01)
-      (01) edge [bend left] node {011} (11)
-          edge [bend left] node {010} (10)
-      (10) edge [bend left] node {100} (00)
-          edge [bend left] node {101} (01)
-      (11) edge [bend left] node {110} (10)
-          edge [loop below] node {111} (11);
+      (00) edge [loop above,alt=<4->{red}{black}] node {000} (00)
+          edge [bend left,alt=<5->{red}{black}] node {001} (01)
+      (01) edge [bend left,alt=<8->{red}{black}] node {011} (11)
+          edge [bend right,alt=<6->{red}{black}] node {010} (10)
+      (10) edge [bend left,alt=<3->{red}{black}] node {100} (00)
+          edge [bend right,alt=<7->{red}{black}] node {101} (01)
+      (11) edge [bend left,alt=<2->{red}{black}] node {110} (10)
+          edge [loop below,alt=<9->{red}{black}] node {111} (11);
       \end{tikzpicture}
     \end{tabular} &
   
@@ -289,15 +304,15 @@ Los collares de De~Bruijn de orden $n$ son:
       
       \node[style={scale=1.4}] (name) at (-2.2,1) {$G_3$};
   
-      \node[main node] (000) {000};
-      \node[main node] (010) [below of=000] {010};
-      \node[main node] (101) [below of=010] {101};
-      \node[main node] (111) [below of=101] {111};
+      \node[main node,alt=<4->{red}{black}] (000) {000};
+      \node[main node,alt=<6->{red}{black}] (010) [below of=000] {010};
+      \node[main node,alt=<7->{red}{black}] (101) [below of=010] {101};
+      \node[main node,alt=<9->{red}{black}] (111) [below of=101] {111};
       
-      \node[main node] (001) [right of=010,yshift=.35cm] {001};
-      \node[main node] (100) [left of=010,yshift=.35cm] {100};
-      \node[main node] (011) [right of=101,yshift=-.35cm] {011};
-      \node[main node] (110) [left of=101,yshift=-.35cm] {110};
+      \node[main node,alt=<5->{red}{black}] (001) [right of=010,yshift=.35cm] {001};
+      \node[main node,alt=<3->{red}{black}] (100) [left of=010,yshift=.35cm] {100};
+      \node[main node,alt=<8->{red}{black}] (011) [right of=101,yshift=-.35cm] {011};
+      \node[main node,alt=<2->{red}{black}] (110) [left of=101,yshift=-.35cm] {110};
       
       \draw
       (000) edge [loop above] node {0000} (000)
@@ -322,7 +337,16 @@ Los collares de De~Bruijn de orden $n$ son:
 
   \bigskip
   \large{
-    $\neck{11000101}$
+    $\neck{
+      \alt<2,8-9>{\textcolor{red}{\underline{1}}}{1}
+      \alt<2-3,9>{\textcolor{red}{\underline{1}}}{1}
+      \alt<2-4>{\textcolor{red}{\underline{0}}}{0}
+      \alt<3-5>{\textcolor{red}{\underline{0}}}{0}
+      \alt<4-6>{\textcolor{red}{\underline{0}}}{0}
+      \alt<5-7>{\textcolor{red}{\underline{1}}}{1}
+      \alt<6-8>{\textcolor{red}{\underline{0}}}{0}
+      \alt<7-9>{\textcolor{red}{\underline{1}}}{1}
+    }$
   }
 \end{example}
 
@@ -355,14 +379,18 @@ Los collares de De~Bruijn de orden $n$ son:
     Una \emph{secuencia perfecta} es un corte de un collar perfecto.
   \end{definition}
   
-  \begin{example}
-    {[[ Agregar ejemplo ]]}
-  \end{example}
+  \begin{examples}
+    \begin{itemize}
+      \item Las secuencias de De Bruijn de orden $n$ son $(n,1)$-perfectas.
+      \item La siguiente una secuencia $(2,4)$-perfecta: \vspace{-.5em}
+      \[ 0000111001011011. \]
+    \end{itemize}
+  \end{examples}
 
   \begin{itemize}
     \item Las secuencias perfectas de orden $(n,m)$ tienen longitud $mb^n$.
     \item Alvarez, Becher, Ferrari y Yuhjtman las caracterizaron como ciclos
-    en los \emph{grafos astutos} y dieron una fórmula para su cantidad.
+    en los \emph{grafos astutos} y calcularon su cantidad.
   \end{itemize}
   
 \end{frame}
@@ -381,9 +409,20 @@ Los collares de De~Bruijn de orden $n$ son:
   \end{itemize}
 \end{definition}
 
-\begin{example}
-{[[ Agregar ejemplo ]]}
-\end{example}
+\begin{examples}
+  \vspace{-1.2em}
+  \begin{multicols}{2}
+    \[ 00001110 \; 01011011 \]
+    \emph{no} es una secuencia \\ $(2,4)$-perfecta anidada.
+
+    \columnbreak
+
+    \[ 00001110 \; 01011011 \]
+    es una secuencia \\ $(2,4)$-perfecta anidada.
+  \end{multicols}
+\end{examples}
+
+\medskip
 
 Becher y Carton dieron un método matricial para construirlas siempre
 que $b$ sea primo, $m$ una potencia de $2$ y $n \leq m$.
@@ -402,7 +441,12 @@ que $b$ sea primo, $m$ una potencia de $2$ y $n \leq m$.
 \end{definition}
 
 \begin{examples}
-  {[[ Agregar ejemplo ]]}
+  \begin{itemize}
+  \item La siguiente secuencia es $(3,3)$-maravillosa: \vspace{-.5em}
+  \[ 000111110110110100100100. \]
+  \item Las secuencias perfectas de orden $(n,m)$ \\
+  son maravillosas de orden $(n,m)$.
+  \end{itemize}
 \end{examples}
 
 \end{frame}
@@ -484,9 +528,10 @@ que $b$ sea primo, $m$ una potencia de $2$ y $n \leq m$.
   \end{itemize}
 \end{definition}
 
-\begin{examples}
-  {[[ Agregar ejemplo ]]}
-\end{examples}
+\begin{example}
+  La siguiente secuencia es $(3,3)$-maravillosa anidada: \vspace{-.5em}
+  \[ 000111\;011001\;000111\;101010. \]
+\end{example}
 
 \begin{alertblock}{Problema a resolver}
   ¿Existen secuencias maravillosas anidadas que no sean perfectas anidadas? 
@@ -555,6 +600,9 @@ que $b$ sea primo, $m$ una potencia de $2$ y $n \leq m$.
   Si definimos
   \[ w = 01\dots(b-1), \]
   la secuencia $w^m$ no es $(1,m)$-perfecta anidada.
+  \item Toda secuencia $(n,m)$-maravillosa anidada es la concatenación de
+  $b^{n-1}$ secuencias $(1,m)$-maravillosas.
+  \item En adelante las llamaremos \emph{$m$-átomos}.
 \end{itemize}
 
 \end{frame}
@@ -712,9 +760,11 @@ que $b$ sea primo, $m$ una potencia de $2$ y $n \leq m$.
   la repetición de un único átomo.
 \end{block}
 
-\begin{example}
-  {[[ Agregar ejemplo ]]}
-\end{example}
+\begin{examples}
+  \begin{itemize}
+    \item La siguiente secuencia es autosimilar y $(2,6)$-maravillosa anidada \[ 110000101011\;110000101011. \]
+  \end{itemize}
+\end{examples}
 
 \begin{itemize}
   \item ¿Para qué valores de $(n,m)$ existen secuencias maravillosas anidadas autosimilares? ¿Cuántas son?
@@ -724,44 +774,43 @@ que $b$ sea primo, $m$ una potencia de $2$ y $n \leq m$.
 
 % ----------------------------------------------------------------------------
 
-\begin{frame}{Dos observaciones clave (1/2)}
+\begin{frame}{Dos observaciones clave}
 
-\begin{itemize}
-  \item ¿Qué pasa si pegamos una secuencia maravillosa consigo misma?
-\end{itemize}
+\begin{columns}
+  \column[t]{.5\textwidth}
 
-\bigskip
+  \begin{block}{Observación 1}
+    Si $w$ es una secuencia maravillosa de orden $(n,m)$, entonces \\
+    $w^k$ es una secuencia maravillosa de orden $(n,km)$.
+  \end{block}
+  
+  \begin{example}
+    Como \vspace{-.4em}
+    \[ 00110011 \vspace{-.4em} \]
+    es maravillosa de orden $(2,2)$, \vspace{-.4em}
+    \[ 00110011\;00110011 \vspace{-.4em} \]
+    es maravillosa de orden $(2,4)$, \vspace{-.4em}
+    \[ 00110011\;00110011\;00110011 \vspace{-.4em} \]
+    es maravillosa de orden $(2,6)$, etc.
 
-\begin{block}{Observación 1}
-  Si $w$ es una secuencia $(n,m)$-maravillosa, entonces
-  $w^k$ es una secuencia $(n,km)$-maravillosa.
-\end{block}
+  \end{example}
 
-\begin{example}
-  {[[ Agregar ejemplo ]]}
-\end{example}
-
-\end{frame}
-
-% ----------------------------------------------------------------------------
-
-\begin{frame}{Dos observaciones clave (2/2)}
-
-\begin{itemize}
-  \item ¿Qué pasa si tomamos una secuencia maravillosa \\
-  y miramos patrones más cortos?
-\end{itemize}
-
-\bigskip
-
-\begin{block}{Observación 2}
-  Una secuencia $(n,m)$-maravillosa también es
-  $(n-k,b^km)$-maravillosa para todo $0 \leq k < n$.
-\end{block}
-
-\begin{example}
-  {[[ Agregar ejemplo ]]}
-\end{example}
+  \column[t]{.5\textwidth}
+  \begin{block}{Observación 2}
+    Una secuencia maravillosa \\
+    de orden $(n,m)$ también es
+    maravillosa de orden $(n-k,b^km)$
+    para todo $0 \leq k < n$.
+  \end{block}
+  
+  \begin{example}
+    Esta secuencia maravillosa de orden $(3,4)$
+    {\small
+      \[ 00001111\;00101011\;00101101\;11100010 \]
+    }
+    también es maravillosa de orden $(2,8)$ y $(1,16)$.
+  \end{example}
+\end{columns}
 
 \end{frame}
 
@@ -819,9 +868,15 @@ que $b$ sea primo, $m$ una potencia de $2$ y $n \leq m$.
 
 \begin{frame}{Un teorema de existencia}
 
-  \begin{block}{Observación 3}
-    Las secuencias maravillosas anidadas autosimilares no pueden ser perfectas.
+  \begin{block}{Proposición}
+    Las secuencias $(n,m)$-maravillosas anidadas autosimilares
+    con $n > 1$ no pueden ser perfectas.
   \end{block}
+
+  \begin{proof}[Demostración\nopunct]
+    El patrón de longitud $n$ con el que comienza la secuencia se repite tras $bm$ símbolos. Ambas posiciones son congruentes módulo $m$, \\
+    por lo que la secuencia no es perfecta.
+  \end{proof}
 
   \bigskip
 
