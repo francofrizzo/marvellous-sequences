@@ -21,6 +21,8 @@
 \usetikzlibrary{babel}
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.9}
+\pgfkeys{/pgf/number format/1000 sep={$.$}}
+\pgfkeys{/pgf/number format/dec sep={$,$}}
 
 \RequirePackage{multicol}
 \RequirePackage{tabularx}
@@ -93,30 +95,50 @@
   \begin{itemize}
     \item En los ejemplos, $b = 2$, $\alphabet = \lbrace 0, 1 \rbrace$.
   \end{itemize}
+
   \item Una \emph{palabra} (o cadena, o secuencia) es una tira de símbolos de este alfabeto.
   
-  \item Un \emph{collar} es una palabra mirada circularmente.
+  \begin{example}
+    11100 es una palabra sobre $\alphabet = \lbrace 0, 1 \rbrace$.
+  \end{example}
+  
+  \item Un \emph{collar} es una palabra mirada circularmente. \\
+  Podemos pensarlo como el conjunto de rotaciones de una palabra.
+
+  \begin{example}
+    $\neck{11100} = \lbrace 11100, 01110, 00111, 10011, 11001 \rbrace$.
+  \end{example}
+  
+  \item Un \emph{corte} de un collar es cada una de las palabras que forman
+  parte del mismo.
 \end{itemize}
 
 \end{frame}
 
 % ----------------------------------------------------------------------------
 
-\begin{frame}{Collares de De Bruijn}
+\begin{frame}{Collares y secuencias de De~Bruijn}
 
 \begin{columns}
   \column{.4\textwidth - 1cm}
   \begin{figure}
     \includegraphics[width=\textwidth]{de-bruijn.jpg}
-    \caption{Nicolaas G. de Bruijn}
+    \caption{Nicolaas G. de~Bruijn}
   \end{figure}
   \column{.6\textwidth}
 
-  Un \emph{collar de De Bruijn} de orden $n$ es un collar donde cada palabra de longitud $n$ aparece una vez.
+  \begin{definition}
+    Un \emph{collar de De~Bruijn} de orden $n$ es un collar de longitud
+    $b^n$ donde cada palabra de longitud $n$ aparece una vez.
+
+    \medskip
+
+    Una \emph{secuencia de De~Bruijn} es un corte de un collar de De~Bruijn.
+  \end{definition}
   
   \begin{example}
     Tomemos $n = 3$. \vspace{-.5em}
-
+    
     \begin{multicols}{2}
       \begin{tabular}{lclc}
         000 & & 100 & \\
@@ -125,17 +147,20 @@
         011 & & 111 & \\
       \end{tabular}
       \columnbreak
-      $\neck{11000101}$
+      \large{
+        $\neck{11000101}$
+        }
     \end{multicols}
-  \end{example}
+  \end{example}    
 \end{columns}
 
 \end{frame}
 
 % ----------------------------------------------------------------------------
 
-\begin{frame}{Digrafos de De Bruijn}
+\begin{frame}{Digrafos de De~Bruijn}
 
+{\centering
 \begin{tabular}{ccc}
   \begin{tabular}{c}
     \begin{tikzpicture}[->,>=stealth,auto,node distance=2cm,
@@ -216,10 +241,11 @@
     \end{tikzpicture}
   \end{tabular}
 \end{tabular}
+}
 
-Los collares de De Bruijn de orden $n$ son:
+Los collares de De~Bruijn de orden $n$ son:
 \begin{itemize}
-  \item circuitos \emph{hamiltonianos} en el digrafo de De Bruijn de orden $n$.
+  \item circuitos \emph{hamiltonianos} en el digrafo de De~Bruijn de orden $n$.
   \item circuitos \emph{eulerianos} en el de orden $n-1$.
 \end{itemize}
 
@@ -227,50 +253,246 @@ Los collares de De Bruijn de orden $n$ son:
 
 % ----------------------------------------------------------------------------
 
-\begin{frame}{Digrafos de De Bruijn}
+\begin{frame}{Digrafos de De~Bruijn}
 
 \begin{example}
-{[[Agregar ejemplo]]}
+\centering
+  \begin{tabular}{cc}  
+    \begin{tabular}{c}
+      \begin{tikzpicture}[->,>=stealth,auto,node distance=2.2cm,
+        scale=0.7,every node/.style={transform shape},
+        every loop/.style={},thick,main node/.style={circle,draw}]
+      
+      \node[style={scale=1.4}] (name) at (-1.6,1) {$G_2$};
+  
+      \node[main node] (00) {00};
+      \node[main node] (01) [below right of=00] {01};
+      \node[main node] (10) [below left of=00] {10};
+      \node[main node] (11) [below right of=10] {11};
+      
+      \draw
+      (00) edge [loop above] node {000} (00)
+          edge [bend left] node {001} (01)
+      (01) edge [bend left] node {011} (11)
+          edge [bend left] node {010} (10)
+      (10) edge [bend left] node {100} (00)
+          edge [bend left] node {101} (01)
+      (11) edge [bend left] node {110} (10)
+          edge [loop below] node {111} (11);
+      \end{tikzpicture}
+    \end{tabular} &
+  
+    \begin{tabular}{c}
+      \begin{tikzpicture}[->,>=stealth,auto,node distance=1.6cm,
+        scale=0.7,every node/.style={transform shape},
+        every loop/.style={},thick,main node/.style={circle,draw,font=\footnotesize}]
+      
+      \node[style={scale=1.4}] (name) at (-2.2,1) {$G_3$};
+  
+      \node[main node] (000) {000};
+      \node[main node] (010) [below of=000] {010};
+      \node[main node] (101) [below of=010] {101};
+      \node[main node] (111) [below of=101] {111};
+      
+      \node[main node] (001) [right of=010,yshift=.35cm] {001};
+      \node[main node] (100) [left of=010,yshift=.35cm] {100};
+      \node[main node] (011) [right of=101,yshift=-.35cm] {011};
+      \node[main node] (110) [left of=101,yshift=-.35cm] {110};
+      
+      \draw
+      (000) edge [loop above] node {0000} (000)
+            edge [bend left=20] node {0001} (001)
+      (001) edge [bend left=20] node {0010} (010)
+            edge [bend left=25] node {0011} (011)
+      (010) edge [bend left=20] node {0100} (100)
+            edge [bend left] node {0101} (101)
+      (011) edge [bend left=15] node {0110} (110)
+            edge [bend left=20] node {0111} (111)
+      (100) edge [bend left=20] node {1000} (000)
+            edge [bend left=15] node {1001} (001)
+      (101) edge [bend left] node {1010} (010)
+            edge [bend left=20] node {1011} (011)
+      (110) edge [bend left=25] node {1100} (100)
+            edge [bend left=20] node {1101} (101)
+      (111) edge [bend left=20] node {1110} (110)
+            edge [loop below] node {1111} (111);
+      \end{tikzpicture}
+    \end{tabular}
+  \end{tabular}
+
+  \bigskip
+  \large{
+    $\neck{11000101}$
+  }
 \end{example}
 
 \end{frame}
 
 % ----------------------------------------------------------------------------
 
-\begin{frame}{Collares perfectos}
-  Un \emph{collar perfecto} de orden $(n,m)$ es un collar donde
+\begin{frame}{Contando collares y secuencias de De~Bruijn}
   \begin{itemize}
-    \item cada palabra de longitud $n$ aparece $m$ veces, y
-    \item cada aparición es en una posición distinta módulo $m$.
+    \item El \emph{teorema BEST} permite contar circuitos eulerianos \\ en un grafo.
+    \item Podemos aplicarlo a los digrafos de De~Bruijn para contar collares de De~Bruijn.
+    \item La cantidad de \emph{collares} de De~Bruijn de orden $n$ es
+    \[ \frac{(b!)^{b^{n-1}}}{b^n}. \]
+    \item Cada collar tiene $b^n$ cortes distintos, así que la cantidad de
+    \emph{secuencias} de De~Bruijn de orden $n$ es
+    \[ (b!)^{b^{n-1}}. \]
   \end{itemize}
+\end{frame}
 
+% ----------------------------------------------------------------------------
+
+\begin{frame}{Secuencias perfectas}
+  \begin{definition}
+    Un \emph{collar perfecto} de orden $(n,m)$ es un collar donde
+    \begin{itemize}
+      \item cada palabra de longitud $n$ aparece $m$ veces, y
+      \item cada aparición es en una posición distinta módulo $m$.
+    \end{itemize}
+    \medskip
+    Una \emph{secuencia perfecta} es un corte de un collar perfecto.
+  \end{definition}
+  
   \begin{example}
-  {[[ Agregar ejemplo ]]}
+    {[[ Agregar ejemplo ]]}
   \end{example}
 
-  Alvarez, Becher, Ferrari y Yuhjtman los caracterizaron como ciclos en los
-  \emph{grafos astutos} y dieron una fórmula para su cantidad.  
+  \begin{itemize}
+    \item Las secuencias perfectas de orden $(n,m)$ tienen longitud $mb^n$.
+    \item Alvarez, Becher, Ferrari y Yuhjtman las caracterizaron como ciclos
+    en los \emph{grafos astutos} y dieron una fórmula para su cantidad.
+  \end{itemize}
+  
 \end{frame}
 
 % ----------------------------------------------------------------------------
 
 \begin{frame}{Secuencias perfectas anidadas}
+
+\begin{definition}
+  Una \emph{secuencia perfecta anidada} de orden $(n,m)$ \\
+  es una secuencia que
+  \begin{itemize}
+    \item es perfecta de orden $(n,m)$, y
+    \item si $n > 1$, es la concatenación de $b$ secuencias perfectas anidadas
+    de orden $(n-1, m)$.
+  \end{itemize}
+\end{definition}
+
+\begin{example}
+{[[ Agregar ejemplo ]]}
+\end{example}
+
+Becher y Carton dieron un método matricial para construirlas siempre
+que $b$ sea primo, $m$ una potencia de $2$ y $n \leq m$.
 \end{frame}
 
 % ----------------------------------------------------------------------------
 
 \begin{frame}{Secuencias maravillosas}
+
+\begin{definition}
+  Un \emph{collar maravilloso} de orden $(n,m)$ es un collar donde cada palabra de longitud $n$ aparece $m$ veces. Su longitud es $mb^n$.
+
+  \medskip
+
+  Una \emph{secuencia maravillosa} es un corte de un collar maravilloso.
+\end{definition}
+
+\begin{examples}
+  {[[ Agregar ejemplo ]]}
+\end{examples}
+
+\end{frame}
+
+% ----------------------------------------------------------------------------
+
+\begin{frame}{Contando secuencias maravillosas}
+ 
+\begin{columns}
+  \column{.6\textwidth}
+  \begin{itemize}
+    \item Las secuencias $(n,m)$-maravillosas
+    se pueden pensar como circuitos
+    eulerianos en el multidigrafo de De~Bruijn
+    de orden $n$ y grado $m$.
+    \item Alternativamente, se puede usar \\
+    la noción de circuito $\pi$-euleriano \\
+    presentada por Farrel y Levine.
+    \item Usando el segundo enfoque, \\
+    determinamos que la cantidad \\
+    de secuencias $(n,m)$-maravillosas \\
+    es exactamente
+    \[ \left( \frac{(bm)! }{(m!)^b} \right)^{b^{n-1}}. \]
+  \end{itemize}  
+  \column{.4\textwidth}
+  \begin{figure}
+    \begin{tikzpicture}[->,>=stealth,auto,node distance=2.2cm,
+      every loop/.style={},thick,main node/.style={circle,draw,font=\small}]
+    
+    \node[main node] (00) {00};
+    \node[main node] (01) [below right of=00] {01};
+    \node[main node] (10) [below left of=00] {10};
+    \node[main node] (11) [below right of=10] {11};
+    
+    \draw[every node/.style={font=\scriptsize}]
+    (00) edge [in=30, out=60, loop] (00)
+        edge [loop above] node {000} (00)
+        edge [in=120, out=150, loop] (00)
+        edge [bend left=36] node {001} (01)
+        edge [bend left=23] (01)
+        edge [bend left=10] (01)
+    (01) edge [bend left=36] node {011} (11)
+        edge [bend left=23] (11)
+        edge [bend left=10] (11)
+        edge [bend left=36] node {010} (10)
+        edge [bend left=23] (10)
+        edge [bend left=10] (10)
+    (10) edge [bend left=36] node {100} (00)
+        edge [bend left=23] (00)
+        edge [bend left=10] (00)
+        edge [bend left=36] node {101} (01)
+        edge [bend left=23] (01)
+        edge [bend left=10] (01)
+    (11) edge [bend left=36] node {110} (10)
+        edge [bend left=23] (10)
+        edge [bend left=10] (10)
+        edge [in=210, out=240, loop] (11)
+        edge [loop below] node {111} (11)
+        edge [in=300, out=330, loop] (11);
+    \end{tikzpicture}
+    \caption{\centering Multidigrafo de De~Bruijn de orden $2$ y grado $3$
+      ($\alphabet = \lbrace 0, 1 \rbrace$).}
+  \end{figure}
+\end{columns}
+  
 \end{frame}
 
 % ----------------------------------------------------------------------------
 
 \begin{frame}{Secuencias maravillosas anidadas}
-\end{frame}
 
-% ----------------------------------------------------------------------------
+\begin{definition}
+  Una \emph{secuencia maravillosa anidada} de orden $(n,m)$ \\
+  es una secuencia que
+  \begin{itemize}
+    \item es maravillosa de orden $(n,m)$, y
+    \item si $n > 1$, es la concatenación de $b$ secuencias maravillosas anidadas
+    de orden $(n-1, m)$.
+  \end{itemize}
+\end{definition}
 
-\begin{frame}{Nuestro problema a resolver}
-  ¿Existen secuencias maravillosas anidadas que no sean perfectas anidadas? ¿Cuántas son?
+\begin{examples}
+  {[[ Agregar ejemplo ]]}
+\end{examples}
+
+\begin{alertblock}{Problema a resolver}
+  ¿Existen secuencias maravillosas anidadas que no sean perfectas anidadas? 
+  ¿Para qué valores de $m$ y $n$? ¿Cuántas son?
+\end{alertblock}
+
 \end{frame}
 
 % ----------------------------------------------------------------------------
@@ -400,7 +622,7 @@ Los collares de De Bruijn de orden $n$ son:
 	tales que $n > 2m$.
 \end{theorem}
 
-\begin{proof}
+\begin{proof}[Demostración\nopunct]
   \begin{itemize}
     \item Una secuencia $(2m + 1,m)$-maravillosa es una concatenación
     de $m$-átomos de longitud $bm$.
@@ -495,16 +717,18 @@ Los collares de De Bruijn de orden $n$ son:
 \end{example}
 
 \begin{itemize}
-  \item ¿Para qué valores de $(n,m)$ existen secuencias autosimilares? \\ ¿Cuántas son?
+  \item ¿Para qué valores de $(n,m)$ existen secuencias maravillosas anidadas autosimilares? ¿Cuántas son?
 \end{itemize}
 
 \end{frame}
 
 % ----------------------------------------------------------------------------
 
-\begin{frame}{Dos observaciones clave}
+\begin{frame}{Dos observaciones clave (1/2)}
 
-¿Qué pasa si pegamos una secuencia maravillosa consigo misma?
+\begin{itemize}
+  \item ¿Qué pasa si pegamos una secuencia maravillosa consigo misma?
+\end{itemize}
 
 \bigskip
 
@@ -521,10 +745,12 @@ Los collares de De Bruijn de orden $n$ son:
 
 % ----------------------------------------------------------------------------
 
-\begin{frame}{Dos observaciones clave}
+\begin{frame}{Dos observaciones clave (2/2)}
 
-¿Qué pasa si tomamos una secuencia maravillosa \\
-y miramos patrones más cortos?
+\begin{itemize}
+  \item ¿Qué pasa si tomamos una secuencia maravillosa \\
+  y miramos patrones más cortos?
+\end{itemize}
 
 \bigskip
 
@@ -541,10 +767,72 @@ y miramos patrones más cortos?
 
 % ----------------------------------------------------------------------------
 
-\begin{frame}{Nuestro resultado}
+\begin{frame}{Caracterizando a las secuencias autosimilares (1/2)}
 
-  
+\begin{itemize}
+  \item Sea un par $(n,m)$ tal que $m$ divide a $b^{n-1}$.
+  \item Tomemos una secuencia $\omega$ que sea $(n, m/b^{n-1})$-maravillosa.
+  \item Por la Observación 1, $\omega$ también es
+  \begin{itemize}
+    \item $(n-1, m/b^{n-2})$-maravillosa,
+    \item ...
+    \item $(2, m/b)$-maravillosa.
+    \item $(1, m)$-maravillosa.
+  \end{itemize}
+  \item Por lo tanto, por la Observación 2,
+  \begin{itemize}
+    \item $\omega$ es $(1, m)$-maravillosa anidada,
+    \item $\omega^2$ es $(2, m)$-maravillosa anidada,
+    \item ...
+    \item $\omega^{b^{n-1}}$ es $(n, m)$-maravillosa anidada.
+  \end{itemize}
+\end{itemize}
+
 \end{frame}
+
+% ----------------------------------------------------------------------------
+
+\begin{frame}{Caracterizando a las secuencias autosimilares (2/2)}
+
+  \begin{itemize}
+    \item Es decir, si
+    \begin{itemize}
+      \item $(n,m)$ es tal que $m$ divide a $b^{n-1}$, y
+      \item $\omega$ que sea $(n, m/b^{n-1})$-maravillosa,
+    \end{itemize}
+    $x = \omega^{b^{n-1}}$ es una secuencia $(n,m)$-maravillosa anidada.
+    \item Notar que $x$ es una secuencia autosimilar.
+    \item También vale la vuelta: todas las secuencias $(n,m)$-maravillosas
+    anidadas autosimilares cumplen estas dos propiedades.
+    \item Por lo tanto:
+    \begin{itemize}
+      \item si $m$ divide a $b^{n-1}$, hay tantas secuencias
+      $(n,m)$-maravillosas autosimilares como secuencias $(n, m/b^{n-1})$-maravillosas.
+      \item si $m$ no divide a $b^{n-1}$, no existe ninguna.
+    \end{itemize}
+    
+  \end{itemize}
+  
+  \end{frame}
+
+% ----------------------------------------------------------------------------
+
+\begin{frame}{Un teorema de existencia}
+
+  \begin{block}{Observación 3}
+    Las secuencias maravillosas anidadas autosimilares no pueden ser perfectas.
+  \end{block}
+
+  \bigskip
+
+  Teniendo en cuenta todo lo anterior, llegamos al siguiente resultado.
+
+  \begin{theorem}
+    Si $b^{n-1}$ divide a $m$, existen secuencias $(n,m)$-maravillosas anidadas
+    que no son perfectas anidadas.
+  \end{theorem}
+  
+  \end{frame}
 
 % ----------------------------------------------------------------------------
 
@@ -557,7 +845,7 @@ y miramos patrones más cortos?
     \hline
     \diagbox[width=2em]{$n$}{$m$} & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16  \\
     \hline
-    1 & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A/R & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A \\
+    1 & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A & \cellcolor{e-count-for} A \\
     \hline
     2 & & A & & A & & A & & A & & A & & A & & A & & A \\
     \hline
@@ -607,16 +895,15 @@ y miramos patrones más cortos?
 \begin{frame}{Estudio computacional}
 
 \begin{itemize}
-  \item Exploración computacional generando exhaustivamente \\ todas las secuencias $(n,m)$-maravillosas anidadas.
-  \item Técnica \textit{generate and test}:
+  \item Realizamos un exploración computacional generando exhaustivamente todas las secuencias $(n,m)$-maravillosas anidadas.
+  \item Fijamos un alfabeto de dos símbolos.
+  \item Técnica de tipo \textit{generate and test}:
   \begin{enumerate}
     \item Fijar $m$.
     \item Generar los $m$-átomos ($n=1$).
     \item Iterar sobre $n$, filtrando las concatenaciones \\ de pares generados
     en el paso anterior.
   \end{enumerate}
-  \item El espacio de búsqueda crece muy rápidamente, \\ solo es posible
-  examinar valores chicos de $n$ y $m$.
 \end{itemize}
 
 \end{frame}
@@ -899,7 +1186,9 @@ y miramos patrones más cortos?
 			enlarge x limits={0.15},
       ymode=log,
       ylabel={Cantidad de secuencias ($m = 8$)},
-			xlabel=$n$,
+      xlabel=$n$,
+      nodes near coords,
+			point meta=rawy,
 		]
 		\addplot 
 			coordinates {(1,12870) (2,43705512) (3,8.83e13)
@@ -1001,10 +1290,10 @@ A partir de los resultados obtenidos, planteamos las \\ siguientes conjeturas.
 
 % ----------------------------------------------------------------------------
 
-\begin{frame}{Una aplicación}
+\begin{frame}{Una aplicación: números normales}
 
   \begin{columns}
-    \column{.6\textwidth}
+    \column{.55\textwidth}
   
     \begin{itemize}
       \item Un número real es \emph{normal} en base $b$ si en su expansión en esta base  todos los bloques de dígitos de igual longitud aparecen con la misma frecuencia asintótica.
@@ -1012,9 +1301,9 @@ A partir de los resultados obtenidos, planteamos las \\ siguientes conjeturas.
       \item Casi todos los números son normales, pero solo se conocen ejemplos por construcción.
     \end{itemize}
 
-    \column{.4\textwidth}
+    \column{.45\textwidth}
     \begin{figure}
-      \includegraphics[width=\textwidth]{babel.jpg}
+      \includegraphics[width=.9\textwidth]{babel.jpg}
     \end{figure}
   \end{columns}
 
@@ -1022,15 +1311,67 @@ A partir de los resultados obtenidos, planteamos las \\ siguientes conjeturas.
 
 % ----------------------------------------------------------------------------
 
-\begin{frame}{Normalidad y distribución uniforme}
+\begin{frame}{Normalidad y discrepancia}
 
   \begin{itemize}
-    \item Alternativamente, un número $\alpha$ es normal en base $b$ si
-    la sucesión de sus mantisas
-    \[ \lbrace x_n \rbrace_{n \geq 0} \]
-    está distribuida uniformemente módulo 1.
+    \item Definimos la \emph{discrepancia} de una sucesión como
+    \[
+      \discrepancy{N}((x_n)_{n \geq 0})
+      = \sup_{\gamma \in (0,1]} \left\vert
+        \frac{\# \lbrace 0 \leq n < N \;\vert\; \lbrace x_n \rbrace < \gamma \rbrace}
+        {N} - \gamma
+      \right\vert.
+    \]
+    \item Un número $\alpha$ es normal en base $b$ si
+    \[ \discrepancy{N}(\lbrace \alpha b^n \rbrace_{n\geq0})
+    \xrightarrow{N \to \infty} 0. \]
+    \item La discrepancia cuantifica con qué velocidad un número converge a
+    la normalidad.
   \end{itemize}
 
+\end{frame}
+
+% ----------------------------------------------------------------------------
+
+\begin{frame}{Construyendo números normales}
+  \begin{itemize}
+    \item M. Levin definió un número normal basado en el triángulo de Pascal
+    con una discrepancia de
+    \[ \Ord \left(\frac{\log^2(N)}{N}\right), \]
+    la mínima conocida por el momento.
+    \item V. Becher y O. Carton generalizaron el resultado concatenando
+    secuencias perfectas anidadas.
+    \begin{itemize}
+      \item Sea $\alpha \in [0, 1)$ tal que su escritura en base $b$ es ${,}w_0 w_1 w_2 \dots$, \\ con cada $w_k$ una secuencia $(2^k,2^k)$-perfecta anidada.
+      \item $\alpha$ es normal en base $b$,
+      y su discrepancia es del mismo orden que la del número de Levin.
+    \end{itemize}
+    \item En esta tesis generalizamos este resultado a la concatenación
+    de secuencias maravillosas anidadas.
+  \end{itemize}
+\end{frame}
+
+% ----------------------------------------------------------------------------
+
+\begin{frame}{Nuestra construcción}
+  \begin{itemize}
+    \item Sea $\alpha \in [0, 1)$ tal que su escritura en base $b$ es
+    \[ {,}w_0w_1w_2\dots \]
+    con cada $w_k$ una secuencia $(q^k, \varphi(q^k))$-maravillosa anidada,  \\ siendo:
+    \begin{itemize}
+      \item $q \geq 2$ un entero,
+      \item $\varphi: \nats \to \nats$ una función creciente.
+    \end{itemize}
+    \item Si $\varphi(\log(N)) = \ord(N)$, $\alpha$ es normal en base $b$ con
+      \[ \discrepancy{N}(\lbrace \alpha b^n \rbrace)_{n\geq0}
+      = \Ord\left( \frac{\varphi(\log(N))\log(N)}{N} \right). \]
+    \item $\varphi$ representa la relación entre los parámetros $n$ y $m$.
+      \begin{itemize}
+        \item Si es lineal, la discrepancia es $\Ord \left(\log^2(N)/N\right)$.
+        \item Si es cuadrática, la discrepancia es $\Ord \left(\log^3(N)/N\right)$.
+        \item En general, si $\varphi = \Ord(N^c)$, la discrepancia es $\Ord \left(\log^{c+1}(N)/N\right)$.
+      \end{itemize}
+  \end{itemize}
 \end{frame}
 
 % ============================================================================
