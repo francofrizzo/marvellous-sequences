@@ -1290,8 +1290,6 @@ visualmente estas cantidades.
 			ymode=log,
 			ylabel=Cantidad de secuencias,
 			xlabel=$n$,
-			nodes near coords,
-			point meta=y
 		]
 		\addplot 
 			coordinates {(1,12870) (2,43705512) (3,8.83e13)
@@ -1382,9 +1380,9 @@ orden\footnote{
 Esta construcción es generalizada por Becher y Carton en \cite{becher-nested-perfect}, brindando un método que permite construir números
 normales de discrepancia mínima concatenando secuencias perfectas anidadas.
 Concretamente, logran demostrar que si $\alpha \in [0, 1)$ es tal que su
-expansión en base $b$ es de la forma $.w_0 w_1 w_2 \dots$, con cada $w_k$ una
-secuencia $(2^k,2^k)$-perfecta anidada, entonces $\alpha$ es normal en base $b$,
-siendo su discrepancia del mismo orden que la del número de Levin.
+expansión en base $b$ es de la forma ${,}w_0 w_1 w_2 \dots$, con cada $w_k$
+una secuencia $(2^k,2^k)$-perfecta anidada, entonces $\alpha$ es normal en
+base $b$, siendo su discrepancia del mismo orden que la del número de Levin.
 
 El resultado que presentamos a continuación ---a cuya demostración está dedicado
 el resto de esta sección--- generaliza aún más la construcción de Becher y
@@ -1396,7 +1394,9 @@ por secuencias maravillosas anidadas.
 Sean $b, q \geq 2$ números enteros y
 $\varphi: \nats \to \nats$ una función creciente.
 Sea $\alpha \in [0, 1)$ un número real tal que su escritura en base $b$
-es de la forma $.w_0w_1w_2\dots$, donde cada bloque $w_k$ es una secuencia
+es de la forma
+\[ {,}w_0w_1w_2\dots \]
+donde cada bloque $w_k$ es una secuencia
 $(q^k, \varphi(q^k))$-maravillosa anidada.
 
 Si $\varphi$ es tal que $\varphi(\log(N)) = \ord(N)$,
