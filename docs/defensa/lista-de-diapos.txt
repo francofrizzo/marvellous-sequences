@@ -1,0 +1,39 @@
+15:00 PRESENTACIÓN (10 min)
+  1) Preliminares
+  2) Collares y secuencias de De Bruijn
+  3) Grafos de De Bruijn
+  4) Contando collares y secuencias de De Bruijn
+  5) Secuencias perfectas
+  6) Secuencias perfectas anidadas
+  7) Secuencias maravillosas
+  8) Contando secuencias maravillosas
+  9) Secuencias maravillosas anidadas
+15:10 PROBLEMA (6 min)
+  10) El mapa
+  11) El caso n = 1
+  -- Mapa
+  12) El caso n > 2m
+  -- Mapa
+15:16 AUTOSIMILARES (8 min)
+  13) Una familia maravillosa
+  14) Dos observaciones clave
+  15) Caracterizando a las secuencias autosimilares (2 diapos)
+  16) Un teorema de existencia
+-- Mapa
+15:24 COMPUTACIONAL (8 min)
+  17) Estudio computacional
+  18) Resultados (alfabeto de dos símbolos)
+  -- Mapa
+  19) Rotando secuencias perfectas anidadas
+  20) Submuestreando el espacio de búsqueda
+  -- Mapa
+  21) Estimando la cantidad de secuencias
+  22) Resultados
+  23) Maravillosas, pero no perfectas
+  24) Conjeturas
+  -- Mapa
+15:32 NORMALIDAD (8 min)
+  25) Una aplicación: números normales
+  26) Normalidad y discrepancia
+  27) Construyendo números normales
+  28) Nuestra construcción

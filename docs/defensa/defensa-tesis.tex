@@ -97,19 +97,22 @@
   \begin{itemize}
     \item En los ejemplos, $b = 2$, $\alphabet = \lbrace 0, 1 \rbrace$.
   \end{itemize}
-
+  \pause
+  
   \item Una \emph{palabra} (o cadena, o secuencia) es una tira de símbolos de este alfabeto.
   
   \begin{example}
     11100 es una palabra sobre $\alphabet = \lbrace 0, 1 \rbrace$.
   \end{example}
+  \pause
   
   \item Un \emph{collar} es una palabra mirada circularmente. \\
   Podemos pensarlo como el conjunto de rotaciones de una palabra.
-
+  
   \begin{example}
     $\neck{11100} = \lbrace 11100, 01110, 00111, 10011, 11001 \rbrace$.
   \end{example}
+  \pause
   
   \item Un \emph{corte} de un collar es cada una de las palabras que forman
   parte del mismo.
@@ -119,50 +122,51 @@
 
 % ----------------------------------------------------------------------------
 
-\begin{frame}<-10>{Collares y secuencias de De~Bruijn}
-
-\begin{columns}
-  \column{.4\textwidth - 1cm}
-  \begin{figure}
-    \includegraphics[width=\textwidth]{de-bruijn.jpg}
-    \caption{Nicolaas G. de~Bruijn}
+\begin{frame}<-11>{Collares y secuencias de De~Bruijn}
+  
+  \begin{columns}
+    \column{.4\textwidth - 1cm}
+    \begin{figure}
+      \includegraphics[width=\textwidth]{de-bruijn.jpg}
+      \caption{Nicolaas G. de~Bruijn}
   \end{figure}
   \column{.6\textwidth}
-
+  
   \begin{definition}
     Un \emph{collar de De~Bruijn} de orden $n$ es un collar de longitud
     $b^n$ donde cada palabra de longitud $n$ aparece una vez.
-
+    
     \medskip
-
+    
     Una \emph{secuencia de De~Bruijn} es un corte de un collar de De~Bruijn.
   \end{definition}
+  \pause
   
   \begin{example}
     Tomemos $n = 3$. \vspace{-.5em}
     
     \begin{multicols}{2}
       \begin{tabular}{ll}
-        \alt<4->{\alt<4>{\textcolor{red}{000}}{\sout{000}}}{000} &
-        \alt<3->{\alt<3>{\textcolor{red}{100}}{\sout{100}}}{100} \\
-        \alt<5->{\alt<5>{\textcolor{red}{001}}{\sout{001}}}{001} &
-        \alt<7->{\alt<7>{\textcolor{red}{101}}{\sout{101}}}{101} \\
-        \alt<6->{\alt<6>{\textcolor{red}{010}}{\sout{010}}}{010} &
-        \alt<2->{\alt<2>{\textcolor{red}{110}}{\sout{110}}}{110} \\ 
-        \alt<8->{\alt<8>{\textcolor{red}{011}}{\sout{011}}}{011} &
-        \alt<9->{\alt<9>{\textcolor{red}{111}}{\sout{111}}}{111} \\
+        \alt<5->{\alt<5>{\textcolor{red}{000}}{\sout{000}}}{000} &
+        \alt<4->{\alt<4>{\textcolor{red}{100}}{\sout{100}}}{100} \\
+        \alt<6->{\alt<6>{\textcolor{red}{001}}{\sout{001}}}{001} &
+        \alt<8->{\alt<8>{\textcolor{red}{101}}{\sout{101}}}{101} \\
+        \alt<7->{\alt<7>{\textcolor{red}{010}}{\sout{010}}}{010} &
+        \alt<3->{\alt<3>{\textcolor{red}{110}}{\sout{110}}}{110} \\ 
+        \alt<9->{\alt<9>{\textcolor{red}{011}}{\sout{011}}}{011} &
+        \alt<10->{\alt<10>{\textcolor{red}{111}}{\sout{111}}}{111} \\
       \end{tabular}
       \columnbreak
       \large{
         $\neck{
-          \alt<2,8-9>{\textcolor{red}{\underline{1}}}{1}
-          \alt<2-3,9>{\textcolor{red}{\underline{1}}}{1}
-          \alt<2-4>{\textcolor{red}{\underline{0}}}{0}
+          \alt<3,9-10>{\textcolor{red}{\underline{1}}}{1}
+          \alt<3-4,10>{\textcolor{red}{\underline{1}}}{1}
           \alt<3-5>{\textcolor{red}{\underline{0}}}{0}
           \alt<4-6>{\textcolor{red}{\underline{0}}}{0}
-          \alt<5-7>{\textcolor{red}{\underline{1}}}{1}
-          \alt<6-8>{\textcolor{red}{\underline{0}}}{0}
-          \alt<7-9>{\textcolor{red}{\underline{1}}}{1}
+          \alt<5-7>{\textcolor{red}{\underline{0}}}{0}
+          \alt<6-8>{\textcolor{red}{\underline{1}}}{1}
+          \alt<7-9>{\textcolor{red}{\underline{0}}}{0}
+          \alt<8-10>{\textcolor{red}{\underline{1}}}{1}
         }$
       }
     \end{multicols}
@@ -378,6 +382,7 @@ Los collares de De~Bruijn de orden $n$ son:
     \medskip
     Una \emph{secuencia perfecta} es un corte de un collar perfecto.
   \end{definition}
+  \pause
   
   \begin{examples}
     \begin{itemize}
@@ -386,9 +391,11 @@ Los collares de De~Bruijn de orden $n$ son:
       \[ 0000111001011011. \]
     \end{itemize}
   \end{examples}
+  \pause
 
   \begin{itemize}
     \item Las secuencias perfectas de orden $(n,m)$ tienen longitud $mb^n$.
+    \pause
     \item Alvarez, Becher, Ferrari y Yuhjtman las caracterizaron como ciclos
     en los \emph{grafos astutos} y calcularon su cantidad.
   \end{itemize}
@@ -408,6 +415,7 @@ Los collares de De~Bruijn de orden $n$ son:
     de orden $(n-1, m)$.
   \end{itemize}
 \end{definition}
+\pause
 
 \begin{examples}
   \vspace{-1.2em}
@@ -423,6 +431,7 @@ Los collares de De~Bruijn de orden $n$ son:
 \end{examples}
 
 \medskip
+\pause
 
 Becher y Carton dieron un método matricial para construirlas siempre
 que $b$ sea primo, $m$ una potencia de $2$ y $n \leq m$.
@@ -433,19 +442,20 @@ que $b$ sea primo, $m$ una potencia de $2$ y $n \leq m$.
 \begin{frame}{Secuencias maravillosas}
 
 \begin{definition}
-  Un \emph{collar maravilloso} de orden $(n,m)$ es un collar donde cada palabra de longitud $n$ aparece $m$ veces. Su longitud es $mb^n$.
+  Un \emph{collar maravilloso} de orden $(n,m)$ es un collar donde cada palabra de longitud $n$ aparece $m$ veces.
 
   \medskip
 
   Una \emph{secuencia maravillosa} es un corte de un collar maravilloso.
 \end{definition}
+\pause
 
 \begin{examples}
   \begin{itemize}
-  \item La siguiente secuencia es $(3,3)$-maravillosa: \vspace{-.5em}
-  \[ 000111110110110100100100. \]
   \item Las secuencias perfectas de orden $(n,m)$ \\
   son maravillosas de orden $(n,m)$.
+  \item La siguiente secuencia es $(3,3)$-maravillosa: \vspace{-.5em}
+  \[ 000111110110110100100100. \]
   \end{itemize}
 \end{examples}
 
@@ -462,15 +472,18 @@ que $b$ sea primo, $m$ una potencia de $2$ y $n \leq m$.
     se pueden pensar como circuitos
     eulerianos en el multidigrafo de De~Bruijn
     de orden $n$ y grado $m$.
+    \pause
     \item Alternativamente, se puede usar \\
     la noción de circuito $\pi$-euleriano \\
     presentada por Farrel y Levine.
+    \pause
     \item Usando el segundo enfoque, \\
     determinamos que la cantidad \\
     de secuencias $(n,m)$-maravillosas \\
     es exactamente
     \[ \left( \frac{(bm)! }{(m!)^b} \right)^{b^{n-1}}. \]
   \end{itemize}  
+  \onslide<1->
   \column{.4\textwidth}
   \begin{figure}
     \begin{tikzpicture}[->,>=stealth,auto,node distance=2.2cm,
@@ -527,11 +540,13 @@ que $b$ sea primo, $m$ una potencia de $2$ y $n \leq m$.
     de orden $(n-1, m)$.
   \end{itemize}
 \end{definition}
+\pause
 
 \begin{example}
   La siguiente secuencia es $(3,3)$-maravillosa anidada: \vspace{-.5em}
   \[ 000111\;011001\;000111\;101010. \]
 \end{example}
+\pause
 
 \begin{alertblock}{Problema a resolver}
   ¿Existen secuencias maravillosas anidadas que no sean perfectas anidadas? 
@@ -593,13 +608,16 @@ que $b$ sea primo, $m$ una potencia de $2$ y $n \leq m$.
 \begin{itemize}
   \item Las secuencias $(1,m)$-maravillosas anidadas \\
   son simplemente las secuencias $(1,m)$-maravillosas.
+  \pause
   \item Usando la fórmula para contar secuencias maravillosas, sabemos que
   su cantidad es
   \[ \frac{(bm)! }{(m!)^b}. \]
+  \pause
   \item Podemos construir ejemplos que no son perfectos anidados. \\
   Si definimos
   \[ w = 01\dots(b-1), \]
   la secuencia $w^m$ no es $(1,m)$-perfecta anidada.
+  \pause
   \item Toda secuencia $(n,m)$-maravillosa anidada es la concatenación de
   $b^{n-1}$ secuencias $(1,m)$-maravillosas.
   \item En adelante las llamaremos \emph{$m$-átomos}.
@@ -669,12 +687,15 @@ que $b$ sea primo, $m$ una potencia de $2$ y $n \leq m$.
   No existen secuencias $(n,m)$-maravillosas anidadas para ningunos $n$, $m$
 	tales que $n > 2m$.
 \end{theorem}
+\pause
 
 \begin{proof}[Demostración\nopunct]
   \begin{itemize}
     \item Una secuencia $(2m + 1,m)$-maravillosa es una concatenación
     de $m$-átomos de longitud $bm$.
+    \pause
     \item La cadena $0^{2m+1}$ aparece en algún lugar de la secuencia.
+    \pause
     \item Necesariamente esta cadena abarca más de un átomo.
   \end{itemize}
   \[ \underbrace{\alpha\dots\alpha}_{bm}
@@ -683,6 +704,7 @@ que $b$ sea primo, $m$ una potencia de $2$ y $n \leq m$.
     \; \underbrace{\overbrace{00\dots00}^{2m+1-k}\dots\alpha}_{bm} \; \cdots
     \; \underbrace{\alpha\dots\alpha}_{bm} \]
   \begin{itemize}
+    \pause
     \item Si $k > m$ hay más de $m$ ceros en el primer átomo. \\
     Si $k \leq m$ entonces entonces $2m + 1 - k > m$ y hay más de $m$ ceros en el segundo átomo. Absurdo. \qedhere
   \end{itemize}
@@ -754,11 +776,13 @@ que $b$ sea primo, $m$ una potencia de $2$ y $n \leq m$.
   \item Vamos a definir una familia de secuencias maravillosas anidadas
   que son sencillas de construir.
 \end{itemize}
+\pause
 
 \begin{block}{Definición}
   Una secuencia maravillosa anidada es \emph{autosimilar} si consiste en
   la repetición de un único átomo.
 \end{block}
+\pause
 
 \begin{examples}
   \begin{itemize}
@@ -766,9 +790,10 @@ que $b$ sea primo, $m$ una potencia de $2$ y $n \leq m$.
   \end{itemize}
 \end{examples}
 
-\begin{itemize}
-  \item ¿Para qué valores de $(n,m)$ existen secuencias maravillosas anidadas autosimilares? ¿Cuántas son?
-\end{itemize}
+\pause
+\medskip
+
+¿Para qué valores de $(n,m)$ existen secuencias maravillosas anidadas autosimilares? ¿Cuántas son?
 
 \end{frame}
 
@@ -792,8 +817,8 @@ que $b$ sea primo, $m$ una potencia de $2$ y $n \leq m$.
     es maravillosa de orden $(2,4)$, \vspace{-.4em}
     \[ 00110011\;00110011\;00110011 \vspace{-.4em} \]
     es maravillosa de orden $(2,6)$, etc.
-
   \end{example}
+  \pause
 
   \column[t]{.5\textwidth}
   \begin{block}{Observación 2}
@@ -816,11 +841,12 @@ que $b$ sea primo, $m$ una potencia de $2$ y $n \leq m$.
 
 % ----------------------------------------------------------------------------
 
-\begin{frame}{Caracterizando a las secuencias autosimilares (1/2)}
+\begin{frame}{Caracterizando a las secuencias autosimilares}
 
 \begin{itemize}
   \item Sea un par $(n,m)$ tal que $m$ divide a $b^{n-1}$.
   \item Tomemos una secuencia $\omega$ que sea $(n, m/b^{n-1})$-maravillosa.
+  \pause
   \item Por la Observación 1, $\omega$ también es
   \begin{itemize}
     \item $(n-1, m/b^{n-2})$-maravillosa,
@@ -828,6 +854,7 @@ que $b$ sea primo, $m$ una potencia de $2$ y $n \leq m$.
     \item $(2, m/b)$-maravillosa.
     \item $(1, m)$-maravillosa.
   \end{itemize}
+  \pause
   \item Por lo tanto, por la Observación 2,
   \begin{itemize}
     \item $\omega$ es $(1, m)$-maravillosa anidada,
@@ -841,7 +868,7 @@ que $b$ sea primo, $m$ una potencia de $2$ y $n \leq m$.
 
 % ----------------------------------------------------------------------------
 
-\begin{frame}{Caracterizando a las secuencias autosimilares (2/2)}
+\begin{frame}{Caracterizando a las secuencias autosimilares}
 
   \begin{itemize}
     \item Es decir, si
@@ -851,8 +878,10 @@ que $b$ sea primo, $m$ una potencia de $2$ y $n \leq m$.
     \end{itemize}
     $x = \omega^{b^{n-1}}$ es una secuencia $(n,m)$-maravillosa anidada.
     \item Notar que $x$ es una secuencia autosimilar.
+    \pause
     \item También vale la vuelta: todas las secuencias $(n,m)$-maravillosas
     anidadas autosimilares cumplen estas dos propiedades.
+    \pause
     \item Por lo tanto:
     \begin{itemize}
       \item si $m$ divide a $b^{n-1}$, hay tantas secuencias
@@ -872,11 +901,13 @@ que $b$ sea primo, $m$ una potencia de $2$ y $n \leq m$.
     Las secuencias $(n,m)$-maravillosas anidadas autosimilares
     con $n > 1$ no pueden ser perfectas.
   \end{block}
+  \pause
 
   \begin{proof}[Demostración\nopunct]
     El patrón de longitud $n$ con el que comienza la secuencia se repite tras $bm$ símbolos. Ambas posiciones son congruentes módulo $m$, \\
     por lo que la secuencia no es perfecta.
   \end{proof}
+  \pause
 
   \bigskip
 
@@ -1012,17 +1043,17 @@ que $b$ sea primo, $m$ una potencia de $2$ y $n \leq m$.
     \hline
     2 & \cellcolor{e-count-emp} & \cellcolor{e-count-emp} A & \cellcolor{e-count-emp} & \cellcolor{e-count-emp} A & \cellcolor{e-count-emp} & \cellcolor{e-count-emp} A & \cellcolor{e-count-emp} & \cellcolor{e-count-emp} A & & A & & A & & A & & A \\
     \hline
-    3 & \cellcolor{ne-proof} & \cellcolor{e-count-emp} & \cellcolor{e-count-emp} & \cellcolor{e-count-emp} A & \cellcolor{e-count-emp} & \cellcolor{e-examples} & \cellcolor{e-examples} & \cellcolor{e-examples} A & & & & A & & & & A \\
+    3 & \cellcolor{ne-proof} & \cellcolor{e-count-emp} & \cellcolor{e-count-emp} & \cellcolor{e-count-emp} A & \cellcolor{e-count-emp} & & & A & & & & A & & & & A \\
     \hline
-    4 & \cellcolor{ne-proof} & \cellcolor{ne-empir} & \cellcolor{e-count-emp} & \cellcolor{e-examples} & \cellcolor{e-examples} & \cellcolor{e-examples} & \cellcolor{e-examples} & \cellcolor{e-examples} A & & & & & & & & A \\
+    4 & \cellcolor{ne-proof} & \cellcolor{ne-empir} & \cellcolor{e-count-emp} & & & & & A & & & & & & & & A \\
     \hline
-    5 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-empir} & \cellcolor{e-examples} & & & & \cellcolor{e-examples} & & & & & & & & A \\
+    5 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-empir} & & & & & & & & & & & & & A \\
     \hline
-    6 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-empir} & & & & & \cellcolor{e-examples} & & & & & & & & \\
+    6 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-empir} & & & & & & & & & & & & & \\
     \hline
-    7 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & & & & & \cellcolor{e-examples} & & & & & & & & \\
+    7 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & & & & & & & & & & & & & \\
     \hline
-    8 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & & & & & \cellcolor{e-examples} & & & & & & & & \\
+    8 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & & & & & & & & & & & & & \\
     \hline
     9 & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & \cellcolor{ne-proof} & & & & & & & & & & & & \\
     \hline
@@ -1050,7 +1081,6 @@ que $b$ sea primo, $m$ una potencia de $2$ y $n \leq m$.
       & \color{ne-proof}{$\blacksquare$} & No existencia demostrada \\
     \color{e-count-emp}{$\blacksquare$} & Cantidad determinada experimentalmente
       & \color{ne-empir}{$\blacksquare$} & No existencia determinada experiment. \\
-    \color{e-examples}{$\blacksquare$}  & Ejemplos no perfectos hallados \\
     A & Método de secuencias autosimilares
     \end{tabular}
   }
@@ -1062,6 +1092,7 @@ que $b$ sea primo, $m$ una potencia de $2$ y $n \leq m$.
 
 \begin{itemize}
   \item Para los valores que no pudimos explorar de forma exhaustiva, \\ buscamos formas de generar ejemplos.
+  \pause
   \item Rotando la mitad de secuencias perfectas anidadas se puede \\
   generar secuencias maravillosas anidadas que no son perfectas.
 \end{itemize}
@@ -1175,15 +1206,18 @@ que $b$ sea primo, $m$ una potencia de $2$ y $n \leq m$.
 \begin{frame}{Estimando la cantidad de secuencias}
 
 \begin{itemize}
-  \item ¿Qué pasa si solo examinamos una parte \\ del espacio de búsqueda?
   \item Consideremos $m = 8$.
   \begin{itemize}
     \item Cantidad de secuencias para $n=1$: $12.870$.
+    \pause
     \item Espacio de búsqueda para $n=2$: $(12.870)^2 = 165.636.900$.
+    \pause
     \item Cantidad de secuencias para $n=2$: $43.705.512$ (\textbf{26,39\%}).
+    \pause
     \item Examinando solo $1.000.000$ de pares: $263.734$ (\textbf{26,37\%}) \\
       (promedio de 10 corridas).
   \end{itemize}
+  \pause
   \item Idea: podemos aproximar la cantidad de secuencias \\ submuestreando el
   espacio de búsqueda.
 \end{itemize}  
@@ -1194,31 +1228,31 @@ que $b$ sea primo, $m$ una potencia de $2$ y $n \leq m$.
 
 \begin{frame}{Resultados de la estimación ($m=8$)}
 
-\small
 \wider{
-\begin{tabularx}{\textwidth}{|c|C|C|C|C|C|C|}
-  \hline
-  $n$ & Tamaño estimado del espacio de búsqueda & Pares examinados & Secuencias maravillosas anidadas halladas & Proporción & Cant. estimada de sec. marav. anidadas \\
-  \hline
-  1 & - & - & 12.870 & - & 12.870 \\
-  \hline
-  2 & 165.636.900 & 165.636.900 & 43.705.512 & $26.39\%$ & 43.705.512 \\
-  \hline
-  3 & $1.91 \times 10^{15}$ & 1.000.000.000 & 46.201.550 & $4.620\%$ & $8.83 \times 10^{13}$ \\
-  \hline
-  4 & $7.79 \times 10^{27}$ & 1.000.000.000 & 1.710.968 & $0.1711\%$ & $1.33 \times 10^{25}$ \\
-  \hline
-  5 & $1.78 \times 10^{50}$ & 1.000.000.000 & 2.072 & $0.00000207\%$ & $3.68 \times 10^{44}$ \\
-  \hline
-  6 & $1.35 \times 10^{89}$ & 4.293.184 & 0 & $0\%$ & - \\
-  \hline
-\end{tabularx}
+  \small
+  \begin{tabularx}{\textwidth}{|c|C|C|C|C|C|C|}
+    \hline
+    $n$ & Tamaño estimado del espacio de búsqueda & Pares examinados & Secuencias maravillosas anidadas halladas & Proporción & Cant. estimada de sec. marav. anidadas \\
+    \hline
+    1 & - & - & 12.870 & - & 12.870 \\
+    \hline
+    2 & 165.636.900 & 165.636.900 & 43.705.512 & $26.39\%$ & 43.705.512 \\
+    \hline
+    3 & $1.91 \times 10^{15}$ & 1.000.000.000 & 46.201.550 & $4.620\%$ & $8.83 \times 10^{13}$ \\
+    \hline
+    4 & $7.79 \times 10^{27}$ & 1.000.000.000 & 1.710.968 & $0.1711\%$ & $1.33 \times 10^{25}$ \\
+    \hline
+    5 & $1.78 \times 10^{50}$ & 1.000.000.000 & 2.072 & $0.00000207\%$ & $3.68 \times 10^{44}$ \\
+    \hline
+    6 & $1.35 \times 10^{89}$ & 4.293.184 & 0 & $0\%$ & - \\
+    \hline
+  \end{tabularx}
 }
 
 \medskip
 
 \begin{itemize}
-  \item Los resultados podrían estar sesgados a medida que se incrementa $n$.
+  \item Los resultados podrían estar sesgados a medida que \\ se incrementa $n$.
   \item Aún así, todo indica que la cantidad de secuencias maravillosas anidadas es enorme.
 \end{itemize}
 
@@ -1394,6 +1428,7 @@ A partir de los resultados obtenidos, planteamos las \\ siguientes conjeturas.
     con una discrepancia de
     \[ \Ord \left(\frac{\log^2(N)}{N}\right), \]
     la mínima conocida por el momento.
+    \pause
     \item V. Becher y O. Carton generalizaron el resultado concatenando
     secuencias perfectas anidadas.
     \begin{itemize}
@@ -1401,6 +1436,7 @@ A partir de los resultados obtenidos, planteamos las \\ siguientes conjeturas.
       \item $\alpha$ es normal en base $b$,
       y su discrepancia es del mismo orden que la del número de Levin.
     \end{itemize}
+    \pause
     \item En esta tesis generalizamos este resultado a la concatenación
     de secuencias maravillosas anidadas.
   \end{itemize}
